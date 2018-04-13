@@ -1,0 +1,11 @@
+Isotopic tracer: C
+Include correction for natural abundance of the tracer: yes
+Isotopic purity of the tracer: [0.01, 0.98999999999999999]
+
+Input file: D:\Etudes\Thèse\Scripts\IsoCor\Example datafiles\Example multiple meas.txt
+Output file: D:\Etudes\Thèse\Scripts\IsoCor\Example datafiles\Example multiple meas_res.txt
+
+Correction for natural abundance done (2 sample(s), 0 error(s)).
+
+Processed by IsoCor.
+07 Sep 2011 12:58:34
