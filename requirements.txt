@@ -3,5 +3,4 @@ nbsphinx
 argparse
 sphinxcontrib-napoleon
 sphinx-rtd-theme
-mathjax
 autodoc
