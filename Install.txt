@@ -1,7 +1,0 @@
-This version has been tested using Pythonxy 2.6.5 (http://www.pythonxy.com).
-
-The following packages have to be installed when asked during installation of pythonxy :
-
-	- NumPy
-	- SciPy
-	- wxPython
