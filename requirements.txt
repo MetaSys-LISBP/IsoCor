@@ -1,0 +1,8 @@
+sphinx>=1.4
+nbsphinx
+sphinxarg
+napoleon
+sphinx-rtd-theme
+viewcode
+mathjax
+autodoc
