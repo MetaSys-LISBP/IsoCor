@@ -1,6 +1,6 @@
 sphinx>=1.4
 nbsphinx
-sphinxarg
+sphinx-argparse
 sphinxcontrib-napoleon
 sphinx-rtd-theme
 autodoc
