@@ -1,6 +1,6 @@
 sphinx>=1.4
 nbsphinx
-sphinxarg
+argparse
 napoleon
 sphinx-rtd-theme
 viewcode
