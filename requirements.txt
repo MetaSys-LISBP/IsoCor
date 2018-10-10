@@ -1,6 +1,6 @@
 sphinx>=1.4
 nbsphinx
-sphinxarg
+sphinxarg.ext
 sphinxcontrib-napoleon
 sphinx-rtd-theme
 autodoc
