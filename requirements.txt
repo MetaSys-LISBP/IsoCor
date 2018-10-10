@@ -1,5 +1,6 @@
 sphinx>=1.4
 jupyter_client
+ipykernel
 nbsphinx
 sphinx-argparse
 sphinxcontrib-napoleon
