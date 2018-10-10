@@ -1,7 +1,7 @@
 sphinx>=1.4
 nbsphinx
 argparse
-napoleon
+sphinxcontrib-napoleon
 sphinx-rtd-theme
 viewcode
 mathjax
