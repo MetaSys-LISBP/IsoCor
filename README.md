@@ -130,6 +130,12 @@ make latexpdf
 2. Su, X., et al. Metabolite spectral accuracy on orbitraps. Analytical chemistry 2017;89:5940-5948
 3. Millard, P., Delepine, B. Guionnet, M., Heuillet, M., Bellvert, F. and Letisse, F. IsoCor: isotope correction for high-resolution MS labeling experiments. Submitted
 
+## Authors
+Baudoin Delepine
+Matthieu Guionnet
+Pierre Millard
+
+
 ## Contact
 Pierre Millard
 
