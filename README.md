@@ -55,7 +55,7 @@ isocor
 
 The IsoCor window will open.
 
-![screenshot](doc/_static/isocor_GUI.png)
+![screenshot_GUI](doc/_static/isocor_GUI.png)
 
 Select the measurements file, modify the correction parameters (isotopic tracer, resolution, etc) according to your experiment,
 and click on 'Process'. IsoCor proceeds automatically to the corrections and display its progress
@@ -77,13 +77,7 @@ A command line interface is also available to use IsoCor, with the command:
 isocorcli
 ```
 
-`isocorcli` takes the following arguments:
-
-![screenshot](doc/_static/isocor_CLI.png)
-
-
-
-Details on arguments and usage are provided in the [documentation](https://isocor.readthedocs.io/en/latest//).
+Type `isocorcli --help` to get information on isocorcli usage. Details on arguments and usage can also be found online at [https://isocor.readthedocs.io/en/latest/](https://isocor.readthedocs.io/en/latest/).
 
 
 ## Developer guide
