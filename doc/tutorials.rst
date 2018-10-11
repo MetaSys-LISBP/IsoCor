@@ -28,7 +28,8 @@ The raw MS data and the information required to perform the correction (i.e. the
 and a list of metabolites and derivatives moieties with their elemental formulas) are provided in flat text files.
 
 At first start, IsoCor creates in the user directory a folder 'isocordb' containing example database files.
-These files can be edited and implemented according to the user's needs, as detailed below.
+These files can be edited and implemented according to the user's needs, as detailed below. Different database files can also be created 
+(e.g. to have specific project-related databases), as detailed below.
 
 ..  _`Measurements file`:
 
@@ -80,8 +81,8 @@ at the first run of IsoCor and should be modified according to the user needs.
           be considered as two distinct entities.
 
 
-Isotopes database (*Isotopes.dat*)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*Isotopes database (Isotopes.dat)*
+--------------------------------------------------------------------------------
 
 This file stores **the exact mass and natural abundance of all stable isotopes of each element**, given as relative fractions.
 
@@ -106,8 +107,8 @@ It is a TSV file with one row by isotope and the following columns:
           :download:`Example file <../isocor/data/Isotopes.dat>`.
 
 
-Metabolites database (*Metabolites.dat*)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*Metabolites database (Metabolites.dat)*
+--------------------------------------------------------------------------------
 
 This file stores **elemental formulas of the metabolites**.
 
@@ -124,8 +125,8 @@ It is a TSV file with the following columns:
 
           :download:`Example file <../isocor/data/Metabolites.dat>`.
 
-Derivatives database (*Derivatives.dat*)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*Derivatives database (Derivatives.dat)*
+--------------------------------------------------------------------------------
 
 This file stores **elemental formulas of chemical derivatives** that have to be
 considered for the isotopic correction of metabolites derivatized prior to
@@ -145,8 +146,8 @@ It is a TSV file with the following columns:
 
           :download:`Example file <../isocor/data/Derivatives.dat>`.
 
-Custom databases (*Metabolites.dat* and *Derivatives.dat*)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*Custom databases*
+--------------------------------------------------------------------------------
 
 Files *Derivatives.dat* and *Metabolites.dat* are created at the first run of isocor in '/user/isocordb'. These files can be edited according to the users needs,
 e.g. to add some metabolites and derivatives formulas.
@@ -154,6 +155,8 @@ e.g. to add some metabolites and derivatives formulas.
 Users can also define different metabolite and derivative databases (e.g. specific to each project), in this case the
 user's defined database files ('Metabolites.dat' and 'Derivatives.dat') should be in a single folder that can be selected in IsoCor GUI.
 
+.. note::
+            'Isotopes.dat' is always loaded from '/user/isocordb' and will not be loaded from the custom databases folder.
 
 ..  _CorrectionOptions:
 
