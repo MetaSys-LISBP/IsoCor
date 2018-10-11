@@ -64,13 +64,9 @@ and important messages.
 The output of the calculations (i.e. isotopologue distributions) will be written in a text file
 along a log file.
 
-<aside class="warning">
-The correction options must be carefully selected to ensure reliable interpretations of labeling data, as detailed in the [documentation](https://isocor.readthedocs.io/en/latest/).
-</aside>
+Warning: The correction options must be carefully selected to ensure reliable interpretations of labeling data, as detailed in the [documentation](https://isocor.readthedocs.io/en/latest/).
 
-<aside class="notice">
-IsoCor silently overwrite (results and log) files if they already exist. So take care to copy your results elsewhere if you want to protect them from overwriting.
-</aside>
+Note: IsoCor silently overwrite (results and log) files if they already exist. So take care to copy your results elsewhere if you want to protect them from overwriting.
 
 
 ### Command Line Interface
