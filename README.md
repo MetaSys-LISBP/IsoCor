@@ -131,11 +131,7 @@ make latexpdf
 3. Millard, P., Delepine, B. Guionnet, M., Heuillet, M., Bellvert, F. and Letisse, F. IsoCor: isotope correction for high-resolution MS labeling experiments. Submitted
 
 ## Authors
-Baudoin Delepine
-
-Matthieu Guionnet
-
-Pierre Millard
+Baudoin Delepine, Matthieu Guionnet, Pierre Millard
 
 
 ## Contact
