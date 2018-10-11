@@ -1,4 +1,6 @@
 sphinx>=1.4
+pandas>=0.17.1
+scipy>=0.12.1
 jupyter_client
 ipykernel
 nbsphinx
