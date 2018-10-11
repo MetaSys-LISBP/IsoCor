@@ -132,7 +132,9 @@ make latexpdf
 
 ## Authors
 Baudoin Delepine
+
 Matthieu Guionnet
+
 Pierre Millard
 
 
