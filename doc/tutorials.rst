@@ -46,13 +46,13 @@ The measurement file is a TSV file with one row by :ref:`isotopologue <isotopolo
 
 :sample: The sample name (optional); e.g. "Cloverfield 10".
 :metabolite: The metabolite name that represents the metabolite moiety, as it is referred in the metabolite database (*metabolites.dat*); e.g. "PEP".
-:isotopologue: The index of the peak measured, as an integer; e.g. '0' for the M0 peak that does not have any mass shift.
 :derivative: The derivative name (optional) that represents the derivative moiety, as it is referred in the derivative database (*derivatives.dat*); e.g. "TMS".
+:isotopologue: The index of the peak measured, as an integer; e.g. '0' for the M0 peak that does not have any mass shift.
 :area: The measured :ref:`mass fractions <mass fractions>`; e.g. "4242.42".
 
 .. only:: builder_html
 
-          :download:`Example file <../isocor/data/Data_example.tsv>`.
+          :download:`Example file <./isocor/data/Data_example.tsv>`.
 
 .. topic:: About derivatives
 
@@ -61,6 +61,12 @@ The measurement file is a TSV file with one row by :ref:`isotopologue <isotopolo
           1. a derivatization step was performed before MS analysis,
           2. some atoms of the derivative remains in the molecular entity that gives rise to
              measured :ref:`isotopic cluster <isotopic cluster>`.
+
+.. note:: An example file is provided with IsoCor. It is created at the first run of isocor in the folder '/user/isocordb'.
+
+.. only:: builder_html
+
+          :download:`Example file <./isocor/data/Isotopes.dat>`.
 
 .. seealso::
   :ref:`Declaration of elemental formulas: "metabolite" and "derivative" moieties <Formulas>`
@@ -104,7 +110,7 @@ It is a TSV file with one row by isotope and the following columns:
 
 .. only:: builder_html
 
-          :download:`Example file <../isocor/data/Isotopes.dat>`.
+          :download:`Example file <./isocor/data/Isotopes.dat>`.
 
 
 *Metabolites database (Metabolites.dat)*
@@ -123,7 +129,7 @@ It is a TSV file with the following columns:
 
 .. only:: builder_html
 
-          :download:`Example file <../isocor/data/Metabolites.dat>`.
+          :download:`Example file <./isocor/data/Metabolites.dat>`.
 
 *Derivatives database (Derivatives.dat)*
 --------------------------------------------------------------------------------
@@ -144,7 +150,7 @@ It is a TSV file with the following columns:
 
 .. only:: builder_html
 
-          :download:`Example file <../isocor/data/Derivatives.dat>`.
+          :download:`Example file <./isocor/data/Derivatives.dat>`.
 
 *Custom databases*
 --------------------------------------------------------------------------------
