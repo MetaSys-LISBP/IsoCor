@@ -50,11 +50,12 @@ The measurement file is a TSV file with one row by :ref:`isotopologue <isotopolo
 :isotopologue: The index of the peak measured, as an integer; e.g. '0' for the M0 peak that does not have any mass shift.
 :area: The measured :ref:`mass fractions <mass fractions>`; e.g. "4242.42".
 
-.. note:: An example file is provided with IsoCor. It is created at the first run of isocor in the folder '/user/isocordb'.
+.. note:: An example file is provided with IsoCor. It is created at the
+          first run of isocor in the folder '/user/isocordb'.
 
 .. only:: builder_html
 
-          :download:`Example file <./isocor/data/Data_example.tsv>`.
+          :download:`Example file <../isocor/data/Data_example.tsv>`.
 
 .. topic:: About derivatives
 
@@ -106,7 +107,7 @@ It is a TSV file with one row by isotope and the following columns:
 
 .. only:: builder_html
 
-          :download:`Example file <./isocor/data/Isotopes.dat>`.
+          :download:`Example file <../isocor/data/Isotopes.dat>`.
 
 
 *Metabolites database (Metabolites.dat)*
@@ -125,7 +126,7 @@ It is a TSV file with the following columns:
 
 .. only:: builder_html
 
-          :download:`Example file <./isocor/data/Metabolites.dat>`.
+          :download:`Example file <../isocor/data/Metabolites.dat>`.
 
 *Derivatives database (Derivatives.dat)*
 --------------------------------------------------------------------------------
@@ -146,7 +147,7 @@ It is a TSV file with the following columns:
 
 .. only:: builder_html
 
-          :download:`Example file <./isocor/data/Derivatives.dat>`.
+          :download:`Example file <../isocor/data/Derivatives.dat>`.
 
 *Custom databases*
 --------------------------------------------------------------------------------
