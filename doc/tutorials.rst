@@ -50,6 +50,8 @@ The measurement file is a TSV file with one row by :ref:`isotopologue <isotopolo
 :isotopologue: The index of the peak measured, as an integer; e.g. '0' for the M0 peak that does not have any mass shift.
 :area: The measured :ref:`mass fractions <mass fractions>`; e.g. "4242.42".
 
+.. note:: An example file is provided with IsoCor. It is created at the first run of isocor in the folder '/user/isocordb'.
+
 .. only:: builder_html
 
           :download:`Example file <./isocor/data/Data_example.tsv>`.
@@ -61,12 +63,6 @@ The measurement file is a TSV file with one row by :ref:`isotopologue <isotopolo
           1. a derivatization step was performed before MS analysis,
           2. some atoms of the derivative remains in the molecular entity that gives rise to
              measured :ref:`isotopic cluster <isotopic cluster>`.
-
-.. note:: An example file is provided with IsoCor. It is created at the first run of isocor in the folder '/user/isocordb'.
-
-.. only:: builder_html
-
-          :download:`Example file <./isocor/data/Isotopes.dat>`.
 
 .. seealso::
   :ref:`Declaration of elemental formulas: "metabolite" and "derivative" moieties <Formulas>`
@@ -199,10 +195,12 @@ The result file is a TSV file with the following columns:
 
 :sample: Name of the sample, as it was provided in the :ref:`Measurements file`.
 :metabolite: Name of the metabolite, as it was provided in the :ref:`Measurements file`.
+:derivative: Name of the derivative, as it was provided in the :ref:`Measurements file`.
 :isotopologue: The index of the peak measured, as an integer; e.g. '0' for the M0 peak that does not have any mass shift,  as it was provided in the :ref:`Measurements file`.
 :area: The measured peak intensity; e.g. '42.5', as it was provided in the :ref:`Measurements file`.
 :corrected_area: The corrected area.
 :isotopologue_fraction: The abundance of each :ref:`isotopologue <Isotopologues>` (corrected area normalized to 1).
+:residuum: Residuum of the fit (difference between experimental and optimal isotopologue distribution, normalized to 1).
 :mean_enrichment: Mean molecular content in isotopic tracer in the metabolite.
 
 
