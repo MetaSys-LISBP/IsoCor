@@ -60,7 +60,8 @@ class EnvComputing(object):
         if not isotopesfile.is_file():
             raise ValueError(
                 "Isotopes database not found in:\n'{}'.".format(isotopesfile))
-        self.dfIsotopes = pd.read_csv(isotopesfile)
+        with open(isotopesfile, 'r') as fp:
+            self.dfIsotopes = pd.read_csv(fp, encoding = "utf-8")
         for i in ['element', 'mass', 'abundance']:
             if i not in self.dfIsotopes.columns:
                 raise ValueError("Column '{}' not found in 'Isotopes.dat'.".format(i))
@@ -91,7 +92,8 @@ class EnvComputing(object):
         if not derivativesfile.is_file():
             raise ValueError(
                 "Derivatives database not found in:\n'{}'.".format(derivativesfile))
-        self.dfDerivatives = pd.read_csv(derivativesfile, delimiter='\t')
+        with open(derivativesfile, 'r') as fp:
+            self.dfDerivatives = pd.read_csv(fp, delimiter='\t', encoding = "utf-8")
         for i in ['name', 'formula']:
             if i not in self.dfDerivatives.columns:
                 raise ValueError("Column '{}' not found in 'Derivatives.dat'.".format(i))
@@ -102,7 +104,8 @@ class EnvComputing(object):
         if not metabolitesfile.is_file():
             raise ValueError(
                 "Metabolites database not found in:\n'{}'.".format(metabolitesfile))
-        self.dfMetabolites = pd.read_csv(metabolitesfile, delimiter='\t')
+        with open(metabolitesfile, 'r') as fp:
+            self.dfMetabolites = pd.read_csv(fp, delimiter='\t', encoding = "utf-8")
         for i in ['name', 'formula']:
             if i not in self.dfMetabolites.columns:
                 raise ValueError("Column '{}' not found in 'Metabolites.dat'.".format(i))
@@ -112,7 +115,8 @@ class EnvComputing(object):
     def registerDatafile(self, datafile=Path("mydata.tsv")):
         if not Path(datafile).is_file():
             raise ValueError("No data file selected.")
-        self.dfDatafile = pd.read_csv(datafile, delimiter='\t')
+        with open(datafile, 'r') as fp:
+            self.dfDatafile = pd.read_csv(fp, delimiter='\t', encoding = "utf-8")
         for i in ['sample', 'metabolite', 'derivative', 'area', 'isotopologue']:
             if i not in self.dfDatafile.columns:
                 raise ValueError("Column '{}' not found in the data file.".format(i))
