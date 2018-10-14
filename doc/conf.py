@@ -195,7 +195,7 @@ latex_elements = {
 # Additional stuff for the LaTeX preamble.
 'preamble': r'''
   \usepackage{hyperref}
-  \setcounter{tocdepth}{2}
+  \setcounter{tocdepth}{3}
 '''
 }
 
