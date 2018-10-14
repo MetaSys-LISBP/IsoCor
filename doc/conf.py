@@ -187,7 +187,6 @@ latex_elements = {
 
 # necessary for unicode charactacters in pdf output
 'inputenc': '',
-'utf8extra': '',
 
 # remove blank pages (between the title page and the TOC, etc.)
 'classoptions': ',openany,oneside',
@@ -196,7 +195,7 @@ latex_elements = {
 # Additional stuff for the LaTeX preamble.
 'preamble': r'''
   \usepackage{hyperref}
-  \setcounter{tocdepth}{3}
+  \setcounter{tocdepth}{2}
 '''
 }
 

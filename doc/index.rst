@@ -22,8 +22,7 @@ The code is open-source, and available on `GitHub <https://github.com/MetaSys-LI
 This documentation can also be found online at Read the Docs (`https://isocor.readthedocs.io <https://isocor.readthedocs.io/>`_).
 
 
-Key features
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. rubric:: Key features
 
 * **correction of naturally occuring isotopes**, both for non-tracer and tracer elements,
 * **correction of tracer purity**,
