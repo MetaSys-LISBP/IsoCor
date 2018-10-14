@@ -1,10 +1,10 @@
 IsoCor: Correction of MS data for naturally occuring isotopes
 ********************************************************************************
 
-.. image:: _static/isocor_abstract.png
-
 Welcome to IsoCor documentation!
 ----------------------------------------
+
+.. image:: _static/isocor_abstract.png
 
 **IsoCor is a scientific software dedicated to the correction of mass spectrometry (MS) data for naturally
 occuring isotopes**.
