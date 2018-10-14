@@ -179,21 +179,32 @@ htmlhelp_basename = 'isocordoc'
 # -- Options for LaTeX output --------------------------------------------------
 
 latex_elements = {
-# The paper size ('letterpaper' or 'a4paper').
-#'papersize': 'letterpaper',
+# The paper size ('letter' or 'a4').
+'papersize': 'a4',
 
 # The font size ('10pt', '11pt' or '12pt').
 #'pointsize': '10pt',
 
+# necessary for unicode charactacters in pdf output
+'inputenc': '',
+'utf8extra': '',
+
+# remove blank pages (between the title page and the TOC, etc.)
+'classoptions': ',openany,oneside',
+'babel' : '\\usepackage[english]{babel}',
+
 # Additional stuff for the LaTeX preamble.
-#'preamble': '',
+'preamble': r'''
+  \usepackage{hyperref}
+  \setcounter{tocdepth}{3}
+'''
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'isocor.tex', u'IsoCor Documentation',
-   u'Baudoin Delepine, Matthieu Guionnet, Pierre Millard', 'manual'),
+   u'Baudoin Delepine, Matthieu Guionnet, Pierre Millard', 'manual', False),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -202,7 +213,7 @@ latex_documents = [
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
-#latex_use_parts = False
+latex_use_parts = False
 
 # If true, show page references after internal links.
 #latex_show_pagerefs = False
@@ -215,7 +226,7 @@ latex_documents = [
 
 # If false, no module index is generated.
 #latex_domain_indices = True
-
+latex_use_modindex = True
 
 # -- Options for manual page output --------------------------------------------
 
