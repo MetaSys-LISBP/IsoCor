@@ -35,7 +35,7 @@ IsoCor requires Python 3.5 or higher. If you do not have a Python environment
 configured on your computer, we recommend that you follow the instructions
 from [Anaconda](https://www.anaconda.com/download/).
 
-Then, just type in a terminal:
+Then, open a terminal (e.g. run *Anaconda Prompt* if you have installed Anaconda) and type:
 
 ```bash
 pip install isocor
@@ -74,7 +74,7 @@ A command line interface is also available to use IsoCor, with the command:
 isocorcli
 ```
 
-Type `isocorcli --help` to get information on isocorcli usage. Details on arguments and usage can also be found online at [https://isocor.readthedocs.io/](https://isocor.readthedocs.io/).
+Type `isocorcli --help` to get information on command line usage. Details can also be found online at [https://isocor.readthedocs.io/](https://isocor.readthedocs.io/).
 
 
 ## Developer guide
