@@ -6,7 +6,7 @@ Frequently asked questions
 .. seealso:: If you wonder how to make the most out of IsoCor, have a look at the :ref:`Tutorials`.
 
 
-"Wait... I needed to correct something?"
+Wait... I needed to correct something?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you don't fully understand why you should correct your MS isotopic data,
@@ -19,7 +19,7 @@ we invite you to have a look at `Midani et al. 2017 <https://doi.org/10.1016/j.a
 Finally, practical examples are provided in the :ref:`Tutorials`.
 
 
-"What are the alternatives to IsoCor?"
+What are the alternatives to IsoCor?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 You will find scripts for correction of HRMS data out there, but we won’t recommend any since,
 to the best of our knowledge, they implement algorithms that partly fail for high-resolution datasets (see IsoCor v2 publication).
@@ -41,19 +41,19 @@ to the best of our knowledge, they implement algorithms that partly fail for hig
 .. note:: If you would like your software to appear in this list, please get in touch with us.
 
 
-"How many peaks should I measure?"
+How many peaks should I measure?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 For a compound with :math:`n` atoms of the tracer element, you should measure :math:`n+1` peaks.
 
 
-"What mass fractions should I measure?"
+What mass fractions should I measure?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 For a compound with :math:`n` atoms of the tracer element, you should measure
 the :ref:`mass fractions <mass fractions>` corresponding to the compound having
 incorporated 0, 1, ..., n isotopic tracers.
 
 
-"How to add a new metabolite/derivative into the database?"
+How to add a new metabolite/derivative into the database?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Open the relevant database file with a rustic text editor (e.g. Notepad++) and add a new
 row in your file following the format described in :ref:`Input data`.
@@ -65,7 +65,7 @@ A typical error comes from Excel replacing '.' to ',' in floats.
 
 
 
-"What elemental formula should I declare into the database?"
+What elemental formula should I declare into the database?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Obviously, errors in elemental formulas will result in erroneous
 :ref:`isotopologue distributions <isotopologue distribution>`; thus special care must be taken
@@ -73,7 +73,7 @@ when defining these formulas. Details on the elemental formulas to be declared i
 can be found in :ref:`Tutorial section on formulas <formulas>`.
 
 
-"Should I tailor ‘natural abundance’ of isotopes for my experiment?"
+Should I tailor ‘natural abundance’ of isotopes for my experiment?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The abundance of each isotope in
 natural samples depends on their origin. For instance, marine organisms have been
@@ -85,12 +85,12 @@ found [Millard2014]_. The default values should be good enough for most users, u
 with strongly exotic material.
 
 
-"Where does the default values for natural abundance and mass come from?"
+Where does the default values for natural abundance and mass come from?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 From IUPAC [IUPAC2013]_.
 
 
-"Should I correct the tracer purity for my experiment?"
+Should I correct the tracer purity for my experiment?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Yes, if you know it. The purity of your tracer should be available from your
 provider of labeled compound.
@@ -98,12 +98,12 @@ provider of labeled compound.
 ..seealso:: :ref:`Isotopic purity and natural abundance of the tracer`
 
 
-"What is the default value for the tracer purity?"
+What is the default value for the tracer purity?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 By default, we assume a perfect tracer purity.
 
 
-"Should I correct natural abundance of the tracer for my experiment?"
+Should I correct natural abundance of the tracer for my experiment?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Yes, you should correct for the presence of isotopes at natural abundance in unlabeled
 positions of non-uniformally labeled nutrients.
@@ -111,14 +111,14 @@ positions of non-uniformally labeled nutrients.
 ..seealso:: :ref:`Isotopic purity and natural abundance of the tracer`
 
 
-"How does IsoCor performs its corrections?"
+How does IsoCor performs its corrections?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Please have a look at the examples in the Tutorials section.
 If you are looking for something more detailed, we invite you to review our source code [git depot](https://github.com/MetaSys-LISBP/IsoCor).
-Also, have a look at the logs in "Verbose logs" mode; all the intermediate results (correction vector used to construct the correction matrix, correction matrix, etc)
+Also, have a look at the logs in Verbose logs mode; all the intermediate results (correction vector used to construct the correction matrix, correction matrix, etc)
 will allow you to reproduce the results with pen and paper.
 
-"How is computed the mean enrichment?"
+How is computed the mean enrichment?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The mean isotopic enrichment of a metabolite refers to the mean content in isotopic tracer in the
 metabolite, expressed as the relative fraction of total atoms of its element in the metabolite. This
@@ -129,7 +129,7 @@ IsoCor calculates the mean enrichment (:math:`ME`) using the following formula:
 :math:`ME = \frac{^{n}_{i=0}M_{i}.i}{n}`
 
 
-"I would like a new feature."
+I would like a new feature.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 We would be glad to improve IsoCor. Please get in touch with us so we could discuss your problem. [issue tracker].
 
