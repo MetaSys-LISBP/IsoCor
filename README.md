@@ -14,7 +14,7 @@ It is one of the routine tools that we use at the [MetaSys team](http://www.lisb
 
 The code is open-source, and available under a GPLv3 license.
 
-Detailed documentation can be found [online](https://isocor.readthedocs.io/).
+Detailed documentation can be found online at Read the Docs ([https://isocor.readthedocs.io/](https://isocor.readthedocs.io/)).
 
 ## Key features
 * **correction of naturally occuring isotopes**, both for non-tracer and tracer elements,
@@ -43,7 +43,7 @@ pip install isocor
 You are now ready to start IsoCor.
 
 ## Usage
-Extensive details on IsoCor usage are provided in the [documentation](https://isocor.readthedocs.io/).
+Extensive details on IsoCor usage are provided in the [online documentation](https://isocor.readthedocs.io/).
 
 ### Graphical User Interface
 
