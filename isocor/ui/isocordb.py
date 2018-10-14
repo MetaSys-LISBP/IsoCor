@@ -79,8 +79,9 @@ class EnvComputing(object):
             except:
                 raise ValueError("Error in 'Isotopes.dat' at line {}:\nabundance={!r}".format(i+2, item))
         # reload file
-        self.dfIsotopes = pd.read_csv(
-            isotopesfile, converters={'mass': Decimal, 'abundance': np.float64})
+        with open(isotopesfile, 'r') as fp:
+            self.dfIsotopes = pd.read_csv(
+                 fp, converters={'mass': Decimal, 'abundance': np.float64})
         self._stripColNames(self.dfIsotopes)
         self._stripCol(self.dfIsotopes, ['element', ])
         self.dictIsotopes = self._makeIsotopesDict(self.dfIsotopes)

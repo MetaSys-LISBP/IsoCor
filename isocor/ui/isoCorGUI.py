@@ -173,7 +173,7 @@ class GUIinterface(ttk.Frame):
         # add a filehandler to the logger (to redirect logs to a file)
         formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s', "%Y-%m-%d %H:%M:%S")
-        log_file = Path(Path(input_file).parent, fin_base + '.log')
+        log_file = Path(self.varOutputPath.get()).joinpath(fin_base + '.log')
         file_handler = logging.FileHandler(log_file, mode='w+')
         file_handler.setLevel(self.log_level)
         file_handler.setFormatter(formatter)
