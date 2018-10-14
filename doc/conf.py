@@ -187,6 +187,7 @@ latex_elements = {
 
 # necessary for unicode charactacters in pdf output
 'inputenc': '',
+'utf8extra': '',
 
 # remove blank pages (between the title page and the TOC, etc.)
 'classoptions': ',openany,oneside',
