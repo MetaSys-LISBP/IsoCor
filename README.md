@@ -14,7 +14,7 @@ It is one of the routine tools that we use at the [MetaSys team](http://www.lisb
 
 The code is open-source, and available under a GPLv3 license.
 
-Detailed documentation can be found [online](https://isocor.readthedocs.io/en/latest/) or in 'isocor.pdf'.
+Detailed documentation can be found [online](https://isocor.readthedocs.io/).
 
 ## Key features
 * **correction of naturally occuring isotopes**, both for non-tracer and tracer elements,
@@ -43,7 +43,7 @@ pip install isocor
 You are now ready to start IsoCor.
 
 ## Usage
-Extensive details on IsoCor usage are provided in the [documentation](https://isocor.readthedocs.io/en/latest/).
+Extensive details on IsoCor usage are provided in the [documentation](https://isocor.readthedocs.io/).
 
 ### Graphical User Interface
 
@@ -64,10 +64,7 @@ and important messages.
 The output of the calculations (i.e. isotopologue distributions) will be written in a text file
 along a log file.
 
-Warning: The correction options must be carefully selected to ensure reliable interpretations of labeling data, as detailed in the [documentation](https://isocor.readthedocs.io/en/latest/).
-
-Note: IsoCor silently overwrite (results and log) files if they already exist. So take care to copy your results elsewhere if you want to protect them from overwriting.
-
+Warning: The correction options must be carefully selected to ensure reliable interpretations of labeling data, as detailed in the [documentation](https://isocor.readthedocs.io/).
 
 ### Command Line Interface
 
@@ -77,7 +74,7 @@ A command line interface is also available to use IsoCor, with the command:
 isocorcli
 ```
 
-Type `isocorcli --help` to get information on isocorcli usage. Details on arguments and usage can also be found online at [https://isocor.readthedocs.io/en/latest/](https://isocor.readthedocs.io/en/latest/).
+Type `isocorcli --help` to get information on isocorcli usage. Details on arguments and usage can also be found online at [https://isocor.readthedocs.io/](https://isocor.readthedocs.io/).
 
 
 ## Developer guide
