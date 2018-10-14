@@ -44,7 +44,7 @@ where :math:`n` is the number of atoms of the tracer element in the metabolite.
 
 The measurement file is a TSV file with one row by :ref:`isotopologue <isotopologues>` and the following columns:
 
-:sample: The sample name (optional); e.g. 'Cloverfield 10'.
+:sample: The sample name (optional); e.g. '''''Cloverfield 10'''''.
 :metabolite: The metabolite name that represents the metabolite moiety, as it is referred in the metabolite database (*metabolites.dat*); e.g. "PEP".
 :derivative: The derivative name (optional) that represents the derivative moiety, as it is referred in the derivative database (*derivatives.dat*); e.g. "TMS".
 :isotopologue: The index of the peak measured, as an integer; e.g. '0' for the M0 peak that does not have any mass shift.
