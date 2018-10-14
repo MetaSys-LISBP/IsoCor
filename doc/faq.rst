@@ -6,7 +6,7 @@ Frequently asked questions
 .. seealso:: If you wonder how to make the most out of IsoCor, have a look at the :ref:`Tutorials`.
 
 
-Wait... I needed to correct something?
+Wait, I needed to correct something?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you don't fully understand why you should correct your MS isotopic data,
@@ -73,7 +73,7 @@ when defining these formulas. Details on the elemental formulas to be declared i
 can be found in :ref:`Tutorial section on formulas <formulas>`.
 
 
-Should I tailor ‘natural abundance’ of isotopes for my experiment?
+Should I tailor natural abundance of isotopes for my experiment?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The abundance of each isotope in
 natural samples depends on their origin. For instance, marine organisms have been
@@ -87,7 +87,7 @@ with strongly exotic material.
 
 Where does the default values for natural abundance and mass come from?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-From IUPAC [IUPAC2013]_.
+From IUPAC [IUPAC2016]_.
 
 
 Should I correct the tracer purity for my experiment?
@@ -134,6 +134,5 @@ I would like a new feature.
 We would be glad to improve IsoCor. Please get in touch with us so we could discuss your problem. [issue tracker].
 
 
-.. [IUPAC2013] Isotopic Compositions of the Elements 2013, Pure Appl. Chem., 2016, Vol. 88, No. 3, pp. 293-306, https://doi.org/10.1515/pac-2015-0503
 .. [IUPAC2016] Isotope-abundance variations and atomic weights of selected elements: 2016 (IUPAC Technical Report) https://doi.org/10.1515/pac-2016-0302
 .. [Millard2014] Isotopic studies of metabolic systems by mass spectrometry: using Pascal's triangle to produce biological standards with fully controlled labeling patterns, 2014, Anal. Chem., 86(20):10288-10295, https://doi.org/10.1021/ac502490g

@@ -226,7 +226,7 @@ and perform the correction again.
 ..  _Formulas:
 
 ********************************************************************************
-Declaration of elemental formulas: "metabolite" and "derivative" moieties
+Declaration of elemental formulas: metabolite and derivative moieties
 ********************************************************************************
 
 This section provides guidelines for the definition of elemental formulas of "metabolite" and "derivative" moieties.
@@ -247,7 +247,7 @@ For instance, in the following situations, the formulas should include:
 - for MS/MS measurements, with no tracer atoms in the detected ion: only atoms of the complement (neutral fragment)
 
 
-"metabolite" vs. "derivative" formulas
+Metabolite vs. derivative formulas
 ================================================================================
 
 **All atoms of the molecular entity that gives rise to the measured** :ref:`isotopic cluster <isotopic cluster>`
