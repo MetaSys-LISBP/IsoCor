@@ -4,6 +4,8 @@ IsoCor: Correction of MS data for naturally occuring isotopes
 Welcome to IsoCor documentation!
 ----------------------------------------
 
+.. image:: _static/isocor_abstract.png
+
 **IsoCor is a scientific software dedicated to the correction of mass spectrometry (MS) data for naturally
 occuring isotopes**.
 IsoCor corrects raw MS data (:ref:`mass fractions <mass fractions>`) for
@@ -13,8 +15,6 @@ The output of IsoCor is the :ref:`isotopologue distribution <isotopologue distri
 (i.e. the relative fractions of molecular entities differing only in the number
 of isotopic substitutions of the tracer) of the molecule. IsoCor also calculates
 the mean enrichment (i.e. the mean isotopic content in the molecule) in metabolites.
-
-.. image:: _static/isocor_abstract.png
 
 It is one of the routine tools that we use at the `MetaSys team <http://www.lisbp.fr/en/research/integrated-metabolism-and-dynamics-of-metabolic-systems.html>`_ and `MetaToul platform <https://www6.toulouse.inra.fr/metatoul_eng/>`_ in isotopic studies of metabolic systems.
 
