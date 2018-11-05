@@ -1,7 +1,8 @@
-# IsoCor
+# IsoCor - **Iso**tope **Cor**rection of mass spectrometry data in isotope labeling experiments
 
-**Iso**tope **Cor**rection of mass spectrometry data in isotope labeling experiments.
+![](doc/_static/isocor_GUI.png)
 
+## What is IsoCor?
 IsoCor corrects raw MS data (mass fractions) for
 naturally-occurring isotopes of all elements and purity of the
 isotopic tracer.
@@ -15,6 +16,7 @@ It is one of the routine tools that we use at the [MetaSys team](http://www.lisb
 The code is open-source, and available under a GPLv3 license.
 
 Detailed documentation can be found online at Read the Docs ([https://isocor.readthedocs.io/](https://isocor.readthedocs.io/)).
+Check out the [Tutorials](https://isocor.readthedocs.io/en/latest/tutorials.html) to use the best correction option!
 
 ## Key features
 * **correction of naturally occuring isotopes**, both for non-tracer and tracer elements,
@@ -26,112 +28,66 @@ Detailed documentation can be found online at Read the Docs ([https://isocor.rea
 * open-source, free and easy to install everywhere where Python 3 and pip run,
 * biologist-friendly.
 
-We strongly encourage you to read the Tutorials before using IsoCor.
+## Quick-start
+IsoCor requires Python 3.5 or higher and run on all plate-forms.
+Please check [the documentation](https://isocor.readthedocs.io/en/latest/quickstart.html) for complete
+installation and usage instructions.
 
-## Installation
-IsoCor was tested on Windows, Unix and MacOS platforms.
-
-IsoCor requires Python 3.5 or higher. If you do not have a Python environment
-configured on your computer, we recommend that you follow the instructions
-from [Anaconda](https://www.anaconda.com/download/).
-
-Then, open a terminal (e.g. run *Anaconda Prompt* if you have installed Anaconda) and type:
+Use `pip` to **install IsoCor from PyPi**:
 
 ```bash
-pip install isocor
+$ pip install isocor
 ```
-You are now ready to start IsoCor.
 
-## Usage
-Extensive details on IsoCor usage are provided in the [online documentation](https://isocor.readthedocs.io/).
-
-### Graphical User Interface
-
-To start the Graphical User Interface, type in a terminal:
+Then, start the graphical interface with:
 
 ```bash
-isocor
+$ isocor
 ```
 
-The IsoCor window will open.
+IsoCor is also available directly from command-line and as a Python library.
 
-![screenshot_GUI](doc/_static/isocor_GUI.png)
-
-Select the measurements file, modify the correction parameters (isotopic tracer, resolution, etc) according to your experiment,
-and click on 'Process'. IsoCor proceeds automatically to the corrections and display its progress
-and important messages.
-
-The output of the calculations (i.e. isotopologue distributions) will be written in a text file
-along a log file.
-
-Warning: The correction options must be carefully selected to ensure reliable interpretations of labeling data, as detailed in the [documentation](https://isocor.readthedocs.io/).
-
-### Command Line Interface
-
-A command line interface is also available to use IsoCor, with the command:
-
-```bash
-isocorcli
-```
-
-Type `isocorcli --help` to get information on command line usage. Details can also be found online at [https://isocor.readthedocs.io/](https://isocor.readthedocs.io/).
+## Bug and feature requests
+If you have an idea on how we could improve IsoCor please submit a new *issue*
+to [our GitHub issue tracker](https://github.com/MetaSys-LISBP/IsoCor/issues).
 
 
-## Developer guide
-Contributions are welcome.
+## Developers guide
+### Contributions
+Contributions are very welcome! :heart:
 
-Please work on your own branch/fork,
+Please work on your own fork,
 follow [PEP8](https://www.python.org/dev/peps/pep-0008/) style guide,
-and make sure you pass all the tests before a `merge`.
+and make sure you pass all the tests before a pull request.
 
 ### Local install with pip
-In development mode, do a `pip install -e /path/to/HRcor` to install
+In development mode, do a `pip install -e /path/to/IsoCor` to install
 locally the development version.
 
 ### Unit tests
 Isotope correction is a complex task and we use unit tests to make sure
 that critical features are not compromised during development.
 
-You can **run all tests** by calling
-`pytest` in the shell
-at project's root directory. `pytest` must be installed beforehand.
+You can run all tests by calling `pytest` in the shell at project's root directory.
 
-### Build documentation
-
-Dependencies:
-* Sphinx
-* sphinx-rtd-theme
-* napoleon
-* nbsphinx
-* argparse
-
+### Build the documentation locally
 Build the HTML documentation with:
 
 ```bash
-cd doc
-make html
+$ cd doc
+$ make html
 ```
 
-The documentation can be found in `/doc/_build/html/index.html`.
-
-
-Build the PDF documentation with (you will need `latexmk` and associated packages):
-
-```bash
-cd doc
-make latexpdf
-```
+The PDF documentation can be built locally by replacing `html` by `pdflatex`
+in the command above. You will need a recent latex installation.
 
 ## References
 1. Millard, P., et al. IsoCor: correcting MS data in isotope labeling experiments. Bioinformatics 2012;28:1294-1296
 2. Su, X., et al. Metabolite spectral accuracy on orbitraps. Analytical chemistry 2017;89:5940-5948
-3. Millard, P., Delepine, B. Guionnet, M., Heuillet, M., Bellvert, F. and Letisse, F. IsoCor: isotope correction for high-resolution MS labeling experiments. Submitted
+3. Millard, P., Delépine, B. Guionnet, M., Heuillet, M., Bellvert, F. and Letisse, F. IsoCor: isotope correction for high-resolution MS labeling experiments. Submitted
 
 ## Authors
-Baudoin Delepine, Matthieu Guionnet, Pierre Millard
-
+Baudoin Delépine, Matthieu Guionnet, Pierre Millard
 
 ## Contact
-Pierre Millard
-
-millard@insa-toulouse.fr
+:email: Pierre Millard, millard@insa-toulouse.fr
