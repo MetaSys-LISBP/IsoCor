@@ -10,6 +10,7 @@ script:
 - pytest
 deploy:
   provider: pypi
+  skip_existing: true
   user:
     secure: gYo7u97wN5JyE1/pjkMzMhun6DnxZ1orE3gQ2Def1UPHS031/LdXGlsmPs6npLaBK5jfDMT4a+7qRyEvBZwh9izznzy/NDDD5+bwy9b+/sjIRdQvLy4YTq7obEcuRGdKeehAfkkYRCa0EEEgLwxQqJuhE07EvTTFvj3xws7Cvva9QorzNUA54mqRUIfzg4Kgms5JMDhmUyyBYq/AMTIG/+yNm/jcGxR4t+mGlmOepImQMn61udbe1ky+1c+5Fji/09N9PyUG3aSoMYyn2mquwDCs6KC/T/tvE0FeM+O2iqhZieviVLVkBJ1HG32IFdFXTSWZZ61RU1amihMSKapgEUYtTAqXszKJ6Gzcwgw3paHARVDt+6Ij9MLHp+O4g7mMnQ0T8pJe+R/Oi6gaeDLiqNEFaYPVOrvfCDzFzDYCUMjixnyZvOcjUdC5y3P8IRyhjRygBUNwF4XjMER9maQcwFtWy62Zy5uc9cyT2sUL7sHhqtfl0QD+UdseWGOF1Y3ITpNbUTDQv1HezOIQb44ifM8toQFX9zN41eG/jrhrCfmKCY6UbMR/Lm9F6tkQaxHuAOh+160E9ikEDE+pWrlWujkBT35pEdLOG1xiMNJNIURTVY+ySbcVKUlSd/qKj1Z2PbcsVnfDJ/cLkVTTSTlHt444i9Cc+Eai9yhp+owVRts=
   password:
