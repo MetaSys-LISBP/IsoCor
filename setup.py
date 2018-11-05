@@ -8,7 +8,7 @@ setuptools.setup(
     version="2.0.0",
     author="Pierre Millard, Baudoin Delépine, Matthieu Guionnet",
     author_email="millard@insa-toulouse.fr",
-    description="Correction of mass spectrometry data for natural abundance of isotopes",
+    description="IsoCor: Isotope Correction for mass spectrometry labeling experiments",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/MetaSys-LISBP/IsoCor/",

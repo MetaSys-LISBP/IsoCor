@@ -1,4 +1,4 @@
-IsoCor: Correction of MS data for naturally occuring isotopes
+IsoCor: Isotope Correction for mass spectrometry labeling experiments
 ********************************************************************************
 
 Welcome to IsoCor documentation!

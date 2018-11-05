@@ -47,7 +47,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'IsoCor'
-copyright = u'2018, Baudoin Delepine, Matthieu Guionnet, Pierre Millard'
+copyright = u'2018, Baudoin Delépine, Matthieu Guionnet, Pierre Millard'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -205,7 +205,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'isocor.tex', u'IsoCor Documentation',
-   u'Baudoin Delepine, Matthieu Guionnet, Pierre Millard', 'manual', False),
+   u'Baudoin Delépine, Matthieu Guionnet, Pierre Millard', 'manual', False),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -235,7 +235,7 @@ latex_use_modindex = True
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'isocor', u'IsoCor Documentation',
-     [u'Baudoin Delepine, Matthieu Guionnet, Pierre Millard'], 1)
+     [u'Baudoin Delépine, Matthieu Guionnet, Pierre Millard'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -249,7 +249,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'IsoCor', u'IsoCor Documentation',
-   u'Baudoin Delepine, Matthieu Guionnet, Pierre Millard', 'IsoCor', 'Correction of MS data for naturally occurring isotopes.',
+   u'Baudoin Delépine, Matthieu Guionnet, Pierre Millard', 'IsoCor', 'Isotope Correction for mass spectrometry labeling experiments.',
    'Miscellaneous'),
 ]
 

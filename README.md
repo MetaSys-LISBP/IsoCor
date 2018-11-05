@@ -1,8 +1,10 @@
-# IsoCor - **Iso**tope **Cor**rection of mass spectrometry data in isotope labeling experiments
+# IsoCor - **Iso**tope **Cor**rection for mass spectrometry labeling experiments
 
 ![](doc/_static/isocor_GUI.png)
 
 ## What is IsoCor?
+**IsoCor is a scientific software dedicated to the correction of mass spectrometry (MS) data for naturally
+occuring isotopes**.
 IsoCor corrects raw MS data (mass fractions) for
 naturally-occurring isotopes of all elements and purity of the
 isotopic tracer.
