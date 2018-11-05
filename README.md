@@ -1,5 +1,9 @@
 # IsoCor - **Iso**tope **Cor**rection for mass spectrometry labeling experiments
 
+![PyPI badge](https://img.shields.io/pypi/v/isocor.svg)
+<a href='http://isocor.readthedocs.org/en/latest/?badge=latest'>
+    <img src='https://readthedocs.org/projects/isocor/badge/?version=latest' alt='Documentation Status badge' />
+
 ![](doc/_static/isocor_GUI.png)
 
 ## What is IsoCor?
@@ -80,7 +84,7 @@ $ cd doc
 $ make html
 ```
 
-The PDF documentation can be built locally by replacing `html` by `pdflatex`
+The PDF documentation can be built locally by replacing `html` by `latexpdf`
 in the command above. You will need a recent latex installation.
 
 ## References
