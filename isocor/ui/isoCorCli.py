@@ -181,7 +181,7 @@ def parseArgs():
     parser = argparse.ArgumentParser(argument_default=argparse.SUPPRESS,
                                      description='correction of MS data for naturally occurring isotopes')
 
-    parser.add_argument("inputdata", help="data file to process")
+    parser.add_argument("inputdata", help="measurements file to process")
     parser.add_argument("-M", type=str, help="path to metabolites database")
     parser.add_argument("-D", type=str, help="path to derivatives database")
     parser.add_argument("-I", type=str, help="path to isotopes database")

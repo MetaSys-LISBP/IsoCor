@@ -27,8 +27,8 @@ hence providing quantitative information on the incorporation of labeling into m
 The raw MS data and the information required to perform the correction (i.e. the natural abundance and exact mass of isotopes,
 and a list of metabolites and derivatives moieties with their elemental formulas) are provided in flat text files.
 
-At first start, IsoCor creates in the user directory a folder 'isocordb' containing example database files.
-These files can be edited and implemented according to the user's needs, as detailed below. Different database files can also be created 
+At first start, IsoCor creates in the user directory a IsoCor data folder `isocordb` containing default database files.
+These files can be edited and implemented according to the user's needs, as detailed below. Different database files can also be created
 (e.g. to have specific project-related databases), as detailed below.
 
 ..  _`Measurements file`:
@@ -50,12 +50,10 @@ The measurement file is a TSV file with one row by :ref:`isotopologue <isotopolo
 :isotopologue: The index of the peak measured, as an integer; e.g. '0' for the M0 peak that does not have any mass shift.
 :area: The measured :ref:`mass fractions <mass fractions>`; e.g. "4242.42".
 
+:download:`Example file <../isocor/data/Data_example.tsv>`.
+
 .. note:: An example file is provided with IsoCor. It is created at the
-          first run of isocor in the folder '/user/isocordb'.
-
-.. only:: builder_html
-
-          :download:`Example file <../isocor/data/Data_example.tsv>`.
+          first run of IsoCor in your user directory (`yourusername/isocordb/Data_example.tsv`).
 
 .. topic:: About derivatives
 
@@ -76,8 +74,9 @@ The exact mass and natural abundance of each isotope and the elemental formulas
 used for correction have to be defined carefully, otherwise the correction will be wrong.
 
 IsoCor rely on several flat-files to store this information.
-Pre-configured files are shipped with IsoCor. They are created in the user directory ('/user/isocordb/')
-at the first run of IsoCor and should be modified according to the user needs.
+Pre-configured files are shipped with IsoCor and created at the first run of IsoCor.
+Those database should be modified according to the user needs.
+They are **located in IsoCor data directory**, in user main directory: `yourusername/isocordb/`.
 
 .. note:: IsoCor is case sensitive; i.e. two metabolites
           or derivatives with the same name but different cases will
@@ -95,19 +94,19 @@ It is a TSV file with one row by isotope and the following columns:
 :mass: The exact mass of this isotope; e.g. "13.003354835" for 13C.
 :abundance: The relative abundance of this isotope normalized to 1; e.g. "0.0107" for 13C.
 
-.. note::
-            *'Isotopes.dat' must be in '/user/isocordb'*. An isotope database is created at the first run of isocor and can be edited according to the user needs.
+:download:`Example file <../isocor/data/Isotopes.dat>`.
 
-.. warning::
-            **All** elements should be declared, including elements with only one isotope (with its abundance set to 1).
-            This is required for accurate correction of high-resolution data.
+A pre-configured isotopes database can be found in IsoCor data directory and should be edited according to the users needs.
+It is located in user main directory at `yourusername/isocordb/Isotopes.dat`.
 
-.. warning:: For elements with gaps in the list of nominal mass of isotopes (e.g. for sulfur with isotopes 33S, 34S, 36S, but not 35S),
+.. warning:: The isotopes database is always loaded from IsoCor data directory,
+             i.e. from `yourusername/isocordb/Isotopes.dat`.
+
+.. note:: **All** elements should be declared, including elements with only one isotope (with its abundance set to 1).
+          This is required for accurate correction of high-resolution data.
+
+.. note:: For elements with gaps in the list of nominal mass of isotopes (e.g. for sulfur with isotopes 33S, 34S, 36S, but not 35S),
           declare the missing isotope(s), with the exact mass set at the missing integer(s), and an abundance of 0 (as done in the example file for sulfur).
-
-.. only:: builder_html
-
-          :download:`Example file <../isocor/data/Isotopes.dat>`.
 
 
 *Metabolites database (Metabolites.dat)*
@@ -121,12 +120,11 @@ It is a TSV file with the following columns:
 :formula: Elemental formula of the metabolite moiety of the molecular entity that
           gives rise to the measured :ref:`isotopic cluster <isotopic cluster>`; e.g: "C3H4O3". See also :ref:`Formulas`.
 
-.. note::
-            A metabolites database is created at the first run of isocor in '/user/isocordb'.
+:download:`Example file <../isocor/data/Metabolites.dat>`.
 
-.. only:: builder_html
+A pre-configured metabolites database can be found in IsoCor data directory and should be edited according to the users needs.
+It is located in user main directory at `yourusername/isocordb/Metabolites.dat`.
 
-          :download:`Example file <../isocor/data/Metabolites.dat>`.
 
 *Derivatives database (Derivatives.dat)*
 --------------------------------------------------------------------------------
@@ -141,25 +139,27 @@ It is a TSV file with the following columns:
 :formula: Elemental formula of the derivative moiety of the molecular entity that
           gives rise to the measured :ref:`isotopic cluster <isotopic cluster>`; e.g: "Si2C8H21". See also :ref:`Formulas`.
 
-.. note::
-            A derivatives database is created at the first run of isocor in '/user/isocordb'.
+:download:`Example file <../isocor/data/Derivatives.dat>`.
 
+A pre-configured derivatives database can be found in IsoCor data directory and should be edited according to the users needs.
+It is located in the user main directory at `yourusername/isocordb/Derivatives.dat`.
 
-.. only:: builder_html
-
-          :download:`Example file <../isocor/data/Derivatives.dat>`.
 
 *Custom databases*
 --------------------------------------------------------------------------------
 
-Files *Derivatives.dat* and *Metabolites.dat* are created at the first run of isocor in '/user/isocordb'. These files can be edited according to the users needs,
+IsoCor data directory is created at the first run of IsoCor with pre-configured
+databases files in the user main directory (`yourusername/isocordb/`).
+These files should be edited according to the users needs,
 e.g. to add some metabolites and derivatives formulas.
 
-Users can also define different metabolite and derivative databases (e.g. specific to each project), in this case the
-user's defined database files ('Metabolites.dat' and 'Derivatives.dat') should be in a single folder that can be selected in IsoCor GUI.
+Alternatively, users can select at runtime a custom folder from which metabolites
+and derivatives will be loaded ('Metabolites.dat' and 'Derivatives.dat') with
+the 'Databases Path' button.
+It is especially useful to define project-based database files.
 
-.. note::
-            'Isotopes.dat' is always loaded from '/user/isocordb' and will not be loaded from the custom databases folder.
+.. warning::
+   Importantly, 'Isotopes.dat' is always loaded from IsoCor data directory ('yourusername/isocordb/Isotopes.dat') and will not be loaded from a custom databases folder.
 
 ..  _CorrectionOptions:
 

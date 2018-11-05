@@ -1,8 +1,12 @@
+.. _Library documentation:
+
 Library documentation
 ********************************************************************************
 
 IsoCor is also a Python module that you can import directly, for instance in
 Jupyter Notebooks or in your own software.
+
+.. warning:: This is an experimental feature.
 
 .. toctree::
    :maxdepth: 2

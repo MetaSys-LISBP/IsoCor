@@ -95,7 +95,7 @@ Should I correct the tracer purity for my experiment?
 Yes, if you know it. The purity of your tracer should be available from your
 provider of labeled compound.
 
-..seealso:: :ref:`Isotopic purity and natural abundance of the tracer`
+.. seealso:: :ref:`Isotopic purity and natural abundance of the tracer`
 
 
 What is the default value for the tracer purity?
@@ -108,13 +108,13 @@ Should I correct natural abundance of the tracer for my experiment?
 Yes, you should correct for the presence of isotopes at natural abundance in unlabeled
 positions of non-uniformally labeled nutrients.
 
-..seealso:: :ref:`Isotopic purity and natural abundance of the tracer`
+.. seealso:: :ref:`Isotopic purity and natural abundance of the tracer`
 
 
 How does IsoCor performs its corrections?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Please have a look at the examples in the Tutorials section.
-If you are looking for something more detailed, we invite you to review our source code [git depot](https://github.com/MetaSys-LISBP/IsoCor).
+If you are looking for something more detailed, we invite you to review our source code from our `git repository <https://github.com/MetaSys-LISBP/IsoCor>`_.
 Also, have a look at the logs in Verbose logs mode; all the intermediate results (correction vector used to construct the correction matrix, correction matrix, etc)
 will allow you to reproduce the results with pen and paper.
 
@@ -131,7 +131,7 @@ IsoCor calculates the mean enrichment (:math:`ME`) using the following formula:
 
 I would like a new feature.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-We would be glad to improve IsoCor. Please get in touch with us so we could discuss your problem. [issue tracker].
+We would be glad to improve IsoCor. Please `get in touch with us <https://github.com/MetaSys-LISBP/IsoCor/issues>`_ so we could discuss your problem.
 
 
 .. [IUPAC2016] Isotope-abundance variations and atomic weights of selected elements: 2016 (IUPAC Technical Report) https://doi.org/10.1515/pac-2016-0302

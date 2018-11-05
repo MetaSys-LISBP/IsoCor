@@ -19,11 +19,13 @@ Then, open a terminal (e.g. run *Anaconda Prompt* if you have installed Anaconda
 
 You are now ready to start IsoCor.
 
+If this method does not work, you should ask your local IT department "how to install a Python 3 package from PyPi"
+on your computer.
 
-Alternatives
+Alternatives & update
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you do not have permission to install software systemwide,
+If you know that you do not have permission to install software systemwide,
 you can install IsoCor into your user directory using the :samp:`--user` flag:
 
 .. code-block:: bash
@@ -38,7 +40,8 @@ If you already have a previous version of IsoCor installed, you can upgrade it t
   pip install --upgrade isocor
 
 
-Alternatively, you can also download all sources in a tarball from GitHub.
+Alternatively, you can also download all sources in a tarball from `GitHub <https://github.com/MetaSys-LISBP/IsoCor>`_,
+but it will be more difficult to update IsoCor later on.
 
 
 Usage
@@ -95,3 +98,16 @@ and important messages.
 
 .. seealso:: Tutorial :ref:`First time using IsoCor` has example data
             that you can use to test your installation.
+
+
+Library
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+IsoCor core code is also available as a library (a Python module) that you can import directly in your Python
+scripts:
+
+.. code-block:: python
+
+  import isocor
+
+.. seealso::  Have a look at our :ref:`library showcase <Library documentation>` if you are interested into this experimental feature.
