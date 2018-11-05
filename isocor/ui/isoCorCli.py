@@ -12,7 +12,7 @@ def process(args):
     # create logger (should be root to catch all 'mscorrectors' loggers)
     logger = logging.getLogger()
     formatter = logging.Formatter(
-               '%(asctime)s - %(name)s - %(levelname)s - %(message)s', "%Y-%m-%d %H:%M:%S")
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s', "%Y-%m-%d %H:%M:%S")
     # sends logging output to sys.stderr
     strm_hdlr = logging.StreamHandler()
     strm_hdlr.setFormatter(formatter)
@@ -45,7 +45,8 @@ def process(args):
     tracer_purity = getattr(args, 'tracer_purity', None)
     if tracer_purity:
         if any(i < 0 for i in tracer_purity) or any(i > 1 for i in tracer_purity) or sum(tracer_purity) != 1:
-            raise ValueError("Purity values ({}) should be within the range [0, 1], and their sum should be 1.".format(tracer_purity))
+            raise ValueError(
+                "Purity values ({}) should be within the range [0, 1], and their sum should be 1.".format(tracer_purity))
     correct_NA_tracer = True if hasattr(args, 'correct_NA_tracer') else False
     resolution = getattr(args, 'resolution', None)
     mz_of_resolution = getattr(args, 'mz_of_resolution', None)
@@ -53,15 +54,20 @@ def process(args):
     HRmode = resolution or mz_of_resolution or resolution_formula_code
     if HRmode:
         if not resolution:
-            raise ValueError("Applying correction to high-resolution data: 'resolution' should be provided.")
+            raise ValueError(
+                "Applying correction to high-resolution data: 'resolution' should be provided.")
         if not mz_of_resolution:
-            raise ValueError("Applying correction to high-resolution data: 'mz_of_resolution' should be provided.")
+            raise ValueError(
+                "Applying correction to high-resolution data: 'mz_of_resolution' should be provided.")
         if not resolution_formula_code:
-            raise ValueError("Applying correction to high-resolution data: 'resolution_formula' should be provided.")
+            raise ValueError(
+                "Applying correction to high-resolution data: 'resolution_formula' should be provided.")
         if resolution <= 0:
-            raise ValueError("Resolution '{}' should be a positive number.".format(resolution))
+            raise ValueError(
+                "Resolution '{}' should be a positive number.".format(resolution))
         if mz_of_resolution <= 0:
-            raise ValueError("mz at which resolution is measured '{}' should be a positive number.".format(mz_of_resolution))
+            raise ValueError(
+                "mz at which resolution is measured '{}' should be a positive number.".format(mz_of_resolution))
 
     # log general information on the process
     logger.info('------------------------------------------------')
@@ -69,16 +75,21 @@ def process(args):
     logger.info('------------------------------------------------')
     logger.info("   data files")
     logger.info("      data file: {}".format(args.inputdata))
-    logger.info("      derivatives database: {}".format(getattr(args, 'D', 'Derivatives.dat')))
-    logger.info("      metabolites database: {}".format(getattr(args, 'M', 'Metabolites.dat')))
-    logger.info("      isotopes database: {}".format(getattr(args, 'I', 'Isotopes.dat')))
+    logger.info("      derivatives database: {}".format(
+        getattr(args, 'D', 'Derivatives.dat')))
+    logger.info("      metabolites database: {}".format(
+        getattr(args, 'M', 'Metabolites.dat')))
+    logger.info("      isotopes database: {}".format(
+        getattr(args, 'I', 'Isotopes.dat')))
     logger.info("   correction parameters")
     logger.info("      isotopic tracer: {}".format(tracer))
-    logger.info("      correct natural abundance of the tracer element: {}".format(correct_NA_tracer))
+    logger.info("      correct natural abundance of the tracer element: {}".format(
+        correct_NA_tracer))
     logger.info("      isotopic purity of the tracer: {}".format(tracer_purity))
     if HRmode:
         logger.info("      mode: high-resolution")
-        logger.info("         formula code: {}".format(resolution_formula_code))
+        logger.info("         formula code: {}".format(
+            resolution_formula_code))
         logger.info("         instrument resolution: {}".format(resolution))
         if resolution_formula_code != 'constant':
             logger.info("         at mz: {}".format(mz_of_resolution))
@@ -88,7 +99,7 @@ def process(args):
     logger.info("   {}".format(data_isotopes))
 
     # initialize error dict
-    errors = {'labels':[], 'measurements':[]}
+    errors = {'labels': [], 'measurements': []}
 
     labels = baseenv.getLabelsList()
     logger.info('------------------------------------------------')
@@ -100,16 +111,16 @@ def process(args):
             logger.debug("constructing {}...".format(label))
             if HRmode:
                 dictMetabolites[label] = hr.MetaboliteCorrectorFactory(
-                        formula=baseenv.getMetaboliteFormula(label[0]), tracer=tracer, resolution=resolution, label=label[0],
-                        data_isotopes=data_isotopes, mz_of_resolution=mz_of_resolution,
-                        derivative_formula=baseenv.getDerivativeFormula(label[1]), tracer_purity=tracer_purity,
-                        correct_NA_tracer=correct_NA_tracer, resolution_formula_code=resolution_formula_code)
+                    formula=baseenv.getMetaboliteFormula(label[0]), tracer=tracer, resolution=resolution, label=label[0],
+                    data_isotopes=data_isotopes, mz_of_resolution=mz_of_resolution,
+                    derivative_formula=baseenv.getDerivativeFormula(label[1]), tracer_purity=tracer_purity,
+                    correct_NA_tracer=correct_NA_tracer, resolution_formula_code=resolution_formula_code)
             else:
                 dictMetabolites[label] = hr.MetaboliteCorrectorFactory(
-                        formula=baseenv.getMetaboliteFormula(label[0]), tracer=tracer, label=label[0],
-                       data_isotopes=data_isotopes,
-                        derivative_formula=baseenv.getDerivativeFormula(label[1]), tracer_purity=tracer_purity,
-                        correct_NA_tracer=correct_NA_tracer)
+                    formula=baseenv.getMetaboliteFormula(label[0]), tracer=tracer, label=label[0],
+                    data_isotopes=data_isotopes,
+                    derivative_formula=baseenv.getDerivativeFormula(label[1]), tracer_purity=tracer_purity,
+                    correct_NA_tracer=correct_NA_tracer)
             logger.info("{} successfully constructed.".format(label))
         except Exception as err:
             dictMetabolites[label] = None
@@ -128,13 +139,18 @@ def process(args):
                     valuesCorrected = metabo.correct(serie[1])
                     logger.info("{} - {}: processed".format(serie[0], label))
                 except Exception as err:
-                    valuesCorrected = ([np.nan]*len(serie[1]), [np.nan]*len(serie[1]), [np.nan]*len(serie[1]), np.nan)
+                    valuesCorrected = ([pd.np.nan]*len(serie[1]), [pd.np.nan]
+                                       * len(serie[1]), [pd.np.nan]*len(serie[1]), pd.np.nan)
                     logger.error("{} - {}: {}".format(serie[0], label, err))
-                    errors['measurements'] = errors['measurements'] + ["{} - {}".format(serie[0], label)]
+                    errors['measurements'] = errors['measurements'] + \
+                        ["{} - {}".format(serie[0], label)]
             else:
-                valuesCorrected = ([np.nan]*len(serie[1]), [np.nan]*len(serie[1]), [np.nan]*len(serie[1]), np.nan)
-                errors['measurements'] = errors['measurements'] + ["{} - {}".format(serie[0], label)]
-                logger.error("{} - {}: (metabolite, derivative) object could not be constructed.".format(serie[0], label))
+                valuesCorrected = ([pd.np.nan]*len(serie[1]), [pd.np.nan]
+                                   * len(serie[1]), [pd.np.nan]*len(serie[1]), pd.np.nan)
+                errors['measurements'] = errors['measurements'] + \
+                    ["{} - {}".format(serie[0], label)]
+                logger.error(
+                    "{} - {}: (metabolite, derivative) object could not be constructed.".format(serie[0], label))
             for i, line in enumerate(zip(*(serie[1], valuesCorrected[0], valuesCorrected[1], valuesCorrected[2], [valuesCorrected[3]]*len(valuesCorrected[0])))):
                 df = pd.concat((df, pd.DataFrame([line], index=pd.MultiIndex.from_tuples([[serie[0], label[0], label[1], i]], names=[
                     'sample', 'metabolite', 'derivative', 'isotopologue']), columns=['area', 'corrected_area', 'isotopologue_fraction', 'residuum', 'mean_enrichment'])))
@@ -143,13 +159,16 @@ def process(args):
     logger.info('------------------------------------------------')
     logger.info("Correction process summary")
     logger.info('------------------------------------------------')
-    logger.info("   number of samples: {}".format(len(baseenv.getSamplesList())))
+    logger.info("   number of samples: {}".format(
+        len(baseenv.getSamplesList())))
     logger.info("   number of (metabolite, derivative): {}".format(len(labels)))
     nb_errors = len(errors['labels']) + len(errors['measurements'])
     logger.info("   errors: {}".format(nb_errors))
     if nb_errors:
-        logger.info("      {} errors during construction of (metabolite, derivative) correctors".format(len(errors['labels'])))
-        logger.info("      {} errors during correction of measurements".format(len(errors['measurements'])))
+        logger.info("      {} errors during construction of (metabolite, derivative) correctors".format(
+            len(errors['labels'])))
+        logger.info("      {} errors during correction of measurements".format(
+            len(errors['measurements'])))
         logger.info("      detailed information on errors are provided above.")
 
     output = io.StringIO()
@@ -157,8 +176,10 @@ def process(args):
     output.seek(0)
     print(output.read())
 
+
 def parseArgs():
-    parser = argparse.ArgumentParser(argument_default=argparse.SUPPRESS, description='correction of MS data for naturally occurring isotopes')
+    parser = argparse.ArgumentParser(argument_default=argparse.SUPPRESS,
+                                     description='correction of MS data for naturally occurring isotopes')
 
     parser.add_argument("inputdata", help="data file to process")
     parser.add_argument("-M", type=str, help="path to metabolites database")
@@ -180,6 +201,7 @@ def parseArgs():
     parser.add_argument("-v", "--verbose",
                         help="flag to enable verbose logs", action='store_true')
     return parser
+
 
 def startCli():
     parser = parseArgs()
