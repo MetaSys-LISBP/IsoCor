@@ -1,8 +1,8 @@
 # IsoCor - **Iso**tope **Cor**rection for mass spectrometry labeling experiments
 
-![PyPI badge](https://img.shields.io/pypi/v/isocor.svg)
-<a href='http://isocor.readthedocs.org/en/latest/?badge=latest'>
-    <img src='https://readthedocs.org/projects/isocor/badge/?version=latest' alt='Documentation Status badge' />
+[![PyPI version](https://badge.fury.io/py/isocor.svg)](https://badge.fury.io/py/isocor)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/isocor.svg)](https://pypi.python.org/pypi/isocor/)
+[![Documentation Status](https://readthedocs.org/projects/isocor/badge/?version=latest)](http://isocor.readthedocs.io/?badge=latest)
 
 ![](doc/_static/isocor_GUI.png)
 
