@@ -4,9 +4,9 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="isocor",
+    name="IsoCor",
     version="2.0.0",
-    author="Pierre Millard, Baudoin Delepine, Matthieu Guionnet",
+    author="Pierre Millard, Baudoin Delépine, Matthieu Guionnet",
     author_email="millard@insa-toulouse.fr",
     description="Correction of mass spectrometry data for natural abundance of isotopes",
     long_description=long_description,
@@ -20,6 +20,8 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
         "Operating System :: OS Independent",
+        "Intended Audience :: Science/Research",
+        "Topic :: Scientific/Engineering :: Bio-Informatics",
         ],
     entry_points={
         'console_scripts': [
