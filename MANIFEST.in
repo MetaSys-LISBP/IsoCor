@@ -1,2 +1,1 @@
-graft data
-include data/*.dat
+include isocor/data/*
