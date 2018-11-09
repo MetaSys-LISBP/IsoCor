@@ -133,7 +133,11 @@ def process(args):
     df = pd.DataFrame()
     for label in labels:
         metabo = dictMetabolites[label]
-        for serie in baseenv.getDataSerie(label):
+        series, series_err = baseenv.getDataSerie(label)
+        for s_err in series_err:
+            errors['measurements'] = errors['measurements'] + ["{} - {}".format(s_err, label)]
+            logger.error("{} - {}: Measurement vector is incomplete, some isotopologues are not provided.".format(s_err, label))
+        for serie in series:
             if metabo:
                 try:
                     valuesCorrected = metabo.correct(serie[1])

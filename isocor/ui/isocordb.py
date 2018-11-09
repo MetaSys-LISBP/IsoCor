@@ -174,4 +174,11 @@ class EnvComputing(object):
             return tupleNames[0]
 
     def getDataSerie(self, tupleNames):
-        return [[i[2], [j.area.values[k] for k in j.isotopologue.values]] for i, j in self._groupbyDatafile if i[:2] == tupleNames]
+        l, l_err = [], []
+        for i, j in self._groupbyDatafile:
+            if i[:2] == tupleNames:
+                try:
+                    l.append([i[2], [j.area.values[k] for k in j.isotopologue.values]])
+                except:
+                    l_err.append(i[2])
+        return l, l_err
