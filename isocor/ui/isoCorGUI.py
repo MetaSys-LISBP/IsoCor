@@ -459,6 +459,7 @@ class GUIinterface(ttk.Frame):
         scrolH = 10
         self.datatext = scrolledtext.ScrolledText(
             dataFrame, width=40, height=scrolH, wrap=tk.WORD)
+        self.datatext.configure(state='disable')
         self.logstream = scrolledtext.ScrolledText(
             content, height=scrolH, wrap=tk.WORD, state="disabled")
 
