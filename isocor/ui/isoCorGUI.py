@@ -151,13 +151,13 @@ class GUIinterface(ttk.Frame):
                 return
 
         try:
-            derivativesfile=Path(self.baseenv.db_path, "Derivatives.dat")
+            derivativesfile=Path(self.varDatabasePath.get(), "Derivatives.dat")
             self.baseenv.registerDerivativesDB(derivativesfile)
         except Exception as err:
             messagebox.showerror("Error", err)
             return
         try:
-            metabolitesfile=Path(self.baseenv.db_path, "Metabolites.dat")
+            metabolitesfile=Path(self.varDatabasePath.get(), "Metabolites.dat")
             self.baseenv.registerMetabolitesDB(metabolitesfile)
         except Exception as err:
             messagebox.showerror("Error", err)
