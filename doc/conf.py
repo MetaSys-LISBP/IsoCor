@@ -196,6 +196,8 @@ latex_elements = {
 
 # Additional stuff for the LaTeX preamble.
 'preamble': r'''
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
   \usepackage{hyperref}
   \usepackage{upquote}
   \setcounter{tocdepth}{3}
