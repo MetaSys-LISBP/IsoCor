@@ -308,18 +308,18 @@ class GUIinterface(ttk.Frame):
 
     def loadData(self):
         "load data Callback"
-        name = filedialog.askopenfilename(initialdir="C:/Users/Batman/Documents/Programming/tkinter/",
-                                          filetypes=(
-                                              ("Data File", "*.tsv"), ("All Files", "*.*")),
-                                          title="Choose a file."
-                                          )
-        self.varInputPath.set(name)
-        self.varOutputPath.set(Path(name).parent)
         # Using try in case user types in unknown file or closes without choosing a file.
         try:
+            name = filedialog.askopenfilename(initialdir="C:/Users/Batman/Documents/Programming/tkinter/",
+                                              filetypes=(
+                                                  ("Data File", "*.tsv"), ("All Files", "*.*")),
+                                              title="Choose a file."
+                                              )
+            self.cleanLog()
+            self.cleanData()
+            self.varInputPath.set(name)
+            self.varOutputPath.set(Path(name).parent)
             with open(name, 'r') as UseFile:
-                self.cleanLog()
-                self.cleanData()
                 self.datatext.configure(state='normal')
                 self.datatext.insert(tk.INSERT, UseFile.read())
                 self.datatext.configure(state='disable')
