@@ -196,8 +196,6 @@ latex_elements = {
 
 # Additional stuff for the LaTeX preamble.
 'preamble': r'''
-  \usepackage[utf8]{inputenc}
-  \usepackage[T1]{fontenc}
   \usepackage{hyperref}
   \usepackage{upquote}
   \setcounter{tocdepth}{3}
@@ -208,7 +206,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'isocor.tex', u'IsoCor Documentation',
-   u'Baudoin Delépine, Matthieu Guionnet, Pierre Millard', 'manual', False),
+   'Baudoin Del\'epine, Matthieu Guionnet, Pierre Millard', 'manual', False),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
