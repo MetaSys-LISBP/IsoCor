@@ -207,7 +207,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual], toctree_only).
 latex_documents = [
   ('index', 'isocor.tex', u'IsoCor Documentation',
-   'Baudoin Delepine, Matthieu Guionnet, Pierre Millard', 'manual', False),
+   "Baudoin Del\\'epine, Matthieu Guionnet, Pierre Millard", 'manual', False),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
