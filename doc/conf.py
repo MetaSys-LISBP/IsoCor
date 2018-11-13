@@ -178,8 +178,11 @@ htmlhelp_basename = 'isocordoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
-
-latex_engine = 'xelatex'
+# Warning: as of Nov 18, ReadTheDocs hardcode the use of pdflatex
+# so there is no use of Sphinx's 'latex_engine' option.
+# See also:
+#   https://github.com/rtfd/readthedocs.org/issues/4454
+#   https://github.com/rtfd/readthedocs.org/issues/1556
 
 latex_elements = {
 # The paper size ('letter' or 'a4').
@@ -190,6 +193,7 @@ latex_elements = {
 
 # remove blank pages (between the title page and the TOC, etc.)
 'classoptions': ',openany,oneside',
+'babel' : '\\usepackage[english]{babel}',
 
 # Additional stuff for the LaTeX preamble.
 'preamble': r'''
@@ -203,7 +207,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual], toctree_only).
 latex_documents = [
   ('index', 'isocor.tex', u'IsoCor Documentation',
-   'Baudoin Del\'epine, Matthieu Guionnet, Pierre Millard', 'manual', False),
+   'Baudoin Delepine, Matthieu Guionnet, Pierre Millard', 'manual', False),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
