@@ -201,6 +201,7 @@ class GUIinterface(ttk.Frame):
             self.logger.info("      mode: low-resolution")
         self.logger.info("   natural abundance of isotopes")
         self.logger.info("   {}".format(data_isotopes))
+        self.logger.info("   IsoCor version: {}".format(hr.__version__))
 
         # initialize error dict
         errors = {'labels':[], 'measurements':[]}
@@ -529,5 +530,5 @@ def startGUI():
     helpmenu.add_command(label = "IsoCor project", command=openGit)
     helpmenu.add_command(label = "Documentation", command=openDoc)
     app = GUIinterface(master=root)
-    app.master.title("IsoCor 2")
+    app.master.title("IsoCor " + hr.__version__)
     app.mainloop()

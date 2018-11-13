@@ -97,6 +97,7 @@ def process(args):
         logger.info("      mode: low-resolution")
     logger.info("   natural abundance of isotopes")
     logger.info("   {}".format(data_isotopes))
+    logger.info("   IsoCor version: {}".format(hr.__version__))
 
     # initialize error dict
     errors = {'labels': [], 'measurements': []}
