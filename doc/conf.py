@@ -179,6 +179,8 @@ htmlhelp_basename = 'isocordoc'
 
 # -- Options for LaTeX output --------------------------------------------------
 
+latex_engine = 'xelatex'
+
 latex_elements = {
 # The paper size ('letter' or 'a4').
 'papersize': 'a4',
@@ -186,13 +188,8 @@ latex_elements = {
 # The font size ('10pt', '11pt' or '12pt').
 #'pointsize': '10pt',
 
-# necessary for unicode charactacters in pdf output
-'inputenc': '',
-'utf8extra': '',
-
 # remove blank pages (between the title page and the TOC, etc.)
 'classoptions': ',openany,oneside',
-'babel' : '\\usepackage[english]{babel}',
 
 # Additional stuff for the LaTeX preamble.
 'preamble': r'''
@@ -203,7 +200,7 @@ latex_elements = {
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title, author, documentclass [howto/manual]).
+# (source start file, target name, title, author, documentclass [howto/manual], toctree_only).
 latex_documents = [
   ('index', 'isocor.tex', u'IsoCor Documentation',
    'Baudoin Del\'epine, Matthieu Guionnet, Pierre Millard', 'manual', False),
