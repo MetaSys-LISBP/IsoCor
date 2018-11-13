@@ -530,5 +530,5 @@ def startGUI():
     helpmenu.add_command(label = "IsoCor project", command=openGit)
     helpmenu.add_command(label = "Documentation", command=openDoc)
     app = GUIinterface(master=root)
-    app.master.title("IsoCor " + hr.__version__)
+    app.master.title("IsoCor {}".format(hr.__version__))
     app.mainloop()
