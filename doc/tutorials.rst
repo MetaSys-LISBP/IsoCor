@@ -91,8 +91,8 @@ This file stores **the exact mass and natural abundance of all stable isotopes o
 It is a TSV file with one row by isotope and the following columns:
 
 :element: The element symbol of the isotope; e.g. "C".
-:mass: The exact mass of this isotope; e.g. "13.003354835" for 13C.
-:abundance: The relative abundance of this isotope normalized to 1; e.g. "0.0107" for 13C.
+:mass: The exact mass of this isotope; e.g. "13.003354835" for :sup:`13` C.
+:abundance: The relative abundance of this isotope normalized to 1; e.g. "0.0107" for :sup:`13` C.
 
 :download:`Example file <../isocor/data/Isotopes.dat>`.
 
@@ -105,7 +105,7 @@ It is located in user main directory at `yourusername/isocordb/Isotopes.dat`.
 .. note:: **All** elements should be declared, including elements with only one isotope (with its abundance set to 1).
           This is required for accurate correction of high-resolution data.
 
-.. note:: For elements with gaps in the list of nominal mass of isotopes (e.g. for sulfur with isotopes 33S, 34S, 36S, but not 35S),
+.. note:: For elements with gaps in the list of nominal mass of isotopes (e.g. for sulfur with isotopes :sup:`33` S, :sup:`34` S, :sup:`36` S, but not :sup:`35` S),
           declare the missing isotope(s), with the exact mass set at the missing integer(s), and an abundance of 0 (as done in the example file for sulfur).
 
 
@@ -296,7 +296,7 @@ from those originated from the metabolite moiety (respectively into *derivatives
 .. topic:: Example 3 - MS analysis of derivatized metabolites with in source fragmentation, with all tracer atoms in the detected ion: TBDMS-derivatized Alanine
 
           Alanine (C3H7O2N) can be analyzed by GC-MS after t-butyldimethyl-silylation (TBDMS derivatization).
-          A fragment that is classically used for 13C-metabolic flux analysis is the 'M-57'
+          A fragment that is classically used for :sup:`13` C-metabolic flux analysis is the 'M-57'
           fragment that contains all atoms the compound of interest and two TBDMS groups,
           one of which lose the fragment [C4H9].
           The elemental formula of the two TBDMS groups excluding the latter fragment (i.e. [Si2C8H21])
@@ -378,8 +378,8 @@ Labelled substrates are not isotopically pure, i.e. they are not 100 % enriched 
 the 'labelled' position(s). The latter contain small fractions
 of non-tracer isotopes for which MS data must be corrected.
 To do so, the fractions of each isotope into the 'labelled' positions must be provided.
-For example, if the content in 13C atoms in each position
-of a U-13C-labeled compound is 99 %, other 1 % being 12C atoms, the purity must be entered as 12C=0.01 and 13C=0.99.
+For example, if the content in :sup:`13` C atoms in each position
+of a U-13C-labeled compound is 99 %, other 1 % being :sup:`12` C atoms, the purity must be entered as *12C=0.01* and *13C=0.99*.
 
 .. note::
           If you do not want to correct :ref:`isotopic clusters <isotopic cluster>` for the isotopic
@@ -425,13 +425,13 @@ corrected for the contribution of these naturally occurring isotopes.
          You must be aware of the corrections performed by downstream analysis tools
          and make sure that you do not correct something twice.
 
-         In a 13C-metabolic flux analysis experiment,
+         In a :sup:`13` C-metabolic flux analysis experiment,
          *if the raw data has already been corrected for natural abundance of the tracer element*,
          the unlabeled position(s) of all carbon sources must be declared as unlabeled
          with a perfect purity when calculating fluxes (e.g. CO2 input
-         should be declared as: 12C=1.0), which might be counter-intuitive since
+         should be declared as: *12C=1.0*), which might be counter-intuitive since
          you knew they were at natural abundance.
 
          In contrast, *if the raw data was not corrected for natural abundance of the tracer element*,
          the unlabeled position(s) of all carbon sources must be declared at natural abundance when calculating fluxes (e.g. CO2 input
-         should be declared as: 12C=0.9893, 13C=0.0107).
+         should be declared as: *12C=0.9893, 13C=0.0107*).

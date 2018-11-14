@@ -19,8 +19,8 @@ Then, open a terminal (e.g. run *Anaconda Prompt* if you have installed Anaconda
 
 You are now ready to start IsoCor.
 
-If this method does not work, you should ask your local IT department "how to install a Python 3 package from PyPi"
-on your computer.
+If this method does not work, you should ask your local system administrator or
+the IT department "how to install a Python 3 package from PyPi" on your computer.
 
 Alternatives & update
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -50,18 +50,19 @@ Usage
 Graphical User Interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To start the Graphical User Interface, type in a terminal:
+To start the Graphical User Interface, type in a terminal (Windows: *Anaconda Prompt*):
 
 .. code-block:: bash
 
   isocor
 
-The IsoCor window will open.
+The IsoCor window will open. If the window fails to open, have a look at our
+:ref:`dedicated troubleshooting procedure <failed_gui>` to solve the problem.
 
 .. image:: _static/isocor_GUI.png
 
 Select the measurements file, modify the correction parameters (isotopic tracer, resolution, etc) according to your experiment,
-and click on 'Process'. IsoCor proceeds automatically to the corrections and display its progress
+and click on :samp:`Process`. IsoCor proceeds automatically to the corrections and display its progress
 and important messages.
 
 .. warning:: The correction options must be carefully selected to ensure reliable interpretations of labeling data, as detailed in the :ref:`Tutorials`.
