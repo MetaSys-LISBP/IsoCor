@@ -155,6 +155,7 @@ def test_high_res_cor_matrix_unresolved(data, data_iso, usr_tolerance):
     # perform correction
     metabolite = hrcor.HighResMetaboliteCorrector(data["formula"], data["tracer"],
                                                   data_isotopes=data_iso,
+                                                  resolution_formula_code="orbitrap",
                                                   correct_NA_tracer=data["correct_NA_tracer"],
                                                   tracer_purity=data["tracer_purity"],
                                                   resolution=data["resolution"],

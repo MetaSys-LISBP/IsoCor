@@ -34,13 +34,13 @@ class LabelledChemical(object):
         tracer (str): the isotopic tracer (e.g. "13C")
         label (str): metabolite abbreviation (e.g. "G3P")
         data_isotopes (dict): isotopic data with mass and abundance
-            as in :py:attr:`~LabelledChemical.DEFAULT_ISODATA`
-        derivative_formula (str): elemental formula of the derivative moiety (default:
-            no derivative)
+            as in :py:attr:`~LabelledChemical.DEFAULT_ISODATA`.
+            If set to `None`, default isotopic data are used.
+        derivative_formula (str): elemental formula of the derivative moiety
         tracer_purity (list): proportion of each isotope of the tracer element (metabolite moiety)
             The list must have the same length as the list of isotopes for the relevant
             isotope in :py:attr:`~data_isotopes`. Must be normalized to one.
-            Default is perfect purity.
+            If set to `None`, a perfect purity is assumed.
         correct_NA_tracer (bool): flag to correct tracer natural abundance or not.
             If set to True, tracer elements of the metabolite moiety will be
             corrected for the natural isotopic abundance of the tracer.
@@ -63,16 +63,16 @@ class LabelledChemical(object):
                        "Si": {"abundance": [0.92223, 0.04685, 0.03092],
                               "mass": [D('27.976926535'), D('28.976494665'), D('29.9737701')]}}
 
-    def __init__(self, formula, tracer, label=None, data_isotopes=None, derivative_formula=None,
-                 tracer_purity=None, correct_NA_tracer=False, **kwargs):
+    def __init__(self, formula, tracer, derivative_formula, tracer_purity,
+                 correct_NA_tracer, data_isotopes, label=None):
         """Initialize a new LabelledChemical with its associated data."""
         # Load data_isotope first as it is critical for the other attributes
         self._data_isotopes = self.DEFAULT_ISODATA if data_isotopes is None else data_isotopes
         self._check_data_isotopes(self._data_isotopes)
         # Pseudo-private attributes (mostly to work with properties)
         self._molecular_weight = None
-        self._tracer_purity = None
-        self._correct_NA_tracer = None
+        self._tracer_purity = tracer_purity
+        self._correct_NA_tracer = correct_NA_tracer
         self._formula = None
         self._derivative_formula = None
         self._correction_formula = None
@@ -88,8 +88,6 @@ class LabelledChemical(object):
         self.label = label if label is not None else "|".join([self._str_formula,
                                                                self._str_derivative_formula,
                                                                self._str_tracer_code])
-        self._tracer_purity = tracer_purity
-        self._correct_NA_tracer = correct_NA_tracer
         # Check a few things
         # NB: in the future those checks should be in the setters
         if len(self.data_isotopes[self._tracer_el]["mass"]) != len(self.tracer_purity):

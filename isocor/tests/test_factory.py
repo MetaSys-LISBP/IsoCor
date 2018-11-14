@@ -27,3 +27,19 @@ def test_isotopedata(bad_dataiso):
     """Tests expected to fail because of a badly formatted data_isotopes."""
     with pytest.raises(ValueError):
         hrcor.MetaboliteCorrectorFactory("C", '13C', data_isotopes=bad_dataiso)
+
+def test_typo_factory(data_iso):
+    with pytest.raises(ValueError):
+        hrcor.MetaboliteCorrectorFactory("C3PO", "13C",
+                                         wrong_data_isotopes_parameter=data_iso,
+                                         correct_NA_tracer=False,
+                                         derivative_formula=None,
+                                         tracer_purity=None)
+
+def test_typo_parameter(data_iso):
+    with pytest.raises(TypeError):
+        hrcor.LowResMetaboliteCorrector("C3PO", "13C",
+                                        wrong_data_isotopes_parameter=data_iso,
+                                        correct_NA_tracer=False,
+                                        derivative_formula=None,
+                                        tracer_purity=None)

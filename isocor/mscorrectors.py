@@ -45,37 +45,64 @@ class MetaboliteCorrectorFactory(object):
         resolution_formula_code (str): code for the resolution formula you wish to use to compute
             the correction limit among the presets: "orbitrap" (default), "ft-icr", and "constant".
             This formula depends on your mass spectrometer.
-        resolution_formula (func): (EXPERIMENTAL) if no code suits you, you
-            can use this parameter to provide a function returning the resolution at the mz of the metabolite. 
-            Use the same format as in :attr:`~RES_FORMULAS`.
-            :attr:`~resolution_formula` has precedence over :attr:`~resolution_formula_code`.
 
     Raises:
         ValueError: wrong input
         ImproperUsageError: incoherent input
     """
-    # TODO: confusing: do we really need that?
-    def __new__(cls, formula, tracer, resolution=None, mz_of_resolution=None, **kwargs):
+    def __new__(cls, formula, tracer, **kwargs):
+        corrector = None
+        # Gather common parameters and set default values
+        label = kwargs.pop("label", None)
+        data_isotopes = kwargs.pop("data_isotopes", None)
+        derivative_formula = kwargs.pop("derivative_formula", None)
+        tracer_purity = kwargs.pop("tracer_purity", None)
+        correct_NA_tracer = kwargs.pop("correct_NA_tracer", False)
+        # Gather up parameters used for specific correctors
+        resolution = kwargs.pop("resolution", None)
+        mz_of_resolution = kwargs.pop("mz_of_resolution", None)
+        resolution_formula_code = kwargs.pop("resolution_formula_code", "orbitrap")
+        # Choose a corrector
         if resolution is None and mz_of_resolution is None:
             logger.debug("MetaboliteCorrectorFactory chose to use a"
                          " LowResMetaboliteCorrector for %s.", formula)
-            return LowResMetaboliteCorrector(formula, tracer, **kwargs)
+            corrector = LowResMetaboliteCorrector(formula, tracer, label=label,
+                                                  data_isotopes=data_isotopes,
+                                                  derivative_formula=derivative_formula,
+                                                  tracer_purity=tracer_purity,
+                                                  correct_NA_tracer=correct_NA_tracer)
         elif resolution and mz_of_resolution:
             logger.debug("MetaboliteCorrectorFactory chose to use a"
                          " HighResMetaboliteCorrector for %s.", formula)
             try:
-                return HighResMetaboliteCorrector(formula, tracer, resolution, mz_of_resolution, **kwargs)
+                corrector = HighResMetaboliteCorrector(formula, tracer, resolution, mz_of_resolution,
+                                                       label=label,
+                                                       data_isotopes=data_isotopes,
+                                                       derivative_formula=derivative_formula,
+                                                       tracer_purity=tracer_purity,
+                                                       correct_NA_tracer=correct_NA_tracer,
+                                                       resolution_formula_code=resolution_formula_code)
             except InterfaceMSCorrector.ImproperUsageError as reason:
                 logger.warning("Improper usage of HighResMetaboliteCorrector "
                                "by MetaboliteCorrectorFactory."
                                " Falling back to LowResMetaboliteCorrector."
                                " Reason: %s", reason)
-                return LowResMetaboliteCorrector(formula, tracer, **kwargs)
+                corrector = LowResMetaboliteCorrector(formula, tracer, label=label,
+                                                      data_isotopes=data_isotopes,
+                                                      derivative_formula=derivative_formula,
+                                                      tracer_purity=tracer_purity,
+                                                      correct_NA_tracer=correct_NA_tracer)
         else:
             message = "MetaboliteCorrectorFactory was unable to select a" \
                       " correction strategy. Please check your inputs."
             logger.error(message)
             raise ValueError(message)
+        # Warn user if a parameter some parameters were not utilized
+        if kwargs:
+            msg = "Unused parameters: {}. Maybe a typo?".format(str(kwargs))
+            logger.error(msg)
+            raise ValueError(msg)
+        return corrector
 
 
 class LowResMetaboliteCorrector(LabelledChemical, InterfaceMSCorrector):
@@ -90,8 +117,7 @@ class LowResMetaboliteCorrector(LabelledChemical, InterfaceMSCorrector):
         label (str): metabolite abbreviation (e.g. "G3P")
         data_isotopes (dict): isotopic data with mass and abundance
             as in :py:attr:`~LabelledChemical.DEFAULT_ISODATA`
-        derivative_formula (str): elemental formula of the derivative moiety (default:
-            no derivative)
+        derivative_formula (str): elemental formula of the derivative moiety
         tracer_purity (list): proportion of each isotope of the tracer element (metabolite moiety)
             The list must have the same length as the list of isotopes for the relevant
             isotope in :py:attr:`~data_isotopes`. Must be normalized to one.
@@ -220,8 +246,7 @@ class LowResMetaboliteCorrector(LabelledChemical, InterfaceMSCorrector):
         Returns:
             list: mass distribution vector
         """
-        result = [
-            1.]  # mass are normalized to 1; also default value if no correction_formula
+        result = [1.]  # mass are normalized to 1; also default value if no correction_formula
         for el, n in self.correction_formula.items():
             for _ in range(n):
                 result = np.convolve(
@@ -293,12 +318,10 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
         label (str): metabolite abbreviation (e.g. "G3P")
         data_isotopes (dict): isotopic data with mass and abundance
             as in :py:attr:`~LabelledChemical.DEFAULT_ISODATA`
-        derivative_formula (str): elemental formula of the derivative moiety (default:
-            no derivative)
+        derivative_formula (str): elemental formula of the derivative moiety
         tracer_purity (list): proportion of each isotope of the tracer element (metabolite moiety)
             The list must have the same length as the list of isotopes for the relevant
             isotope in :py:attr:`~data_isotopes`. Must be normalized to one.
-            Default is perfect purity.
         correct_NA_tracer (bool): flag to correct tracer natural abundance or not.
             If set to True, tracer elements of the metabolite moiety will be
             corrected for the natural isotopic abundance of the tracer.
@@ -308,10 +331,10 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
         mz_of_resolution (int): m/z at which the resolution was measured (e.g. "400").
             This is **not** the m/z of the metabolite.
         resolution_formula_code (str): code for the resolution formula you wish to use to compute
-            the correction limit among the presets: "orbitrap" (default), "ft-icr", and "constant".
+            the correction limit among the presets: "orbitrap", "ft-icr", and "constant".
             This formula depends on your mass spectrometer.
         resolution_formula (func): (EXPERIMENTAL) if no code suits you, you
-            can use this parameter to provide a function returning the resolution at the mz of the metabolite. 
+            can use this parameter to provide a function returning the resolution at the mz of the metabolite.
             Use the same format as in :attr:`~RES_FORMULAS`.
             :attr:`~resolution_formula` has precedence over :attr:`~resolution_formula_code`.
     """
@@ -324,24 +347,15 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
         "constant": lambda mw, res, at_mz: 1.66*mw/res
     }
 
-    def __init__(self, formula, tracer, resolution, mz_of_resolution, **kwargs):
+    def __init__(self, formula, tracer, resolution, mz_of_resolution, resolution_formula_code, **kwargs):
         LowResMetaboliteCorrector.__init__(self, formula, tracer, **kwargs)
         # Some checks on the inputs
-        try:
-            if resolution <= 0.:
-                raise ValueError(
-                    "'resolution' parameter should be >0 ({})".format(resolution))
-        except :
-            raise ValueError("'resolution' parameter should be >0 ({})".format(resolution))
-        try:
-            if mz_of_resolution <= 0.:
-                raise ValueError(
-                    "'mz_of_resolution' parameter should be >0 ({})".format(mz_of_resolution))
-        except:
-            raise ValueError("'mz_of_resolution' parameter should be >0 ({})".format(mz_of_resolution))
-        # Compute the local resolution at this m/z
-        resolution_formula_code = kwargs.get(
-            "resolution_formula_code", "orbitrap")
+        if resolution <= 0.:
+            raise ValueError(
+                "'resolution' parameter should be >0 ({})".format(resolution))
+        if mz_of_resolution <= 0.:
+            raise ValueError(
+                "'mz_of_resolution' parameter should be >0 ({})".format(mz_of_resolution))
         try:
             resolution_formula = kwargs.get("resolution_formula",
                                             self.RES_FORMULAS[resolution_formula_code])

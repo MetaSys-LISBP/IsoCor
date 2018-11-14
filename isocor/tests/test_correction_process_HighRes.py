@@ -124,6 +124,8 @@ def test_high_res_correction(data, data_iso):
     # Perform correction
     metabolite = hrcor.HighResMetaboliteCorrector(formula, data["tracer"], data_isotopes=data_iso,
                                                   resolution=resolution,
+                                                  resolution_formula_code="orbitrap",
+                                                  derivative_formula=None,
                                                   mz_of_resolution=400,
                                                   correct_NA_tracer=data["correct_NA_tracer"],
                                                   tracer_purity=data["tracer_purity"])

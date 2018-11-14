@@ -72,8 +72,11 @@ def test_low_res_correction(data, data_iso, usr_tolerance):
     # Expected correction
     v_expected = eval(data["v_expected"])
     # Perform correction
-    metabolite = hrcor.LowResMetaboliteCorrector(formula, data["tracer"], data_isotopes=data_iso,
-                                                 correct_NA_tracer=data["correct_NA_tracer"], tracer_purity=data["tracer_purity"])
+    metabolite = hrcor.LowResMetaboliteCorrector(formula, data["tracer"],
+                                                 data_isotopes=data_iso,
+                                                 correct_NA_tracer=data["correct_NA_tracer"],
+                                                 derivative_formula=None,
+                                                 tracer_purity=data["tracer_purity"])
     _, v_corrected, _, _ = metabolite.correct(v_measured)
     # Compare corrected vs. expected data
     np.testing.assert_allclose(v_corrected, v_expected, rtol=1e-7)

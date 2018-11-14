@@ -77,6 +77,9 @@ def test_isoclust_against_bruteforce(formula, data_iso, usr_tolerance):
         pass
     ic_bruteforce = get_isoclust_bruteforce(formula, data_iso)
     metabolite = hrcor.HighResMetaboliteCorrector(str_formula, '13C', 1e42, 400,
+                                                  resolution_formula_code="orbitrap",
+                                                  derivative_formula=None,
+                                                  tracer_purity=None,
                                                   data_isotopes=data_iso,
                                                   correct_NA_tracer=False)
     metabolite.threshold_p = None
