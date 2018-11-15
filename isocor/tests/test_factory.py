@@ -29,6 +29,7 @@ def test_isotopedata(bad_dataiso):
         hrcor.MetaboliteCorrectorFactory("C", '13C', data_isotopes=bad_dataiso)
 
 def test_typo_factory(data_iso):
+    """Test a typo in the name of one of the parameters (Factory)."""
     with pytest.raises(ValueError):
         hrcor.MetaboliteCorrectorFactory("C3PO", "13C",
                                          wrong_data_isotopes_parameter=data_iso,
@@ -37,9 +38,22 @@ def test_typo_factory(data_iso):
                                          tracer_purity=None)
 
 def test_typo_parameter(data_iso):
+    """Test a typo in the name of one of the parameters (LowRes)."""
     with pytest.raises(TypeError):
         hrcor.LowResMetaboliteCorrector("C3PO", "13C",
                                         wrong_data_isotopes_parameter=data_iso,
                                         correct_NA_tracer=False,
                                         derivative_formula=None,
                                         tracer_purity=None)
+
+@pytest.mark.parametrize("kwargs", [
+    {"formula":"C", "tracer":'13C', "data_isotopes":None,
+     "resolution":"42o", "mz_of_resolution":420},
+    {"formula":"C", "tracer":'13C', "data_isotopes":None,
+     "resolution":"420", "mz_of_resolution":"42o"}
+])
+def test_badinput(kwargs, data_iso):
+    """Test a wrong type of parameter value (Factory)."""
+    kwargs["data_isotopes"] = data_iso
+    with pytest.raises(ValueError):
+        hrcor.MetaboliteCorrectorFactory(**kwargs)

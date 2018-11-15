@@ -26,7 +26,7 @@ class MetaboliteCorrectorFactory(object):
         tracer (str): the isotopic tracer (e.g. "13C")
         label (str): metabolite abbreviation (e.g. "G3P")
         data_isotopes (dict): isotopic data with mass and abundance
-            as in :py:attr:`~LabelledChemical.DEFAULT_ISODATA`
+            as in :py:attr:`~LabelledChemical.DEFAULT_ISODATA` (default values)
         derivative_formula (str): elemental formula of the derivative moiety (default:
             no derivative)
         tracer_purity (list): proportion of each isotope of the tracer element (metabolite moiety)
@@ -38,6 +38,7 @@ class MetaboliteCorrectorFactory(object):
             corrected for the natural isotopic abundance of the tracer.
             Note that tracer elements from the derivative moiety will always be
             corrected at natural abundance (by definition of a derivative moiety).
+            Default is False.
         resolution (int): resolution of the mass spectrometer (e.g. "1e4");
             default "None" (low-resolution).
         mz_of_resolution (int): m/z at which the resolution was measured (e.g. "400").
@@ -350,6 +351,12 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
     def __init__(self, formula, tracer, resolution, mz_of_resolution, resolution_formula_code, **kwargs):
         LowResMetaboliteCorrector.__init__(self, formula, tracer, **kwargs)
         # Some checks on the inputs
+        try:
+            resolution = float(resolution)
+            mz_of_resolution = float(mz_of_resolution)
+        except ValueError as msg:
+            raise ValueError("Parameters 'resolution' and 'mz_of_resolution' "
+                             "should be numeric: {}".format(msg))
         if resolution <= 0.:
             raise ValueError(
                 "'resolution' parameter should be >0 ({})".format(resolution))

@@ -70,7 +70,7 @@ and important messages.
 The output of the calculations (i.e. isotopologue distributions) will be written in a text file
 along a log file.
 
-.. note:: IsoCor silently overwrite (results and log) files if they already exist. So take care to copy your results elsewhere if you want to protect them from overwriting.
+.. note:: IsoCor silently overwrites (results and log) files if they already exist. So take care to copy your results elsewhere if you want to protect them from overwriting.
 
 .. seealso:: Tutorial :ref:`First time using IsoCor` has example data
             that you can use to test your installation.
