@@ -170,11 +170,11 @@ def process(args):
     nb_errors = len(errors['labels']) + len(errors['measurements'])
     logger.info("   errors: {}".format(nb_errors))
     if nb_errors:
-        logger.error("      {} errors during construction of (metabolite, derivative) correctors".format(
+        logger.info("      {} errors during construction of (metabolite, derivative) correctors".format(
             len(errors['labels'])))
-        logger.error("      {} errors during correction of measurements".format(
+        logger.info("      {} errors during correction of measurements".format(
             len(errors['measurements'])))
-        logger.error("      detailed information on errors are provided above.")
+        logger.info("      detailed information on errors are provided above.")
 
     output = io.StringIO()
     df.to_csv(output, sep='\t')
