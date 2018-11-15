@@ -30,10 +30,10 @@ setuptools.setup(
         ],
     entry_points={
         'console_scripts': [
-            'isocorcli = isocor.ui.isoCorCli:startCli',
+            'isocorcli = isocor.ui.isocorcli:start_cli',
         ],
         'gui_scripts': [
-            'isocor = isocor.ui.isoCorGUI:startGUI',
+            'isocor = isocor.ui.isocorgui:start_gui',
         ]
     }
 )

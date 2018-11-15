@@ -517,7 +517,7 @@ def openDoc():
 def openGit():
     webbrowser.open_new(r"https://github.com/MetaSys-LISBP/IsoCor/")
 
-def startGUI():
+def start_gui():
     root = tk.Tk()
     root.resizable(width = False, height = False)
     menubar = tk.Menu(root)
