@@ -151,13 +151,13 @@ class GUIinterface(ttk.Frame):
                 return
 
         try:
-            derivativesfile=Path(self.baseenv.db_path, "Derivatives.dat")
+            derivativesfile=Path(self.varDatabasePath.get(), "Derivatives.dat")
             self.baseenv.registerDerivativesDB(derivativesfile)
         except Exception as err:
             messagebox.showerror("Error", err)
             return
         try:
-            metabolitesfile=Path(self.baseenv.db_path, "Metabolites.dat")
+            metabolitesfile=Path(self.varDatabasePath.get(), "Metabolites.dat")
             self.baseenv.registerMetabolitesDB(metabolitesfile)
         except Exception as err:
             messagebox.showerror("Error", err)
@@ -201,6 +201,7 @@ class GUIinterface(ttk.Frame):
             self.logger.info("      mode: low-resolution")
         self.logger.info("   natural abundance of isotopes")
         self.logger.info("   {}".format(data_isotopes))
+        self.logger.info("   IsoCor version: {}".format(hr.__version__))
 
         # initialize error dict
         errors = {'labels':[], 'measurements':[]}
@@ -240,7 +241,11 @@ class GUIinterface(ttk.Frame):
         df = pd.DataFrame()
         for label in labels:
             metabo = dictMetabolites[label]
-            for serie in self.baseenv.getDataSerie(label):
+            series, series_err = self.baseenv.getDataSerie(label)
+            for s_err in series_err:
+                errors['measurements'] = errors['measurements'] + ["{} - {}".format(s_err, label)]
+                self.logger.error("{} - {}: Measurement vector is incomplete, some isotopologues are not provided.".format(s_err, label))
+            for serie in series:
                 if metabo:
                     try:
                          valuesCorrected = metabo.correct(serie[1])
@@ -304,18 +309,18 @@ class GUIinterface(ttk.Frame):
 
     def loadData(self):
         "load data Callback"
-        name = filedialog.askopenfilename(initialdir="C:/Users/Batman/Documents/Programming/tkinter/",
-                                          filetypes=(
-                                              ("Data File", "*.tsv"), ("All Files", "*.*")),
-                                          title="Choose a file."
-                                          )
-        self.varInputPath.set(name)
-        self.varOutputPath.set(Path(name).parent)
         # Using try in case user types in unknown file or closes without choosing a file.
         try:
+            name = filedialog.askopenfilename(initialdir="C:/Users/Batman/Documents/Programming/tkinter/",
+                                              filetypes=(
+                                                  ("Data File", "*.tsv"), ("All Files", "*.*")),
+                                              title="Choose a file."
+                                              )
+            self.cleanLog()
+            self.cleanData()
+            self.varInputPath.set(name)
+            self.varOutputPath.set(Path(name).parent)
             with open(name, 'r') as UseFile:
-                self.cleanLog()
-                self.cleanData()
                 self.datatext.configure(state='normal')
                 self.datatext.insert(tk.INSERT, UseFile.read())
                 self.datatext.configure(state='disable')
@@ -455,6 +460,7 @@ class GUIinterface(ttk.Frame):
         scrolH = 10
         self.datatext = scrolledtext.ScrolledText(
             dataFrame, width=40, height=scrolH, wrap=tk.WORD)
+        self.datatext.configure(state='disable')
         self.logstream = scrolledtext.ScrolledText(
             content, height=scrolH, wrap=tk.WORD, state="disabled")
 
@@ -511,18 +517,18 @@ def openDoc():
 def openGit():
     webbrowser.open_new(r"https://github.com/MetaSys-LISBP/IsoCor/")
 
-def startGUI():
+def start_gui():
     root = tk.Tk()
     root.resizable(width = False, height = False)
     menubar = tk.Menu(root)
     root.config(menu = menubar)
     filemenu = tk.Menu(menubar, tearoff=0)
-    menubar.add_cascade(label="File", menu=filemenu) 
+    menubar.add_cascade(label="File", menu=filemenu)
     filemenu.add_command(label="Exit", command=root.quit)
     helpmenu = tk.Menu(menubar, tearoff=0)
-    menubar.add_cascade(label="Help", menu=helpmenu) 
+    menubar.add_cascade(label="Help", menu=helpmenu)
     helpmenu.add_command(label = "IsoCor project", command=openGit)
     helpmenu.add_command(label = "Documentation", command=openDoc)
     app = GUIinterface(master=root)
-    app.master.title("IsoCor 2")
+    app.master.title("IsoCor {}".format(hr.__version__))
     app.mainloop()

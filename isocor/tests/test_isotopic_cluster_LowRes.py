@@ -31,6 +31,8 @@ def test_isoclust_against_bruteforce(formula, data_iso, usr_tolerance):
     ic_bruteforce = get_isoclust_bruteforce(formula, data_iso)
     metabolite = hrcor.LowResMetaboliteCorrector(str_formula, '13C',
                                                  data_isotopes=data_iso,
+                                                 derivative_formula=None,
+                                                 tracer_purity=None,
                                                  correct_NA_tracer=False)
     ic_optimized = metabolite.get_mass_distribution_vector()
     # Check that all isotopomeres are taken into account

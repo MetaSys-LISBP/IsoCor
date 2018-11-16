@@ -56,8 +56,6 @@ def test_low_res_correction(data, data_iso, usr_tolerance):
     The resolution depends on m/z ratio and thus the formula of the metabolite.
     The higher the mass, the higher the resolution should be used to distinguish all
     isotopomers and avoid to need correction.
-
-    Test simulates the correction of 1H/2H..
     """
     formula = data["formula"]
     # Observed abundance of each isotopomers given the natural abundance
@@ -72,8 +70,11 @@ def test_low_res_correction(data, data_iso, usr_tolerance):
     # Expected correction
     v_expected = eval(data["v_expected"])
     # Perform correction
-    metabolite = hrcor.LowResMetaboliteCorrector(formula, data["tracer"], data_isotopes=data_iso,
-                                                 correct_NA_tracer=data["correct_NA_tracer"], tracer_purity=data["tracer_purity"])
+    metabolite = hrcor.LowResMetaboliteCorrector(formula, data["tracer"],
+                                                 data_isotopes=data_iso,
+                                                 correct_NA_tracer=data["correct_NA_tracer"],
+                                                 derivative_formula=None,
+                                                 tracer_purity=data["tracer_purity"])
     _, v_corrected, _, _ = metabolite.correct(v_measured)
     # Compare corrected vs. expected data
     np.testing.assert_allclose(v_corrected, v_expected, rtol=1e-7)

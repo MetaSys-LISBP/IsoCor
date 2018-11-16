@@ -1,4 +1,4 @@
-"""Test the entire high-resolution correction process at high-resolutionself.
+"""Test the entire high-resolution correction process at high-resolution.
 
 Comparison of
 mass fractions corrected by IsoCor to theoretical isotopologues distributions
@@ -105,8 +105,6 @@ def test_high_res_correction(data, data_iso):
     The resolution depends on m/z ratio and thus the formula of the metabolite.
     The higher the mass, the higher the resolution should be used to distinguish all
     isotopomers and avoid to need correction.
-
-    Test simulates the correction of 1H/2H for a compound with two hydrogens.
     """
     formula = data["formula"]
     resolution = data["resolution_at_400"]
@@ -124,6 +122,8 @@ def test_high_res_correction(data, data_iso):
     # Perform correction
     metabolite = hrcor.HighResMetaboliteCorrector(formula, data["tracer"], data_isotopes=data_iso,
                                                   resolution=resolution,
+                                                  resolution_formula_code="orbitrap",
+                                                  derivative_formula=None,
                                                   mz_of_resolution=400,
                                                   correct_NA_tracer=data["correct_NA_tracer"],
                                                   tracer_purity=data["tracer_purity"])

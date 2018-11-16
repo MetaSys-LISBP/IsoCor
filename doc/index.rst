@@ -21,7 +21,7 @@ It is one of the routine tools that we use at the `MetaSys team <http://www.lisb
 The code is open-source, and available on `GitHub <https://github.com/MetaSys-LISBP/IsoCor/>`_ under a :ref:`GPLv3 license <license>`.
 
 This documentation is available on Read the Docs (`https://isocor.readthedocs.io <https://isocor.readthedocs.io/>`_)
-and can be downloaded as a PDF file.
+and can be downloaded as a `PDF file <https://readthedocs.org/projects/isocor/downloads/pdf/latest/>`_.
 
 
 .. rubric:: Key features

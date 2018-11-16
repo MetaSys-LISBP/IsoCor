@@ -145,7 +145,7 @@ import isocor as hrcor
                                    "expected_matrix": "[[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]",
                                    "tracer_purity": [0., 1.0]}])
 def test_high_res_cor_matrix_unresolved(data, data_iso, usr_tolerance):
-    """Test construction of the correction matrix at high resolution
+    """Correction of high resolution MS data.
 
     This test is designed to evaluate the correction of high-resolution MS data
     where none of the isotopic species are resolved from the tracer isotopologues,
@@ -155,6 +155,7 @@ def test_high_res_cor_matrix_unresolved(data, data_iso, usr_tolerance):
     # perform correction
     metabolite = hrcor.HighResMetaboliteCorrector(data["formula"], data["tracer"],
                                                   data_isotopes=data_iso,
+                                                  resolution_formula_code="orbitrap",
                                                   correct_NA_tracer=data["correct_NA_tracer"],
                                                   tracer_purity=data["tracer_purity"],
                                                   resolution=data["resolution"],

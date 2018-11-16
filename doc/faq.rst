@@ -24,19 +24,19 @@ What are the alternatives to IsoCor?
 You will find scripts for correction of HRMS data out there, but we won’t recommend any since,
 to the best of our knowledge, they implement algorithms that partly fail for high-resolution datasets (see IsoCor v2 publication).
 
-+--------------+----------+----------------------+--------------------+------------------------------------------------------------------+---------------------------+
-| Tool         | Has GUI? | MS resolution?       | Tracers?           | Reference                                                        | Comment                   |
-+==============+==========+======================+====================+==================================================================+===========================+
-| AccuCor      | No       | All                  | 2H,13C,15N         | `Su et al. 2017 <https://doi.org/10.1021/acs.analchem.7b00396>`_ | Faulty at High-resolution |
-+--------------+----------+----------------------+--------------------+------------------------------------------------------------------+---------------------------+
-| PyNAC        | No       | UltraHigh only       | 2H,13C,15N         | `Carreer et al. 2013 <https://doi.org/10.3390/metabo3040853>`_   | none                      |
-+--------------+----------+----------------------+--------------------+------------------------------------------------------------------+---------------------------+
-| IsoCorrectoR | No       | Low & UltraHigh only | All                | `GitHub project <https://github.com/chkohler/IsoCorrectoR>`__    | none                      |
-+--------------+----------+----------------------+--------------------+------------------------------------------------------------------+---------------------------+
-| ElemCor      | Yes      | All                  | 2H,13C,15N,18O,34S | `GitHub project <https://github.com/4dsoftware/elemcor>`__       | Faulty at High-resolution |
-+--------------+----------+----------------------+--------------------+------------------------------------------------------------------+---------------------------+
-| IsoCor       | Yes      | All                  | All                | `GitHub project <https://github.com/MetaSys-LISBP/IsoCor_v2>`__  | none                      |
-+--------------+----------+----------------------+--------------------+------------------------------------------------------------------+---------------------------+
++--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------+---------------------------+
+| Tool         | Has GUI? | MS resolution?       | Tracers?                                                            | Reference                                                        | Comment                   |
++==============+==========+======================+=====================================================================+==================================================================+===========================+
+| AccuCor      | No       | All                  | :sup:`2`\ H, :sup:`13`\ C, :sup:`15`\ N                             | `Su et al. 2017 <https://doi.org/10.1021/acs.analchem.7b00396>`_ | Faulty at High-resolution |
++--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------+---------------------------+
+| PyNAC        | No       | UltraHigh only       | :sup:`2`\ H, :sup:`13`\ C, :sup:`15`\ N                             | `Carreer et al. 2013 <https://doi.org/10.3390/metabo3040853>`_   | none                      |
++--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------+---------------------------+
+| IsoCorrectoR | No       | Low & UltraHigh only | All                                                                 | `GitHub project <https://github.com/chkohler/IsoCorrectoR>`__    | none                      |
++--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------+---------------------------+
+| ElemCor      | Yes      | All                  | :sup:`2`\ H, :sup:`13`\ C, :sup:`15`\ N, :sup:`18`\ O, :sup:`34`\ S | `GitHub project <https://github.com/4dsoftware/elemcor>`__       | Faulty at High-resolution |
++--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------+---------------------------+
+| IsoCor       | Yes      | All                  | All                                                                 | `GitHub project <https://github.com/MetaSys-LISBP/IsoCor_v2>`__  | none                      |
++--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------+---------------------------+
 
 .. note:: If you would like your software to appear in this list, please get in touch with us.
 
@@ -50,15 +50,16 @@ What mass fractions should I measure?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 For a compound with :math:`n` atoms of the tracer element, you should measure
 the :ref:`mass fractions <mass fractions>` corresponding to the compound having
-incorporated 0, 1, ..., n isotopic tracers.
+incorporated :math:`0, 1, ..., n` isotopic tracers.
 
 
 How to add a new metabolite/derivative into the database?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Open the relevant database file with a rustic text editor (e.g. Notepad++) and add a new
+Open the relevant database file with a rustic text editor (e.g. *Notepad++*) and add a new
 row in your file following the format described in :ref:`Input data`.
 
-Database files are created by default at the first run of isocor in '/user/isocordb'. Additional metabolites and derivatives databases can also be defined, as described in :ref:`Input data`.
+Database files are created by default at the first run of isocor in '/user/isocordb'.
+Additional metabolites and derivatives databases can also be defined, as described in :ref:`Input data`.
 
 Take care not to modify the file format, nor its structure.
 A typical error comes from Excel replacing '.' to ',' in floats.
@@ -124,10 +125,38 @@ The mean isotopic enrichment of a metabolite refers to the mean content in isoto
 metabolite, expressed as the relative fraction of total atoms of its element in the metabolite. This
 information is particularly useful for the quantification of split ratios between two metabolic pathways
 resulting in different content of tracer.
-IsoCor calculates the mean enrichment (:math:`ME`) using the following formula:
+IsoCor calculates the mean enrichment (:math:`ME`) using the formula
+:math:`ME = \frac{\sum^{n}_{i=1}M_{i}.i}{n}`,
+where :math:`M_{i}` is the proportion of isotopologues with :math:`i` :sup:`13`\ C atoms for a
+metabolite containing :math:`n` carbon atoms.
 
-:math:`ME = \frac{^{n}_{i=0}M_{i}.i}{n}`
+..  _failed_gui:
 
+I cannot start IsoCor graphical user interface, can you help me?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+If you  installed IsoCor following our standard procedure and that you are unable
+to start IsoCor by opening a terminal and typing :samp:`isocor`, then there is indeed
+something wrong. Do not panic, we are here to help!
+Please follow this simple procedure:
+
+1. The first step of the debugging process will be to get a *traceback*, i.e.
+   a message telling us what is actually going wrong:
+
+   * On Unix-based systems, you should already see it in the terminal you opened.
+   * On Windows, you will have to open IsoCor from your Anaconda prompt with
+     :samp:`python.exe -m isocor` to display the traceback.
+
+2. Read the traceback and try to understand what is going wrong:
+
+   * If it is related to your system or your Python installation, you will need to ask some
+     help from your local system administrator or your IT department so they could
+     guide you toward a clean installation. Tell them that you wanted "to use the graphical
+     user interface of IsoCor, a Python 3.5 software" and what you did so far (installation),
+     give them the traceback and a link toward the documentation. They should know what to do.
+   * If you believe the problem is in IsoCor or that your local system administrator
+     told you so, then you probably have found a bug! We would greatly appreciate
+     if you could open a new issue on our `issue tracker  <https://github.com/MetaSys-LISBP/IsoCor/issues>`_.
+     One of the developers will help you.
 
 I would like a new feature.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

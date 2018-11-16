@@ -97,6 +97,7 @@ def process(args):
         logger.info("      mode: low-resolution")
     logger.info("   natural abundance of isotopes")
     logger.info("   {}".format(data_isotopes))
+    logger.info("   IsoCor version: {}".format(hr.__version__))
 
     # initialize error dict
     errors = {'labels': [], 'measurements': []}
@@ -133,7 +134,11 @@ def process(args):
     df = pd.DataFrame()
     for label in labels:
         metabo = dictMetabolites[label]
-        for serie in baseenv.getDataSerie(label):
+        series, series_err = baseenv.getDataSerie(label)
+        for s_err in series_err:
+            errors['measurements'] = errors['measurements'] + ["{} - {}".format(s_err, label)]
+            logger.error("{} - {}: Measurement vector is incomplete, some isotopologues are not provided.".format(s_err, label))
+        for serie in series:
             if metabo:
                 try:
                     valuesCorrected = metabo.correct(serie[1])
@@ -203,7 +208,7 @@ def parseArgs():
     return parser
 
 
-def startCli():
+def start_cli():
     parser = parseArgs()
     args = parser.parse_args()
     process(args)
