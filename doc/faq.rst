@@ -125,9 +125,10 @@ The mean isotopic enrichment of a metabolite refers to the mean content in isoto
 metabolite, expressed as the relative fraction of total atoms of its element in the metabolite. This
 information is particularly useful for the quantification of split ratios between two metabolic pathways
 resulting in different content of tracer.
-IsoCor calculates the mean enrichment (:math:`ME`) using the following formula:
-
-:math:`ME = \frac{^{n}_{i=0}M_{i}.i}{n}`
+IsoCor calculates the mean enrichment (:math:`ME`) using the formula
+:math:`ME = \frac{\sum^{n}_{i=1}M_{i}.i}{n}`,
+where :math:`M_{i}` is the proportion of isotopologues with :math:`i` :sup:`13`\ C atoms for a
+metabolite containing :math:`n` carbon atoms.
 
 ..  _failed_gui:
 
