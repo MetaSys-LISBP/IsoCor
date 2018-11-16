@@ -13,10 +13,10 @@ of isotopic substitutions), according to its IUPAC definition. It
 consists of isotopic forms that either:
 
 i. do not have the same isotopic
-   composition but have the same nominal mass (e.g., :sup:`13` CH3NH2
-   and CH2DNH2)
-ii. or have neither the same isotopic composition nor the same nominal mass (e.g., CH4, CH3D,
-    CH2D2). The ability of the MS analyzer to distinguish different isotopologues is determined only by the
+   composition but have the same nominal mass (e.g., :sup:`13`\ CH\ :sub:`3`\ NH\ :sub:`2`\ 
+   and CH\ :sub:`2`\ DNH\ :sub:`2`\ )
+ii. or have neither the same isotopic composition nor the same nominal mass (e.g., CH\ :sub:`4`\ , CH\ :sub:`3`\ D,
+    CH\ :sub:`2`\ D\ :sub:`2`\ ). The ability of the MS analyzer to distinguish different isotopologues is determined only by the
     elemental formula of the molecule and the resolution of the MS analyzer.
 
 
@@ -26,8 +26,8 @@ Tracer isotopologues
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Isotopologues that differ only in their isotopic composition (number
-of isotopic substitutions) of the tracer element (e.g. CH3NH2, CH2DNH2 and CHD2NH2 are considered as tracer
-isotopologues in a 2H-labeling experiments). A molecular entity containing :math:`n` tracer atoms has :math:`n+1` tracer isotopologues.
+of isotopic substitutions) of the tracer element (e.g. CH\ :sub:`3`\ NH\ :sub:`2`\ , CH\ :sub:`2`\ DNH\ :sub:`2`\  and CHD\ :sub:`2`\ NH\ :sub:`2`\  are considered as tracer
+isotopologues in a :sup:`2`\ H-labeling experiments). A molecular entity containing :math:`n` tracer atoms has :math:`n+1` tracer isotopologues.
 Tracer isotopologues have different nominal masses, hence they can be distinguished both at low and high MS resolution.
 
 

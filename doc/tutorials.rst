@@ -53,7 +53,7 @@ The measurement file is a TSV file with one row by :ref:`isotopologue <isotopolo
 :download:`Example file <../isocor/data/Data_example.tsv>`.
 
 .. note:: An example file is provided with IsoCor. It is created at the
-          first run of IsoCor in your user directory (`yourusername/isocordb/Data_example.tsv`).
+          first run of IsoCor in your user directory (`<youruserdirectory>/isocordb/Data_example.tsv`).
 
 .. topic:: About derivatives
 
@@ -76,7 +76,7 @@ used for correction have to be defined carefully, otherwise the correction will 
 IsoCor rely on several flat-files to store this information.
 Pre-configured files are shipped with IsoCor and created at the first run of IsoCor.
 Those database should be modified according to the user needs.
-They are **located in IsoCor data directory**, in user main directory: `yourusername/isocordb/`.
+They are **located in IsoCor data directory**, in user main directory: `<youruserdirectory>/isocordb/`.
 
 .. note:: IsoCor is case sensitive; i.e. two metabolites
           or derivatives with the same name but different cases will
@@ -91,21 +91,21 @@ This file stores **the exact mass and natural abundance of all stable isotopes o
 It is a TSV file with one row by isotope and the following columns:
 
 :element: The element symbol of the isotope; e.g. "C".
-:mass: The exact mass of this isotope; e.g. "13.003354835" for :sup:`13` C.
-:abundance: The relative abundance of this isotope normalized to 1; e.g. "0.0107" for :sup:`13` C.
+:mass: The exact mass of this isotope; e.g. "13.003354835" for :sup:`13`\ C.
+:abundance: The relative abundance of this isotope normalized to 1; e.g. "0.0107" for :sup:`13`\ C.
 
 :download:`Example file <../isocor/data/Isotopes.dat>`.
 
 A pre-configured isotopes database can be found in IsoCor data directory and should be edited according to the users needs.
-It is located in user main directory at `yourusername/isocordb/Isotopes.dat`.
+It is located in user main directory at `<youruserdirectory>/isocordb/Isotopes.dat`.
 
 .. warning:: The isotopes database is always loaded from IsoCor data directory,
-             i.e. from `yourusername/isocordb/Isotopes.dat`.
+             i.e. from `<youruserdirectory>/isocordb/Isotopes.dat`.
 
 .. note:: **All** elements should be declared, including elements with only one isotope (with its abundance set to 1).
           This is required for accurate correction of high-resolution data.
 
-.. note:: For elements with gaps in the list of nominal mass of isotopes (e.g. for sulfur with isotopes :sup:`33` S, :sup:`34` S, :sup:`36` S, but not :sup:`35` S),
+.. note:: For elements with gaps in the list of nominal mass of isotopes (e.g. for sulfur with isotopes :sup:`33`\ S, :sup:`34`\ S, :sup:`36`\ S, but not :sup:`35`\ S),
           declare the missing isotope(s), with the exact mass set at the missing integer(s), and an abundance of 0 (as done in the example file for sulfur).
 
 
@@ -118,12 +118,12 @@ It is a TSV file with the following columns:
 
 :name: Metabolite name or abbreviation, e.g: "pyruvic acid" or "PYR".
 :formula: Elemental formula of the metabolite moiety of the molecular entity that
-          gives rise to the measured :ref:`isotopic cluster <isotopic cluster>`; e.g: "C3H4O3". See also :ref:`Formulas`.
+          gives rise to the measured :ref:`isotopic cluster <isotopic cluster>`; e.g: "C\ :sub:`3`\ H\ :sub:`4`\ O\ :sub:`3`\ ". See also :ref:`Formulas`.
 
 :download:`Example file <../isocor/data/Metabolites.dat>`.
 
 A pre-configured metabolites database can be found in IsoCor data directory and should be edited according to the users needs.
-It is located in user main directory at `yourusername/isocordb/Metabolites.dat`.
+It is located in user main directory at `<youruserdirectory>/isocordb/Metabolites.dat`.
 
 
 *Derivatives database (Derivatives.dat)*
@@ -137,19 +137,19 @@ It is a TSV file with the following columns:
 
 :name: Derivative name or abbrevation, e.g: "t-butyldimethyl-silylation" or "M-57".
 :formula: Elemental formula of the derivative moiety of the molecular entity that
-          gives rise to the measured :ref:`isotopic cluster <isotopic cluster>`; e.g: "Si2C8H21". See also :ref:`Formulas`.
+          gives rise to the measured :ref:`isotopic cluster <isotopic cluster>`; e.g: "Si\ :sub:`2`\ C\ :sub:`8`\ H\ :sub:`21`\ ". See also :ref:`Formulas`.
 
 :download:`Example file <../isocor/data/Derivatives.dat>`.
 
 A pre-configured derivatives database can be found in IsoCor data directory and should be edited according to the users needs.
-It is located in the user main directory at `yourusername/isocordb/Derivatives.dat`.
+It is located in the user main directory at `<youruserdirectory>/isocordb/Derivatives.dat`.
 
 
 *Custom databases*
 --------------------------------------------------------------------------------
 
 IsoCor data directory is created at the first run of IsoCor with pre-configured
-databases files in the user main directory (`yourusername/isocordb/`).
+databases files in the user main directory (`<youruserdirectory>/isocordb/`).
 These files should be edited according to the users needs,
 e.g. to add some metabolites and derivatives formulas.
 
@@ -159,7 +159,7 @@ the 'Databases Path' button.
 It is especially useful to define project-based database files.
 
 .. warning::
-   Importantly, 'Isotopes.dat' is always loaded from IsoCor data directory ('yourusername/isocordb/Isotopes.dat') and will not be loaded from a custom databases folder.
+   Importantly, 'Isotopes.dat' is always loaded from IsoCor data directory ('<youruserdirectory>/isocordb/Isotopes.dat') and will not be loaded from a custom databases folder.
 
 ..  _CorrectionOptions:
 
@@ -269,9 +269,9 @@ from those originated from the metabolite moiety (respectively into *derivatives
 
 .. topic:: Example 1 - MS analysis: Pyruvate
 
-          Pyruvic acid (C3H4O3) can be analyzed by LC-MS using multiple
-          ion monitoring (MIM) in the negative mode, and the measured :ref:`isotopic cluster <isotopic cluster>` originates from the molecular ion [C3H3O3]-, then the
-          formula to use for correction is C3H3O3.
+          Pyruvic acid (C\ :sub:`3`\ H\ :sub:`4`\ O\ :sub:`3`\ ) can be analyzed by LC-MS using multiple
+          ion monitoring (MIM) in the negative mode, and the measured :ref:`isotopic cluster <isotopic cluster>` originates from the molecular ion [C\ :sub:`3`\ H\ :sub:`3`\ O\ :sub:`3`\ ]\ :sup:`-`\ , then the
+          formula to use for correction is C\ :sub:`3`\ H\ :sub:`3`\ O\ :sub:`3`\ .
           This formula must be set into *metabolites.dat* and referred to
           by its associated name into the measurements file.
 
@@ -279,7 +279,7 @@ from those originated from the metabolite moiety (respectively into *derivatives
 
           Phosphoenolpyruvate (PEP) can be analyzed using the MS/MS method developed by
           Kiefer et al. (2007). The fragmentation of phosphorylated metabolites
-          results in the efficient release of [PO3]- or [H2PO4]- ions,
+          results in the efficient release of [PO\ :sub:`3`\ ]\ :sup:`-`\  or [H\ :sub:`2`\ PO\ :sub:`4`\ ]\ :sup:`-`\  ions,
           allowing highly sensitive measurement of :ref:`isotopologue distributions <isotopologue distribution>`
           in these compounds in the multiple reaction monitoring
           (MRM) mode. This is achieved by selecting MRM
@@ -287,21 +287,21 @@ from those originated from the metabolite moiety (respectively into *derivatives
           encode the :ref:`isotopic cluster <isotopic cluster>` of the complement, i.e., the
           part of the molecule that remains after loss of the phosphate
           ion that is actually detected.
-          In the case of PEP (C3H5O6P), for which the molecular ion that is analyzed is [C3H4O6P]-, the
-          analysis is based on MRM transitions in which [PO3]- ions are
+          In the case of PEP (C\ :sub:`3`\ H\ :sub:`5`\ O\ :sub:`6`\ P), for which the molecular ion that is analyzed is [C\ :sub:`3`\ H\ :sub:`4`\ O\ :sub:`6`\ P]\ :sup:`-`\ , the
+          analysis is based on MRM transitions in which [PO\ :sub:`3`\ ]\ :sup:`-`\  ions are
           used, meaning that the :ref:`isotopic cluster <isotopic cluster>` is actually measured for
-          the complement fragment C3H4O3. Hence, the formula to
-          enter in *metabolites.dat* is C3H4O3.
+          the complement fragment C\ :sub:`3`\ H\ :sub:`4`\ O\ :sub:`3`\ . Hence, the formula to
+          enter in *metabolites.dat* is C\ :sub:`3`\ H\ :sub:`4`\ O\ :sub:`3`\ .
 
 .. topic:: Example 3 - MS analysis of derivatized metabolites with in source fragmentation, with all tracer atoms in the detected ion: TBDMS-derivatized Alanine
 
-          Alanine (C3H7O2N) can be analyzed by GC-MS after t-butyldimethyl-silylation (TBDMS derivatization).
-          A fragment that is classically used for :sup:`13` C-metabolic flux analysis is the 'M-57'
+          Alanine (C\ :sub:`3`\ H\ :sub:`7`\ O\ :sub:`2`\ N) can be analyzed by GC-MS after t-butyldimethyl-silylation (TBDMS derivatization).
+          A fragment that is classically used for :sup:`13`\ C-metabolic flux analysis is the 'M-57'
           fragment that contains all atoms the compound of interest and two TBDMS groups,
-          one of which lose the fragment [C4H9].
-          The elemental formula of the two TBDMS groups excluding the latter fragment (i.e. [Si2C8H21])
+          one of which lose the fragment [C\ :sub:`4`\ H\ :sub:`9`\ ].
+          The elemental formula of the two TBDMS groups excluding the latter fragment (i.e. [Si\ :sub:`2`\ C\ :sub:`8`\ H\ :sub:`21`\ ])
           must be declared into *derivatives.dat* since it will be present in the molecular entity that gives rise to the measured :ref:`isotopic cluster <isotopic cluster>`.
-          Meanwhile, the elemental composition of the alanine moiety of the detected ion (i.e. [C3H5O2N]) must
+          Meanwhile, the elemental composition of the alanine moiety of the detected ion (i.e. [C\ :sub:`3`\ H\ :sub:`5`\ O\ :sub:`2`\ N]) must
           be declared as the "metabolite moiety", thus into *metabolites.dat*.
 
 .. topic:: Example 4 - MS/MS analysis, with all tracer atoms in the detected ion
@@ -378,8 +378,8 @@ Labelled substrates are not isotopically pure, i.e. they are not 100 % enriched 
 the 'labelled' position(s). The latter contain small fractions
 of non-tracer isotopes for which MS data must be corrected.
 To do so, the fractions of each isotope into the 'labelled' positions must be provided.
-For example, if the content in :sup:`13` C atoms in each position
-of a U-13C-labeled compound is 99 %, other 1 % being :sup:`12` C atoms, the purity must be entered as *12C=0.01* and *13C=0.99*.
+For example, if the content in :sup:`13`\ C atoms in each position
+of a U-:sup:`13`\ C-labeled compound is 99 %, other 1 % being :sup:`12`\ C atoms, the purity must be entered as *12C=0.01* and *13C=0.99*.
 
 .. note::
           If you do not want to correct :ref:`isotopic clusters <isotopic cluster>` for the isotopic
@@ -425,13 +425,13 @@ corrected for the contribution of these naturally occurring isotopes.
          You must be aware of the corrections performed by downstream analysis tools
          and make sure that you do not correct something twice.
 
-         In a :sup:`13` C-metabolic flux analysis experiment,
+         In a :sup:`13`\ C-metabolic flux analysis experiment,
          *if the raw data has already been corrected for natural abundance of the tracer element*,
          the unlabeled position(s) of all carbon sources must be declared as unlabeled
-         with a perfect purity when calculating fluxes (e.g. CO2 input
+         with a perfect purity when calculating fluxes (e.g. CO\ :sub:`2`\  input
          should be declared as: *12C=1.0*), which might be counter-intuitive since
          you knew they were at natural abundance.
 
          In contrast, *if the raw data was not corrected for natural abundance of the tracer element*,
-         the unlabeled position(s) of all carbon sources must be declared at natural abundance when calculating fluxes (e.g. CO2 input
+         the unlabeled position(s) of all carbon sources must be declared at natural abundance when calculating fluxes (e.g. CO\ :sub:`2`\  input
          should be declared as: *12C=0.9893, 13C=0.0107*).
