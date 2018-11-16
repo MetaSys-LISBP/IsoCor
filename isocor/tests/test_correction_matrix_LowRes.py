@@ -65,10 +65,9 @@ import isocor as hrcor
                                    "expected_matrix": "[[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]",
                                    "tracer_purity": [0.0, 1.0]}])
 def test_low_res_cor_matrix(data, data_iso, usr_tolerance):
-    """Basic single-labeling carbon correction at low resolution.
+    """Correction of low resolution MS data.
 
-    Test simulates the correction of carbon in a 13C-tracer experiment for a
-    compound with two carbons.
+    Test simulates the correction of C2 compounds in a 13C-tracer experiment.
     """
     metabolite = hrcor.LowResMetaboliteCorrector(data["formula"], '13C', data_isotopes=data_iso,
                                                  correct_NA_tracer=data["correct_NA_tracer"],

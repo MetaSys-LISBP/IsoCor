@@ -87,7 +87,7 @@ To process your data, type in a terminal:
 Here after the available options with their full names are enumerated and detailed.
 
 .. argparse::
-   :module: isocor.ui.isoCorCli
+   :module: isocor.ui.isocorcli
    :func: parseArgs
    :prog: isocor
    :nodescription:
@@ -104,7 +104,7 @@ and important messages.
 Library
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-IsoCor core code is also available as a library (a Python module) that you can import directly in your Python
+IsoCor is also available as a library (a Python module) that you can import directly in your Python
 scripts:
 
 .. code-block:: python

@@ -56,8 +56,6 @@ def test_low_res_correction(data, data_iso, usr_tolerance):
     The resolution depends on m/z ratio and thus the formula of the metabolite.
     The higher the mass, the higher the resolution should be used to distinguish all
     isotopomers and avoid to need correction.
-
-    Test simulates the correction of 1H/2H..
     """
     formula = data["formula"]
     # Observed abundance of each isotopomers given the natural abundance
