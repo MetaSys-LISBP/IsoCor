@@ -178,7 +178,8 @@ class EnvComputing(object):
         for i, j in self._groupbyDatafile:
             if i[:2] == tupleNames:
                 try:
-                    l.append([i[2], [j.area.values[k] for k in j.isotopologue.values]])
+                    p=j.sort_values(by=['isotopologue'])
+                    l.append([i[2], list(p.area.values)])
                 except:
                     l_err.append(i[2])
         return l, l_err
