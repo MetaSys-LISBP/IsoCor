@@ -60,7 +60,7 @@ class EnvComputing(object):
         if not isotopesfile.is_file():
             raise ValueError(
                 "Isotopes database not found in:\n'{}'.".format(isotopesfile))
-        with open(str(isotopesfile), 'r') as fp:
+        with open(str(isotopesfile), 'r') as fp:  # str for compatibility with Python3.5
             self.dfIsotopes = pd.read_csv(fp)
         for i in ['element', 'mass', 'abundance']:
             if i not in self.dfIsotopes.columns:
@@ -116,7 +116,7 @@ class EnvComputing(object):
     def registerDatafile(self, datafile=Path("mydata.tsv")):
         if not Path(datafile).is_file():
             raise ValueError("No data file selected.")
-        with open(datafile, 'r') as fp:
+        with open(str(datafile), 'r') as fp:
             self.dfDatafile = pd.read_csv(fp, delimiter='\t')
         for i in ['sample', 'metabolite', 'derivative', 'area', 'isotopologue']:
             if i not in self.dfDatafile.columns:

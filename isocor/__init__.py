@@ -4,7 +4,7 @@ We expose the Factory and the *metabolite corrector* classes at the package leve
 for conveniance.
 """
 
-__version__ = '2.0.4'
+__version__ = '2.0.5'
 
 from isocor.mscorrectors import MetaboliteCorrectorFactory
 from isocor.mscorrectors import LowResMetaboliteCorrector, HighResMetaboliteCorrector
