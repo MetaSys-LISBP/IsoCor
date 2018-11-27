@@ -174,7 +174,7 @@ class GUIinterface(ttk.Frame):
         formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s', "%Y-%m-%d %H:%M:%S")
         log_file = Path(self.varOutputPath.get()).joinpath(fin_base + '.log')
-        file_handler = logging.FileHandler(log_file, mode='w+')
+        file_handler = logging.FileHandler(str(log_file), mode='w+')
         file_handler.setLevel(self.log_level)
         file_handler.setFormatter(formatter)
         self.logger.addHandler(file_handler)

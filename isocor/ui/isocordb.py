@@ -60,7 +60,7 @@ class EnvComputing(object):
         if not isotopesfile.is_file():
             raise ValueError(
                 "Isotopes database not found in:\n'{}'.".format(isotopesfile))
-        with open(isotopesfile, 'r') as fp:
+        with open(str(isotopesfile), 'r') as fp:  # str for compatibility with Python3.5
             self.dfIsotopes = pd.read_csv(fp)
         for i in ['element', 'mass', 'abundance']:
             if i not in self.dfIsotopes.columns:
@@ -79,7 +79,7 @@ class EnvComputing(object):
             except:
                 raise ValueError("Error in 'Isotopes.dat' at line {}:\nabundance={!r}".format(i+2, item))
         # reload file
-        with open(isotopesfile, 'r') as fp:
+        with open(str(isotopesfile), 'r') as fp:
             self.dfIsotopes = pd.read_csv(
                  fp, converters={'mass': Decimal, 'abundance': np.float64})
         self._stripColNames(self.dfIsotopes)
@@ -93,7 +93,7 @@ class EnvComputing(object):
         if not derivativesfile.is_file():
             raise ValueError(
                 "Derivatives database not found in:\n'{}'.".format(derivativesfile))
-        with open(derivativesfile, 'r') as fp:
+        with open(str(derivativesfile), 'r') as fp:
             self.dfDerivatives = pd.read_csv(fp, delimiter='\t')
         for i in ['name', 'formula']:
             if i not in self.dfDerivatives.columns:
@@ -105,7 +105,7 @@ class EnvComputing(object):
         if not metabolitesfile.is_file():
             raise ValueError(
                 "Metabolites database not found in:\n'{}'.".format(metabolitesfile))
-        with open(metabolitesfile, 'r') as fp:
+        with open(str(metabolitesfile), 'r') as fp:
             self.dfMetabolites = pd.read_csv(fp, delimiter='\t')
         for i in ['name', 'formula']:
             if i not in self.dfMetabolites.columns:
@@ -116,7 +116,7 @@ class EnvComputing(object):
     def registerDatafile(self, datafile=Path("mydata.tsv")):
         if not Path(datafile).is_file():
             raise ValueError("No data file selected.")
-        with open(datafile, 'r') as fp:
+        with open(str(datafile), 'r') as fp:
             self.dfDatafile = pd.read_csv(fp, delimiter='\t')
         for i in ['sample', 'metabolite', 'derivative', 'area', 'isotopologue']:
             if i not in self.dfDatafile.columns:
