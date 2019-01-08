@@ -115,7 +115,8 @@ def process(args):
                     formula=baseenv.getMetaboliteFormula(label[0]), tracer=tracer, resolution=resolution, label=label[0],
                     data_isotopes=data_isotopes, mz_of_resolution=mz_of_resolution,
                     derivative_formula=baseenv.getDerivativeFormula(label[1]), tracer_purity=tracer_purity,
-                    correct_NA_tracer=correct_NA_tracer, resolution_formula_code=resolution_formula_code)
+                    correct_NA_tracer=correct_NA_tracer, resolution_formula_code=resolution_formula_code,
+                    charge=baseenv.getMetaboliteCharge(label[0]))
             else:
                 dictMetabolites[label] = hr.MetaboliteCorrectorFactory(
                     formula=baseenv.getMetaboliteFormula(label[0]), tracer=tracer, label=label[0],

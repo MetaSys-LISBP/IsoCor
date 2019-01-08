@@ -46,6 +46,7 @@ class MetaboliteCorrectorFactory(object):
         resolution_formula_code (str): code for the resolution formula you wish to use to compute
             the correction limit among the presets: "orbitrap" (default), "ft-icr", and "constant".
             This formula depends on your mass spectrometer.
+        charge (int): charge state of the metabolite (e.g. "-2").
 
     Raises:
         ValueError: wrong input
@@ -61,6 +62,7 @@ class MetaboliteCorrectorFactory(object):
         correct_NA_tracer = kwargs.pop("correct_NA_tracer", False)
         # Gather up parameters used for specific correctors
         resolution = kwargs.pop("resolution", None)
+        charge = kwargs.pop("charge", None)
         mz_of_resolution = kwargs.pop("mz_of_resolution", None)
         resolution_formula_code = kwargs.pop("resolution_formula_code", "orbitrap")
         # Choose a corrector
@@ -82,7 +84,8 @@ class MetaboliteCorrectorFactory(object):
                                                        derivative_formula=derivative_formula,
                                                        tracer_purity=tracer_purity,
                                                        correct_NA_tracer=correct_NA_tracer,
-                                                       resolution_formula_code=resolution_formula_code)
+                                                       resolution_formula_code=resolution_formula_code,
+                                                       charge=charge)
             except InterfaceMSCorrector.ImproperUsageError as reason:
                 logger.warning("Improper usage of HighResMetaboliteCorrector "
                                "by MetaboliteCorrectorFactory."
@@ -338,6 +341,7 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
             can use this parameter to provide a function returning the resolution at the mz of the metabolite.
             Use the same format as in :attr:`~RES_FORMULAS`.
             :attr:`~resolution_formula` has precedence over :attr:`~resolution_formula_code`.
+        charge (int): charge state of the metabolite (e.g. "-2").
     """
     # TODO: resolution_formula is confusing: remove feat?
     # Registered resolution formulas to compute local resolution
@@ -348,7 +352,7 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
         "constant": lambda mw, res, at_mz: 1.66*mw/res
     }
 
-    def __init__(self, formula, tracer, resolution, mz_of_resolution, resolution_formula_code, **kwargs):
+    def __init__(self, formula, tracer, resolution, mz_of_resolution, resolution_formula_code, charge, **kwargs):
         LowResMetaboliteCorrector.__init__(self, formula, tracer, **kwargs)
         # Some checks on the inputs
         try:
@@ -371,7 +375,14 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
                                       "Please provide the formula as resolution_formula"
                                       "parameter.".format(resolution_formula_code))
 
-        self._correction_limit = resolution_formula(float(self.molecular_weight), resolution, mz_of_resolution)
+        try:
+            charge = abs(int(charge))
+            if charge == 0:
+                raise ValueError(
+                    "'charge' parameter should not be 0 ({})".format(charge))
+        except:
+            raise ValueError("'charge' parameter should be a non-null integer ({})".format(charge))
+        self._correction_limit = resolution_formula(float(self.molecular_weight)/charge, resolution, mz_of_resolution) * charge
         self.threshold_p = None if self.molecular_weight < 500 else 1e-10
         precision_machine = 10**3 * np.finfo(float).eps
         if self.correction_limit >= 0.5:

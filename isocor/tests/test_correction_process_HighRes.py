@@ -126,7 +126,8 @@ def test_high_res_correction(data, data_iso):
                                                   derivative_formula=None,
                                                   mz_of_resolution=400,
                                                   correct_NA_tracer=data["correct_NA_tracer"],
-                                                  tracer_purity=data["tracer_purity"])
+                                                  tracer_purity=data["tracer_purity"],
+                                                  charge=1)
     _, v_corrected, _, _ = metabolite.correct(v_measured)
     # Compare corrected vs. expected data
     np.testing.assert_allclose(v_corrected, v_expected, rtol=1e-7)

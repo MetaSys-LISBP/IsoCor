@@ -1482,7 +1482,8 @@ def test_correction_process_misc(data, data_iso):
                                                     mz_of_resolution=400,
                                                     derivative_formula=derivative_formula,
                                                     correct_NA_tracer=data["correct_NA_tracer"],
-                                                    tracer_purity=data["tracer_purity"])
+                                                    tracer_purity=data["tracer_purity"],
+                                                    charge=1)
     LRmetabolite = hrcor.LowResMetaboliteCorrector(formula, data["tracer"], data_isotopes=data_iso,
                                                    correct_NA_tracer=data["correct_NA_tracer"],
                                                    derivative_formula=derivative_formula,

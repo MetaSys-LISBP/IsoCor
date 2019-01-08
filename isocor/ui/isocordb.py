@@ -106,12 +106,12 @@ class EnvComputing(object):
             raise ValueError(
                 "Metabolites database not found in:\n'{}'.".format(metabolitesfile))
         with open(str(metabolitesfile), 'r') as fp:
-            self.dfMetabolites = pd.read_csv(fp, delimiter='\t')
-        for i in ['name', 'formula']:
+            self.dfMetabolites = pd.read_csv(fp, delimiter='\t', converters={'charge': str})
+        for i in ['name', 'formula', 'charge']:
             if i not in self.dfMetabolites.columns:
                 raise ValueError("Column '{}' not found in 'Metabolites.dat'.".format(i))
         self._stripColNames(self.dfMetabolites)
-        self._stripCol(self.dfMetabolites, ['name', 'formula'])
+        self._stripCol(self.dfMetabolites, ['name', 'formula', 'charge'])
 
     def registerDatafile(self, datafile=Path("mydata.tsv")):
         if not Path(datafile).is_file():
@@ -155,6 +155,13 @@ class EnvComputing(object):
         except:
             raise ValueError(
                 "No formula provided in 'Metabolites.dat' for metabolite '{}'.".format(name))
+
+    def getMetaboliteCharge(self, name):
+        try:
+            return int(self.dfMetabolites[self.dfMetabolites['name'] == name]['charge'].values[0])
+        except:
+            raise ValueError(
+                "No charge provided in 'Metabolites.dat' for metabolite '{}'.".format(name))
 
     def getDerivativeFormula(self, name):
         try:

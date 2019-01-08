@@ -81,7 +81,8 @@ def test_isoclust_against_bruteforce(formula, data_iso, usr_tolerance):
                                                   derivative_formula=None,
                                                   tracer_purity=None,
                                                   data_isotopes=data_iso,
-                                                  correct_NA_tracer=False)
+                                                  correct_NA_tracer=False,
+                                                  charge=1)
     metabolite.threshold_p = None
     ic_optimized = metabolite.get_isotopic_cluster()
     # Check that all isotopomeres are taken into account
