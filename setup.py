@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="IsoCor",
-    version="2.0.5",
+    version="2.0.6",
     author="Pierre Millard, Baudoin Delépine, Matthieu Guionnet",
     author_email="millard@insa-toulouse.fr",
     description="IsoCor: Isotope Correction for mass spectrometry labeling experiments",

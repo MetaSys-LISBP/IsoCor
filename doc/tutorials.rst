@@ -116,9 +116,10 @@ This file stores **elemental formulas of the metabolites**.
 
 It is a TSV file with the following columns:
 
-:name: Metabolite name or abbreviation, e.g: "pyruvic acid" or "PYR".
+:name: Metabolite name or abbreviation; e.g. "pyruvic acid" or "PYR".
 :formula: Elemental formula of the metabolite moiety of the molecular entity that
-          gives rise to the measured :ref:`isotopic cluster <isotopic cluster>`; e.g: "C\ :sub:`3`\ H\ :sub:`4`\ O\ :sub:`3`\ ". See also :ref:`Formulas`.
+          gives rise to the measured :ref:`isotopic cluster <isotopic cluster>`; e.g. "C\ :sub:`3`\ H\ :sub:`4`\ O\ :sub:`3`\ ". See also :ref:`Formulas`.
+:charge: Charge state of the detected ion; e.g. "-1" for singly-charge ions or "-2" for doubly-charge ions.
 
 :download:`Example file <../isocor/data/Metabolites.dat>`.
 
@@ -135,9 +136,9 @@ MS analysis.
 
 It is a TSV file with the following columns:
 
-:name: Derivative name or abbrevation, e.g: "t-butyldimethyl-silylation" or "M-57".
+:name: Derivative name or abbrevation; e.g. "t-butyldimethyl-silylation" or "M-57".
 :formula: Elemental formula of the derivative moiety of the molecular entity that
-          gives rise to the measured :ref:`isotopic cluster <isotopic cluster>`; e.g: "Si\ :sub:`2`\ C\ :sub:`8`\ H\ :sub:`21`\ ". See also :ref:`Formulas`.
+          gives rise to the measured :ref:`isotopic cluster <isotopic cluster>`; e.g. "Si\ :sub:`2`\ C\ :sub:`8`\ H\ :sub:`21`\ ". See also :ref:`Formulas`.
 
 :download:`Example file <../isocor/data/Derivatives.dat>`.
 

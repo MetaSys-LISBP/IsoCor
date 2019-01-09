@@ -30,6 +30,7 @@ and can be downloaded as a `PDF file <https://readthedocs.org/projects/isocor/do
 * **correction of tracer purity**,
 * shipped as a library with both a **graphical and command line interface**,
 * mass-spectrometer and :ref:`resolution <resolution>` agnostic,
+* can be applied to singly- and multiply-charged ions
 * can be used with any tracer element (having two or more isotopes)
 * account for the contribution of derivatization steps (if any),
 * open-source, free and easy to install everywhere where Python 3 and pip run,
