@@ -162,9 +162,14 @@ class GUIinterface(ttk.Frame):
         except Exception as err:
             messagebox.showerror("Error", err)
             return
+        if self.formulaEntered.get() == 'datafile':
+            useformula = False
+        else:
+            useformula = True
+
         try:
             input_file = self.varInputPath.get()
-            self.baseenv.registerDatafile(input_file)
+            self.baseenv.registerDatafile(input_file, useformula)
             fin_base = str(Path(input_file).stem)
         except Exception as err:
             messagebox.showerror("Error", err)
@@ -194,8 +199,9 @@ class GUIinterface(ttk.Frame):
         if self.chVarHR.get():
             self.logger.info("      mode: high-resolution")
             self.logger.info("         formula code: {}".format(resolution_formula_code))
-            self.logger.info("         instrument resolution: {}".format(resolution))
-            if resolution_formula_code != 'constant':
+            if useformula:
+                self.logger.info("         instrument resolution: {}".format(resolution))
+            if resolution_formula_code not in ['datafile', 'constant']:
                 self.logger.info("         at mz: {}".format(mz_of_resolution))
         else:
             self.logger.info("      mode: low-resolution")
@@ -207,7 +213,7 @@ class GUIinterface(ttk.Frame):
         errors = {'labels':[], 'measurements':[]}
 
         # construct correctors for all (metabolite, derivative)
-        labels = self.baseenv.getLabelsList()
+        labels = self.baseenv.getLabelsList(useformula)
         self.logger.info('------------------------------------------------')
         self.logger.info('Constructing correctors for all (metabolite, derivative)...')
         self.logger.info('------------------------------------------------')
@@ -216,6 +222,9 @@ class GUIinterface(ttk.Frame):
             try:
                 self.logger.debug("constructing {}...".format(label))
                 if self.chVarHR.get():
+                    if not useformula:
+                        resolution = label[2]
+                        resolution_formula_code = 'constant'
                     dictMetabolites[label] = hr.MetaboliteCorrectorFactory(
                             formula=self.baseenv.getMetaboliteFormula(label[0]), tracer=tracer, resolution=resolution, label=label[0],
                             data_isotopes=data_isotopes, mz_of_resolution=mz_of_resolution,
@@ -242,7 +251,7 @@ class GUIinterface(ttk.Frame):
         df = pd.DataFrame()
         for label in labels:
             metabo = dictMetabolites[label]
-            series, series_err = self.baseenv.getDataSerie(label)
+            series, series_err = self.baseenv.getDataSerie(label, useformula)
             for s_err in series_err:
                 errors['measurements'] = errors['measurements'] + ["{} - {}".format(s_err, label)]
                 self.logger.error("{} - {}: Measurement vector is incomplete, some isotopologues are not provided.".format(s_err, label))
@@ -272,7 +281,10 @@ class GUIinterface(ttk.Frame):
         self.logger.info("Correction process summary")
         self.logger.info('------------------------------------------------')
         self.logger.info("   number of samples: {}".format(len(self.baseenv.getSamplesList())))
-        self.logger.info("   number of (metabolite, derivative): {}".format(len(labels)))
+        if useformula:
+            self.logger.info("   number of (metabolite, derivative): {}".format(len(labels)))
+        else:
+            self.logger.info("   number of (metabolite, derivative, resolution): {}".format(len(labels)))
         nb_errors = len(errors['labels']) + len(errors['measurements'])
         self.logger.info("   errors: {}".format(nb_errors))
         if nb_errors:
@@ -350,12 +362,34 @@ class GUIinterface(ttk.Frame):
         self.enableAtmz(None)
 
     def enableAtmz(self, event):
-        if self.formulaEntered.get() == 'constant' or not self.chVarHR.get():
+        if not self.chVarHR.get():
             self.mzEntry.configure(state='disable')
             self.mzlbl.configure(state='disable')
+            self.masslbl.configure(state='disable')
+            self.massEntry.configure(state='disable')
+            self.formulalbl.configure(state='disable')
+            self.formulaEntered.configure(state="disabled")
+        elif self.formulaEntered.get() == 'constant':
+            self.mzEntry.configure(state='disable')
+            self.mzlbl.configure(state='disable')
+            self.masslbl.configure(state='enable')
+            self.massEntry.configure(state='enable')
+            self.formulalbl.configure(state='enable')
+            self.formulaEntered.configure(state="readonly")
+        elif self.formulaEntered.get() == 'datafile':
+            self.mzEntry.configure(state='disable')
+            self.mzlbl.configure(state='disable')
+            self.masslbl.configure(state='disable')
+            self.massEntry.configure(state='disable')
+            self.formulalbl.configure(state='enable')
+            self.formulaEntered.configure(state="readonly")
         else:
             self.mzEntry.configure(state='enable')
             self.mzlbl.configure(state='enable')
+            self.masslbl.configure(state='enable')
+            self.massEntry.configure(state='enable')
+            self.formulalbl.configure(state='enable')
+            self.formulaEntered.configure(state="readonly")
 
     def updatePurity(self, event):
         tracer = self.baseenv.dfIsotopes[self.baseenv.dfIsotopes['subscriptName']
@@ -426,7 +460,7 @@ class GUIinterface(ttk.Frame):
         self.varMZ = tk.StringVar()
         self.varMass.set("60000")
         self.varMZ.set('400.0')
-        masslbl = ttk.Label(self.highResFrame, text="instrument resolution")
+        self.masslbl = ttk.Label(self.highResFrame, text="instrument resolution")
         self.massEntry = ttk.Entry(
             self.highResFrame, textvariable=self.varMass)
         self.mzlbl = ttk.Label(self.highResFrame, text="at m/z")
@@ -479,7 +513,7 @@ class GUIinterface(ttk.Frame):
         self.highResFrame.grid(column=0, row=3, sticky='NWE', )
         self.formulalbl.grid(column=0, row=0, sticky='NW')
         self.formulaEntered.grid(column=0, row=1, sticky='NW')
-        masslbl.grid(column=0, row=2, sticky='NW')
+        self.masslbl.grid(column=0, row=2, sticky='NW')
         self.massEntry.grid(column=0, row=3, sticky='NW')
         self.mzlbl.grid(column=1, row=2, sticky='NW')
         self.mzEntry.grid(column=1, row=3, sticky='NW')
