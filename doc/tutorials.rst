@@ -49,6 +49,7 @@ The measurement file is a TSV file with one row by :ref:`isotopologue <isotopolo
 :derivative: The derivative name (optional) that represents the derivative moiety, as it is referred in the derivative database (*derivatives.dat*); e.g. "TMS".
 :isotopologue: The index of the peak measured, as an integer; e.g. '0' for the M0 peak that does not have any mass shift.
 :area: The measured :ref:`mass fractions <mass fractions>`; e.g. "4242.42".
+:resolution (optional): The MS resolution of the corresponding :ref:`mass fractions <mass fractions>`; e.g. "60000". Note the *all* mass fractions of a given isotopic cluster must have the same resolution.
 
 :download:`Example file <../isocor/data/Data_example.tsv>`.
 
@@ -175,7 +176,7 @@ in terms of isotopic tracer, sample processing,
 :Isotopic tracer: The tracer used for your experiment. Available tracers are imported from *isotopes.dat* database file.
 :Resolution: :ref:`Resolution` of the MS analyzer.
 :Resolution measured at: m/z at which the :ref:`resolution <resolution>` is given.
-:Resolution formula: The relationship between the operating :ref:`resolution <resolution>` and the resolution at m/z of the measured metabolite moiety depends on the MS analyzer, which has to be selected.
+:Resolution formula: The relationship between the operating :ref:`resolution <resolution>` and the resolution at m/z of the measured metabolite moiety depends on the MS analyzer, which has to be selected. If 'datafile' is selected, resolution should be provided for all mass fractions in the measurements file.
 :Tracer purity: Correct for the presence of unlabeled atoms at labeled positions, using the relative abundance of each isotope of the tracer element at labeled positions. Default is to assume a perfect purity (i.e. tracer isotope=1).
 :Correct natural abundance of the tracer element: Correct for natural abundance of the tracer element at unlabeled positions. Default is no correction.
 :Output data path: Path to the :ref:`Output data`. A log file with the same name will be created in the same directory, with a '.log' extension.
@@ -342,6 +343,9 @@ for FT-ICR and Orbitrap analyzers.
 
 We have also implemented an option to set a "constant resolution", i.e. which is considered to be
 independent of the m/z.
+
+Finally, the option "datafile" allows users to provide resolution of each mass fraction directly in the measurements file. Note that resolution must be the same for *all*
+peaks of a given isotopic cluster.
 
 .. note::
           If you want to use IsoCor with a high-resolution MS instrument
