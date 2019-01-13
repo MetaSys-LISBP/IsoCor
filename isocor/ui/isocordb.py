@@ -13,7 +13,7 @@ class EnvComputing(object):
     """Share methods for interfaces"""
 
     def __init__(self, home=expanduser('~')):
-        self.formulas_code = list(hr.HighResMetaboliteCorrector.RES_FORMULAS) + ['datafile']
+        self.formulas_code = list(hr.HighResMetaboliteCorrector.RES_FORMULAS)
         self.formulas_code = self._putfirst(self.formulas_code, 'orbitrap')
         # initialize paths
         self.home = Path(home)

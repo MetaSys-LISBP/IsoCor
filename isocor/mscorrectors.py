@@ -349,7 +349,8 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
     RES_FORMULAS = {
         "orbitrap": lambda mw, res, at_mz: 1.66*mw**(3/2)/(res*math.sqrt(at_mz)),
         "ft-icr": lambda mw, res, at_mz: 1.66*mw**(3/2)/(res*math.sqrt(at_mz)),
-        "constant": lambda mw, res, at_mz: 1.66*mw/res
+        "constant": lambda mw, res, at_mz: 1.66*mw/res,
+        "datafile": lambda mw, res, at_mz: 1.66*mw/res
     }
 
     def __init__(self, formula, tracer, resolution, mz_of_resolution, resolution_formula_code, charge, **kwargs):

@@ -37,7 +37,6 @@ def process(args):
         baseenv.registerMetabolitesDB(Path(args.M))
     else:
         baseenv.registerMetabolitesDB()
-    baseenv.registerDatafile(Path(args.inputdata))
 
     # get correction parameters
     data_isotopes = baseenv.dictIsotopes
@@ -51,6 +50,10 @@ def process(args):
     resolution = getattr(args, 'resolution', None)
     mz_of_resolution = getattr(args, 'mz_of_resolution', None)
     resolution_formula_code = getattr(args, 'resolution_formula_code', None)
+    if resolution_formula_code == 'datafile':
+        useformula = False
+    else:
+        useformula = True
     HRmode = resolution or mz_of_resolution or resolution_formula_code
     if HRmode:
         if not resolution:
@@ -68,6 +71,8 @@ def process(args):
         if mz_of_resolution <= 0:
             raise ValueError(
                 "mz at which resolution is measured '{}' should be a positive number.".format(mz_of_resolution))
+
+    baseenv.registerDatafile(Path(args.inputdata), useformula)
 
     # log general information on the process
     logger.info('------------------------------------------------')
@@ -90,7 +95,8 @@ def process(args):
         logger.info("      mode: high-resolution")
         logger.info("         formula code: {}".format(
             resolution_formula_code))
-        logger.info("         instrument resolution: {}".format(resolution))
+        if useformula:
+            logger.info("         instrument resolution: {}".format(resolution))
         if resolution_formula_code != 'constant':
             logger.info("         at mz: {}".format(mz_of_resolution))
     else:
@@ -102,7 +108,7 @@ def process(args):
     # initialize error dict
     errors = {'labels': [], 'measurements': []}
 
-    labels = baseenv.getLabelsList()
+    labels = baseenv.getLabelsList(useformula)
     logger.info('------------------------------------------------')
     logger.info('Constructing correctors for all (metabolite, derivative)...')
     logger.info('------------------------------------------------')
@@ -111,6 +117,9 @@ def process(args):
         try:
             logger.debug("constructing {}...".format(label))
             if HRmode:
+                if not useformula:
+                    resolution = label[2]
+                    resolution_formula_code = 'constant'
                 dictMetabolites[label] = hr.MetaboliteCorrectorFactory(
                     formula=baseenv.getMetaboliteFormula(label[0]), tracer=tracer, resolution=resolution, label=label[0],
                     data_isotopes=data_isotopes, mz_of_resolution=mz_of_resolution,
@@ -135,7 +144,7 @@ def process(args):
     df = pd.DataFrame()
     for label in labels:
         metabo = dictMetabolites[label]
-        series, series_err = baseenv.getDataSerie(label)
+        series, series_err = baseenv.getDataSerie(label, useformula)
         for s_err in series_err:
             errors['measurements'] = errors['measurements'] + ["{} - {}".format(s_err, label)]
             logger.error("{} - {}: Measurement vector is incomplete, some isotopologues are not provided.".format(s_err, label))
@@ -167,7 +176,10 @@ def process(args):
     logger.info('------------------------------------------------')
     logger.info("   number of samples: {}".format(
         len(baseenv.getSamplesList())))
-    logger.info("   number of (metabolite, derivative): {}".format(len(labels)))
+    if useformula:
+        logger.info("   number of (metabolite, derivative): {}".format(len(labels)))
+    else:
+        logger.info("   number of (metabolite, derivative, resolution): {}".format(len(labels)))
     nb_errors = len(errors['labels']) + len(errors['measurements'])
     logger.info("   errors: {}".format(nb_errors))
     if nb_errors:
