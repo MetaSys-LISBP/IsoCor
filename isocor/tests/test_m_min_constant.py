@@ -32,13 +32,10 @@ import isocor as hrcor
                                    "charge": 2,
                                    "m_min_expected": 0.003984}])
 def test_m_min_constant(data, data_iso):
-    """Test calculation of the minimal *mass* difference required to resolve two isotopic species
-    of a labeled chemical.
-    
-    The minimal *mass* difference required to separate two isotopic species of a labeled chemical
-    correspond to the minimal difference of mz to distinguish two MS peaks at the operating resolution 
-    multiplied by the charge. The minimal mz difference is calculated at the operating 
-    resolution using 'resolution_formula' 'constant' at the mz of the labeled chemical.
+    """Calculation of the minimal *mass* difference (m_min) required to resolve two isotopic species
+    of a labeled chemical at different resolution (10000, 100000) & charge (1, 2) for 'constant' resolution.
+    m_min calculated by IsoCor is compared to the expected value (provided in the fixture) and to the
+    theoretical value (equation provided below).
     """
     charge = data["charge"]
     mw = data["nC"]*float(data_iso["C"]["mass"][0])
