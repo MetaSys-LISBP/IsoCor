@@ -20,7 +20,17 @@ import isocor as hrcor
                                    "nC": 20,
                                    "resolution": 10000,
                                    "charge": 2,
-                                   "m_min_expected": 0.03984}])
+                                   "m_min_expected": 0.03984},
+                                   {"formula": "C20",
+                                   "nC": 20,
+                                   "resolution": 100000,
+                                   "charge": 1,
+                                   "m_min_expected": 0.003984},
+                                   {"formula": "C20",
+                                   "nC": 20,
+                                   "resolution": 100000,
+                                   "charge": 2,
+                                   "m_min_expected": 0.003984}])
 def test_m_min_constant(data, data_iso):
     """Test calculation of the minimal *mass* difference required to resolve two isotopic species
     of a labeled chemical.
