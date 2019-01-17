@@ -14,23 +14,19 @@ import isocor as hrcor
 @pytest.mark.parametrize("data", [{"formula": "C20",
                                    "nC": 20,
                                    "resolution": 10000,
-                                   "charge": 1,
-                                   "m_min_expected": 0.03984},
+                                   "charge": 1},
                                    {"formula": "C20",
                                    "nC": 20,
                                    "resolution": 10000,
-                                   "charge": 2,
-                                   "m_min_expected": 0.03984},
+                                   "charge": 2},
                                    {"formula": "C20",
                                    "nC": 20,
                                    "resolution": 100000,
-                                   "charge": 1,
-                                   "m_min_expected": 0.003984},
+                                   "charge": 1},
                                    {"formula": "C20",
                                    "nC": 20,
                                    "resolution": 100000,
-                                   "charge": 2,
-                                   "m_min_expected": 0.003984}])
+                                   "charge": 2}])
 def test_m_min_constant(data, data_iso):
     """Calculation of the minimal *mass* difference (m_min) required to resolve two isotopic species
     of a labeled chemical at different resolution (10000, 100000) & charge (1, 2) for 'constant' resolution.
@@ -41,8 +37,6 @@ def test_m_min_constant(data, data_iso):
     charge = data["charge"]
     mw = data["nC"]*float(data_iso["C"]["mass"][0])
     mz = mw/charge
-    # Expected mmin
-    m_min_expected = data["m_min_expected"]
     # Theoretical mmin 
     m_min_th = 1.66 * mw/charge/data["resolution"]*charge
     # Estimated mmin
@@ -67,7 +61,5 @@ def test_m_min_constant(data, data_iso):
                                                   charge=charge)
     m_min_isocor_factory = float(metabolite_factory._correction_limit)
     # Compare estimated, theoretical and expected minimal mass difference to resolve two isotopic species
-    np.testing.assert_allclose(m_min_isocor_hr, m_min_expected, rtol=1e-7, atol=1e-7)
     np.testing.assert_allclose(m_min_isocor_hr, m_min_th, rtol=1e-7, atol=1e-7)
-    np.testing.assert_allclose(m_min_isocor_factory, m_min_expected, rtol=1e-7, atol=1e-7)
     np.testing.assert_allclose(m_min_isocor_factory, m_min_th, rtol=1e-7, atol=1e-7)
