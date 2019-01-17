@@ -12,7 +12,7 @@ def test_MetaboliteCorrectorFactory(data_iso):
     assert isinstance(x, hrcor.mscorrectors.LowResMetaboliteCorrector)
     # High resolution
     x = hrcor.MetaboliteCorrectorFactory("C3H7O6P", '13C', data_isotopes=data_iso,
-                                         resolution=1e4, mz_of_resolution=400)
+                                         resolution=1e4, mz_of_resolution=400, charge=1)
     assert isinstance(x, hrcor.mscorrectors.HighResMetaboliteCorrector)
 
 

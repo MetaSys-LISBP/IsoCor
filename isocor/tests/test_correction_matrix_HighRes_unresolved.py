@@ -160,7 +160,8 @@ def test_high_res_cor_matrix_unresolved(data, data_iso, usr_tolerance):
                                                   tracer_purity=data["tracer_purity"],
                                                   resolution=data["resolution"],
                                                   mz_of_resolution=data["mz_of_resolution"],
-                                                  derivative_formula=data["derivative_formula"])
+                                                  derivative_formula=data["derivative_formula"],
+                                                  charge=1)
     correction_matrix = metabolite.compute_correction_matrix()
     # Test against expected matrix
     p1H = data_iso["H"]["abundance"][0]

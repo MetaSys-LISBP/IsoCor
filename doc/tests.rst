@@ -6,7 +6,7 @@ Unit tests
 Isotope correction is a complex task and we use (some) unit tests to make sure
 that critical features are not compromised during development.
 
-A total of 307 tests has been designed to test IsoCor from individual steps
+A total of 318 tests has been designed to test IsoCor from individual steps
 (e.g. calculation of theoretical :ref:`mass fractions <mass fractions>` or correction matrices) to the
 entire correction process.
 Importantly, most of the tests compare intermediate (e.g. correction matrix) or
@@ -36,6 +36,16 @@ Isotopic clusters
    :members:
 
 .. automodule:: isocor.tests.test_isotopic_cluster_HighRes
+   :members:
+
+
+Minimal mass difference to distinguish two isotopic species
+--------------------------------------------------------------------------------
+
+.. automodule:: isocor.tests.test_m_min_constant
+   :members:
+
+.. automodule:: isocor.tests.test_m_min_orbitrap
    :members:
 
 

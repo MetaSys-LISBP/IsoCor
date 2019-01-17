@@ -106,19 +106,22 @@ class EnvComputing(object):
             raise ValueError(
                 "Metabolites database not found in:\n'{}'.".format(metabolitesfile))
         with open(str(metabolitesfile), 'r') as fp:
-            self.dfMetabolites = pd.read_csv(fp, delimiter='\t')
-        for i in ['name', 'formula']:
+            self.dfMetabolites = pd.read_csv(fp, delimiter='\t', converters={'charge': str})
+        for i in ['name', 'formula', 'charge']:
             if i not in self.dfMetabolites.columns:
                 raise ValueError("Column '{}' not found in 'Metabolites.dat'.".format(i))
         self._stripColNames(self.dfMetabolites)
-        self._stripCol(self.dfMetabolites, ['name', 'formula'])
+        self._stripCol(self.dfMetabolites, ['name', 'formula', 'charge'])
 
-    def registerDatafile(self, datafile=Path("mydata.tsv")):
+    def registerDatafile(self, datafile=Path("mydata.tsv"), useformula=True):
         if not Path(datafile).is_file():
             raise ValueError("No data file selected.")
         with open(str(datafile), 'r') as fp:
             self.dfDatafile = pd.read_csv(fp, delimiter='\t')
-        for i in ['sample', 'metabolite', 'derivative', 'area', 'isotopologue']:
+        tocheck = ['sample', 'metabolite', 'derivative', 'area', 'isotopologue']
+        if not useformula:
+            tocheck.append('resolution')
+        for i in tocheck:
             if i not in self.dfDatafile.columns:
                 raise ValueError("Column '{}' not found in the data file.".format(i))
         # check data types to return an explicit error
@@ -134,17 +137,33 @@ class EnvComputing(object):
                 raise ValueError("Error in data file at line {}:\nisotopologue={!r}".format(i+2, item))
         self.dfDatafile[['area']] = self.dfDatafile[['area']].astype(np.float64)
         self.dfDatafile[['isotopologue']] = self.dfDatafile[['isotopologue']].astype(int)
+        if not useformula:
+            for i, item in enumerate(self.dfDatafile['resolution']):
+                try:
+                    int(item)
+                except:
+                    raise ValueError("Error in data file at line {}:\nresolution={!r}".format(i+2, item))
+            self.dfDatafile[['resolution']] = self.dfDatafile[['resolution']].astype(str)
 
         self.dfDatafile['derivative'].fillna('', inplace=True)
         if self.dfDatafile.empty:
             raise ValueError("Data file is empty.")
         self._stripColNames(self.dfDatafile)
-        self._stripCol(self.dfDatafile, ['sample', 'metabolite', 'derivative'])
-        self._groupbyDatafile = self.dfDatafile.groupby(
-            by=['metabolite', 'derivative', 'sample'])
 
-    def getLabelsList(self):
-        return [tuple(i) for i in self.dfDatafile[['metabolite', 'derivative']].drop_duplicates().values]
+        if useformula:
+            self._stripCol(self.dfDatafile, ['sample', 'derivative', 'metabolite'])
+            self._groupbyDatafile = self.dfDatafile.groupby(
+                by=['metabolite', 'derivative', 'sample'])
+        else:
+            self._stripCol(self.dfDatafile, ['sample', 'metabolite', 'derivative', 'resolution'])
+            self._groupbyDatafile = self.dfDatafile.groupby(
+                by=['metabolite', 'derivative', 'resolution', 'sample'])
+
+    def getLabelsList(self, useformula):
+        if useformula:
+            return [tuple(i) for i in self.dfDatafile[['metabolite', 'derivative']].drop_duplicates().values]
+        else:
+            return [tuple(i) for i in self.dfDatafile[['metabolite', 'derivative', 'resolution']].drop_duplicates().values]
 
     def getSamplesList(self):
         return [tuple(i) for i in self.dfDatafile[['sample']].drop_duplicates().values]
@@ -155,6 +174,13 @@ class EnvComputing(object):
         except:
             raise ValueError(
                 "No formula provided in 'Metabolites.dat' for metabolite '{}'.".format(name))
+
+    def getMetaboliteCharge(self, name):
+        try:
+            return int(self.dfMetabolites[self.dfMetabolites['name'] == name]['charge'].values[0])
+        except:
+            raise ValueError(
+                "No charge provided in 'Metabolites.dat' for metabolite '{}'.".format(name))
 
     def getDerivativeFormula(self, name):
         try:
@@ -173,13 +199,17 @@ class EnvComputing(object):
         else:
             return tupleNames[0]
 
-    def getDataSerie(self, tupleNames):
+    def getDataSerie(self, tupleNames, useformula):
         l, l_err = [], []
+        if useformula:
+            length = 2
+        else:
+            length = 3
         for i, j in self._groupbyDatafile:
-            if i[:2] == tupleNames:
+            if i[:length] == tupleNames:
                 try:
-                    p=j.sort_values(by=['isotopologue'])
-                    l.append([i[2], list(p.area.values)])
+                    p = j.sort_values(by=['isotopologue'])
+                    l.append([i[length], list(p.area.values)])
                 except:
-                    l_err.append(i[2])
+                    l_err.append(i[length])
         return l, l_err

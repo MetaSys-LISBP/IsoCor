@@ -24,19 +24,19 @@ What are the alternatives to IsoCor?
 You will find scripts for correction of HRMS data out there, but we won’t recommend any since,
 to the best of our knowledge, they implement algorithms that partly fail for high-resolution datasets (see IsoCor v2 publication).
 
-+--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------+---------------------------+
-| Tool         | Has GUI? | MS resolution?       | Tracers?                                                            | Reference                                                        | Comment                   |
-+==============+==========+======================+=====================================================================+==================================================================+===========================+
-| AccuCor      | No       | All                  | :sup:`2`\ H, :sup:`13`\ C, :sup:`15`\ N                             | `Su et al. 2017 <https://doi.org/10.1021/acs.analchem.7b00396>`_ | Faulty at High-resolution |
-+--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------+---------------------------+
-| PyNAC        | No       | UltraHigh only       | :sup:`2`\ H, :sup:`13`\ C, :sup:`15`\ N                             | `Carreer et al. 2013 <https://doi.org/10.3390/metabo3040853>`_   | none                      |
-+--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------+---------------------------+
-| IsoCorrectoR | No       | Low & UltraHigh only | All                                                                 | `GitHub project <https://github.com/chkohler/IsoCorrectoR>`__    | none                      |
-+--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------+---------------------------+
-| ElemCor      | Yes      | All                  | :sup:`2`\ H, :sup:`13`\ C, :sup:`15`\ N, :sup:`18`\ O, :sup:`34`\ S | `GitHub project <https://github.com/4dsoftware/elemcor>`__       | Faulty at High-resolution |
-+--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------+---------------------------+
-| IsoCor       | Yes      | All                  | All                                                                 | `GitHub project <https://github.com/MetaSys-LISBP/IsoCor_v2>`__  | none                      |
-+--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------+---------------------------+
++--------------+----------+----------------------+---------------------------------------------------------------------+----------------------------------------------------------------------+---------------------------+
+| Tool         | Has GUI? | MS resolution?       | Tracers?                                                            | Reference                                                            | Comment                   |
++==============+==========+======================+=====================================================================+======================================================================+===========================+
+| AccuCor      | No       | All                  | :sup:`2`\ H, :sup:`13`\ C, :sup:`15`\ N                             | `Su et al. 2017 <https://doi.org/10.1021/acs.analchem.7b00396>`_     | Faulty at High-resolution |
++--------------+----------+----------------------+---------------------------------------------------------------------+----------------------------------------------------------------------+---------------------------+
+| PyNAC        | No       | UltraHigh only       | :sup:`2`\ H, :sup:`13`\ C, :sup:`15`\ N                             | `Carreer et al. 2013 <https://doi.org/10.3390/metabo3040853>`_       | none                      |
++--------------+----------+----------------------+---------------------------------------------------------------------+----------------------------------------------------------------------+---------------------------+
+| IsoCorrectoR | No       | Low & UltraHigh only | All                                                                 | `Heinrich et al. 2018 <https://doi.org/10.1038/s41598-018-36293-4>`_ | none                      |
++--------------+----------+----------------------+---------------------------------------------------------------------+----------------------------------------------------------------------+---------------------------+
+| ElemCor      | Yes      | All                  | :sup:`2`\ H, :sup:`13`\ C, :sup:`15`\ N, :sup:`18`\ O, :sup:`34`\ S | `GitHub project <https://github.com/4dsoftware/elemcor>`_            | Faulty at High-resolution |
++--------------+----------+----------------------+---------------------------------------------------------------------+----------------------------------------------------------------------+---------------------------+
+| IsoCor v2    | Yes      | All                  | All                                                                 | `GitHub project <https://github.com/MetaSys-LISBP/IsoCor>`_          | none                      |
++--------------+----------+----------------------+---------------------------------------------------------------------+----------------------------------------------------------------------+---------------------------+
 
 .. note:: If you would like your software to appear in this list, please get in touch with us.
 
@@ -72,6 +72,13 @@ Obviously, errors in elemental formulas will result in erroneous
 :ref:`isotopologue distributions <isotopologue distribution>`; thus special care must be taken
 when defining these formulas. Details on the elemental formulas to be declared in IsoCor
 can be found in :ref:`Tutorial section on formulas <formulas>`.
+
+
+Is it possible to correct multiply-charged molecules?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Yes, IsoCor takes into account the charge when constructing the correction matrix. 
+The charge state of each metabolite should be declared in the corresponding database file, 
+as detailed in :ref:`Input data`.
 
 
 Should I tailor natural abundance of isotopes for my experiment?

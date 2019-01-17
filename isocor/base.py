@@ -64,7 +64,7 @@ class LabelledChemical(object):
                               "mass": [D('27.976926535'), D('28.976494665'), D('29.9737701')]}}
 
     def __init__(self, formula, tracer, derivative_formula, tracer_purity,
-                 correct_NA_tracer, data_isotopes, label=None):
+                 correct_NA_tracer, data_isotopes, charge=None, label=None):
         """Initialize a new LabelledChemical with its associated data."""
         # Load data_isotope first as it is critical for the other attributes
         self._data_isotopes = self.DEFAULT_ISODATA if data_isotopes is None else data_isotopes
@@ -80,6 +80,13 @@ class LabelledChemical(object):
         self._str_formula = formula
         self._str_derivative_formula = derivative_formula if derivative_formula is not None else ""
         self._str_tracer_code = tracer
+        try:
+            self._charge = None if charge is None else abs(int(charge))
+            if self._charge == 0:
+                raise ValueError(
+                    "'charge' parameter should not be 0 ({})".format(charge))
+        except:
+            raise ValueError("'charge' parameter should be a non-null integer ({})".format(charge))
         # Protected attributes (user should not see them, but must stay available in sub-class)
         self._tracer_el, self._idx_tracer = self._parse_strtracer(
             self._str_tracer_code)
@@ -120,6 +127,11 @@ class LabelledChemical(object):
             self._derivative_formula = self._parse_strformula(
                 self._str_derivative_formula)
         return self._derivative_formula
+
+    @property
+    def charge(self):
+        """int: absolute value of the charge of the metabolite."""
+        return self._charge
 
     @property
     def tracer_purity(self):
