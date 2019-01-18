@@ -1,6 +1,6 @@
 # IsoCor - **Iso**tope **Cor**rection for mass spectrometry labeling experiments
 
-[![PyPI version](https://badge.fury.io/py/isocor.svg)](https://badge.fury.io/py/isocor)
+[![PyPI version](https://badge.fury.io/py/IsoCor.svg)](https://badge.fury.io/py/IsoCor)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/isocor.svg)](https://pypi.python.org/pypi/isocor/)
 [![Build Status](https://travis-ci.com/MetaSys-LISBP/IsoCor.svg?branch=master)](https://travis-ci.com/MetaSys-LISBP/IsoCor)
 [![Documentation Status](https://readthedocs.org/projects/isocor/badge/?version=latest)](http://isocor.readthedocs.io/?badge=latest)
