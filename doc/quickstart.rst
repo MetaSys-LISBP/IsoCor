@@ -89,7 +89,7 @@ Here after the available options with their full names are enumerated and detail
 .. argparse::
    :module: isocor.ui.isocorcli
    :func: parseArgs
-   :prog: isocor
+   :prog: isocorcli
    :nodescription:
 
 IsoCor proceeds automatically to the corrections and display its progress
