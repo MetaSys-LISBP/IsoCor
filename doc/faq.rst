@@ -59,8 +59,13 @@ Can I perform correction in case of missing values?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Mass fractions cannot be corrected in case of missing measurement(s). For instance, in a C\ :sub:`2`\  compound 
 for which M\ :sub:`2`\  is not measured, one cannot estimate the contribution of the corresponding isotopologue 
-– through (im)purity of the isotopic tracer – to M\ :sub:`1`\  or M\ :sub:`0`\. Hence, these mass fractions 
-cannot be corrected.
+– through (im)purity of the isotopic tracer – to M\ :sub:`1`\  or M\ :sub:`0`\ . Hence, these mass fractions 
+cannot be corrected for purity. As another example, in a C\ :sub:`3`\  compound for which M\ :sub:`2`\  is 
+not measured, one cannot estimate its contribution – through natural abundance – to M\ :sub:`3`\. Here again, these 
+mass fractions cannot be corrected for natural abundance of isotopes.
+
+To avoid correction errors and misinterpretation of the correction results, we have prefered to not allow correction 
+to be applied in case of missing values.
 
 
 How to add a new metabolite/derivative into the database?
