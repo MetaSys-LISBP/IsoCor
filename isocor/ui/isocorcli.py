@@ -38,41 +38,51 @@ def process(args):
     else:
         baseenv.registerMetabolitesDB()
 
-    # get correction parameters
-    data_isotopes = baseenv.dictIsotopes
-    tracer = args.tracer
-    tracer_purity = getattr(args, 'tracer_purity', None)
-    if tracer_purity:
-        if any(i < 0 for i in tracer_purity) or any(i > 1 for i in tracer_purity) or sum(tracer_purity) != 1:
+    try:
+        # get correction parameters
+        data_isotopes = baseenv.dictIsotopes
+        tracer = args.tracer
+        if not(tracer in baseenv.dfIsotopes['name'].unique()):
             raise ValueError(
-                "Purity values ({}) should be within the range [0, 1], and their sum should be 1.".format(tracer_purity))
-    correct_NA_tracer = True if hasattr(args, 'correct_NA_tracer') else False
-    resolution = getattr(args, 'resolution', None)
-    mz_of_resolution = getattr(args, 'mz_of_resolution', None)
-    resolution_formula_code = getattr(args, 'resolution_formula_code', None)
-    if resolution_formula_code == 'datafile':
-        useformula = False
-    else:
-        useformula = True
-    HRmode = resolution or mz_of_resolution or resolution_formula_code
-    if HRmode:
-        if not resolution:
-            raise ValueError(
-                "Applying correction to high-resolution data: 'resolution' should be provided.")
-        if not mz_of_resolution:
-            raise ValueError(
-                "Applying correction to high-resolution data: 'mz_of_resolution' should be provided.")
-        if not resolution_formula_code:
-            raise ValueError(
-                "Applying correction to high-resolution data: 'resolution_formula' should be provided.")
-        if resolution <= 0:
-            raise ValueError(
-                "Resolution '{}' should be a positive number.".format(resolution))
-        if mz_of_resolution <= 0:
-            raise ValueError(
-                "mz at which resolution is measured '{}' should be a positive number.".format(mz_of_resolution))
+                "Can't find tracer named '{}'. Eventually check the case in your Isotopes file".format(tracer))
+        tracer_purity = getattr(args, 'tracer_purity', None)
+        if tracer_purity:
+            if any(i < 0 for i in tracer_purity) or any(i > 1 for i in tracer_purity) or sum(tracer_purity) != 1:
+                raise ValueError(
+                    "Purity values ({}) should be within the range [0, 1], and their sum should be 1.".format(tracer_purity))
+        correct_NA_tracer = True if hasattr(
+            args, 'correct_NA_tracer') else False
+        resolution = getattr(args, 'resolution', None)
+        mz_of_resolution = getattr(args, 'mz_of_resolution', None)
+        resolution_formula_code = getattr(
+            args, 'resolution_formula_code', None)
+        if resolution_formula_code == 'datafile':
+            useformula = False
+        else:
+            useformula = True
+        HRmode = resolution or mz_of_resolution or resolution_formula_code
+        if HRmode:
+            if not resolution:
+                raise ValueError(
+                    "Applying correction to high-resolution data: 'resolution' should be provided.")
+            if not mz_of_resolution:
+                raise ValueError(
+                    "Applying correction to high-resolution data: 'mz_of_resolution' should be provided.")
+            if not resolution_formula_code:
+                raise ValueError(
+                    "Applying correction to high-resolution data: 'resolution_formula' should be provided.")
+            if resolution <= 0:
+                raise ValueError(
+                    "Resolution '{}' should be a positive number.".format(resolution))
+            if mz_of_resolution <= 0:
+                raise ValueError(
+                    "mz at which resolution is measured '{}' should be a positive number.".format(mz_of_resolution))
 
-    baseenv.registerDatafile(Path(args.inputdata), useformula)
+        baseenv.registerDatafile(Path(args.inputdata), useformula)
+    except Exception as err:
+        logger.error(
+            "wrong parameters. Check for errors above. {}".format(err))
+        raise
 
     # log general information on the process
     logger.info('------------------------------------------------')
@@ -96,7 +106,8 @@ def process(args):
         logger.info("         formula code: {}".format(
             resolution_formula_code))
         if useformula:
-            logger.info("         instrument resolution: {}".format(resolution))
+            logger.info(
+                "         instrument resolution: {}".format(resolution))
         if resolution_formula_code != 'constant':
             logger.info("         at mz: {}".format(mz_of_resolution))
     else:
@@ -137,6 +148,7 @@ def process(args):
             dictMetabolites[label] = None
             errors['labels'] = errors['labels'] + [label]
             logger.error("cannot construct {}: {}".format(label, err))
+            sys.exit(2)
 
     logger.info('------------------------------------------------')
     logger.info('Correcting raw MS data...')
@@ -146,8 +158,10 @@ def process(args):
         metabo = dictMetabolites[label]
         series, series_err = baseenv.getDataSerie(label, useformula)
         for s_err in series_err:
-            errors['measurements'] = errors['measurements'] + ["{} - {}".format(s_err, label)]
-            logger.error("{} - {}: Measurement vector is incomplete, some isotopologues are not provided.".format(s_err, label))
+            errors['measurements'] = errors['measurements'] + \
+                ["{} - {}".format(s_err, label)]
+            logger.error(
+                "{} - {}: Measurement vector is incomplete, some isotopologues are not provided.".format(s_err, label))
         for serie in series:
             if metabo:
                 try:
@@ -177,9 +191,11 @@ def process(args):
     logger.info("   number of samples: {}".format(
         len(baseenv.getSamplesList())))
     if useformula:
-        logger.info("   number of (metabolite, derivative): {}".format(len(labels)))
+        logger.info(
+            "   number of (metabolite, derivative): {}".format(len(labels)))
     else:
-        logger.info("   number of (metabolite, derivative, resolution): {}".format(len(labels)))
+        logger.info(
+            "   number of (metabolite, derivative, resolution): {}".format(len(labels)))
     nb_errors = len(errors['labels']) + len(errors['measurements'])
     logger.info("   errors: {}".format(nb_errors))
     if nb_errors:
