@@ -343,12 +343,11 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
             :attr:`~resolution_formula` has precedence over :attr:`~resolution_formula_code`.
         charge (int): charge state of the metabolite (e.g. "-2").
     """
-    # TODO: resolution_formula is confusing: remove feat?
     # Registered resolution formulas to compute local resolution
     # parameters: molecular weight (mw), resolution (res) at mass-to-charge ratio (at_mz)
     RES_FORMULAS = {
         "orbitrap": lambda mw, res, at_mz: 1.66*mw**(3/2)/(res*math.sqrt(at_mz)),
-        "ft-icr": lambda mw, res, at_mz: 1.66*mw**(3/2)/(res*math.sqrt(at_mz)),
+        "ft-icr": lambda mw, res, at_mz: 1.66*mw**2/(res*at_mz),
         "constant": lambda mw, res, at_mz: 1.66*mw/res,
         "datafile": lambda mw, res, at_mz: 1.66*mw/res
     }
