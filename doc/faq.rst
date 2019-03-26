@@ -22,7 +22,7 @@ Finally, practical examples are provided in the :ref:`Tutorials`.
 What are the alternatives to IsoCor?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 You will find scripts for correction of HRMS data out there, but we won’t recommend any since,
-to the best of our knowledge, they implement algorithms that partly fail for high-resolution datasets (see IsoCor v2 publication).
+to the best of our knowledge, they implement algorithms that partly fail for high-resolution datasets (see `IsoCor v2 publication <https://doi.org/10.1093/bioinformatics/btz209>`_).
 
 +--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------------+---------------------------+
 | Tool         | Has GUI? | MS resolution?       | Tracers?                                                            | Reference                                                              | Comment                   |
@@ -33,11 +33,11 @@ to the best of our knowledge, they implement algorithms that partly fail for hig
 +--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------------+---------------------------+
 | IsoCorrectoR | No       | Low & UltraHigh only | All                                                                 | `Heinrich et al. 2018 <https://doi.org/10.1038/s41598-018-36293-4>`_   | none                      |
 +--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------------+---------------------------+
-| ElemCor      | Yes      | All                  | :sup:`2`\ H, :sup:`13`\ C, :sup:`15`\ N, :sup:`18`\ O, :sup:`34`\ S | `GitHub project <https://github.com/4dsoftware/elemcor>`_              | Faulty at High-resolution |
+| ElemCor      | Yes      | All                  | :sup:`2`\ H, :sup:`13`\ C, :sup:`15`\ N, :sup:`18`\ O, :sup:`34`\ S | `Du et al. 2019 <https://doi.org/10.1186/s12859-019-2669-9>`_          | Faulty at High-resolution |
 +--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------------+---------------------------+
 | IsoCor v1    | Yes      | Low only             | All                                                                 | `Millard et al. 2012 <https://doi.org/10.1093/bioinformatics/bts127>`_ | none                      |
 +--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------------+---------------------------+
-| IsoCor v2    | Yes      | All                  | All                                                                 | `Millard et al. 2019 <https://github.com/MetaSys-LISBP/IsoCor>`_       | none                      |
+| IsoCor v2    | Yes      | All                  | All                                                                 | `Millard et al. 2019 <https://doi.org/10.1093/bioinformatics/btz209>`_ | none                      |
 +--------------+----------+----------------------+---------------------------------------------------------------------+------------------------------------------------------------------------+---------------------------+
 
 .. note:: If you would like your software to appear in this list, please get in touch with us.
@@ -60,12 +60,12 @@ Can I perform correction in case of missing values?
 Mass fractions cannot be corrected by IsoCor in case of missing measurement(s).
 
 For instance, in a C\ :sub:`2`\  compound for which M\ :sub:`2`\  is not measured, one cannot estimate the 
-contribution of the corresponding isotopologue – through (im)purity of the isotopic tracer – to M\ :sub:`1`\  
-or M\ :sub:`0`\ . Hence, these mass fractions cannot be corrected for purity. As another example, in a C\ :sub:`3`\  
-compound for which M\ :sub:`2`\  is not measured, one cannot estimate its contribution – through natural 
-abundance – to M\ :sub:`3`\. Here again, these mass fractions cannot be corrected for natural abundance of isotopes.
+contribution of the corresponding isotopologue – through (im)purity of the isotopic tracer – to M\ :sub:`1`\  or 
+M\ :sub:`0`\ . Hence, these mass fractions cannot be corrected for purity. As another example, in a C\ :sub:`3`\  compound 
+for which M\ :sub:`2`\  is not measured, one cannot estimate its contribution – through natural 
+abundance – to M\ :sub:`3`\ . Here again, these mass fractions cannot be corrected for natural abundance of isotopes.
 
-To avoid misinterpretation of partial correction results, we have prefered to not allow correction 
+To avoid misinterpretation of partially corrected data, we have prefered to not allow correction 
 to be applied in case of missing values.
 
 
