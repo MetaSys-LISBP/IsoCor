@@ -18,7 +18,7 @@ The output of IsoCor is the isotopologue distribution of the molecule
 of isotopic substitutions of the tracer). IsoCor also calculates
 the mean enrichment (i.e. the mean isotopic content in the molecule) in metabolites.
 
-It is one of the routine tools that we use at the [MetaSys team](http://www.lisbp.fr/en/research/integrated-metabolism-and-dynamics-of-metabolic-systems.html) and [MetaToul platform](https://www6.toulouse.inra.fr/metatoul_eng/) in isotopic studies of metabolic systems.
+It is one of the routine tools that we use at the [MetaSys team](http://www.lisbp.fr/en/research/molecular-physiology-and-metabolism/metasys.html) and [MetaToul platform](http://www.metatoul.fr) in isotopic studies of metabolic systems.
 
 The code is open-source, and available under a GPLv3 license.
 
