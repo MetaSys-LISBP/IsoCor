@@ -90,9 +90,9 @@ The PDF documentation can be built locally by replacing `html` by `latexpdf`
 in the command above. You will need a recent latex installation.
 
 ## References
-1. Millard P., Létisse F., Sokol S. and Portais J.C. IsoCor: correcting MS data in isotope labeling experiments. Bioinformatics, 2012, `doi: 10.1093/bioinformatics/bts127 <https://doi.org/10.1093/bioinformatics/bts127>`_
-2. Su X., Lu W. and Rabinowitz J.D. Metabolite spectral accuracy on orbitraps. Analytical chemistry, 2017, `doi: 10.1021/acs.analchem.7b00396 <https://doi.org/10.1021/acs.analchem.7b00396>`_
-3. Millard P., Delépine B., Guionnet M., Heuillet M., Bellvert F. and Letisse F. IsoCor: isotope correction for high-resolution MS labeling experiments. Bioinformatics, 2019, `doi: 10.1093/bioinformatics/btz209 <https://doi.org/10.1093/bioinformatics/btz209>`_
+1. Millard P., Létisse F., Sokol S. and Portais J.C. IsoCor: correcting MS data in isotope labeling experiments. Bioinformatics, 2012, [doi: 10.1093/bioinformatics/bts127](https://doi.org/10.1093/bioinformatics/bts127)
+2. Su X., Lu W. and Rabinowitz J.D. Metabolite spectral accuracy on orbitraps. Analytical chemistry, 2017, [doi: 10.1021/acs.analchem.7b00396](https://doi.org/10.1021/acs.analchem.7b00396)
+3. Millard P., Delépine B., Guionnet M., Heuillet M., Bellvert F. and Letisse F. IsoCor: isotope correction for high-resolution MS labeling experiments. Bioinformatics, 2019, [doi: 10.1093/bioinformatics/btz209](https://doi.org/10.1093/bioinformatics/btz209)
 
 ## Authors
 Baudoin Delépine, Matthieu Guionnet, Pierre Millard
