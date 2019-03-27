@@ -117,7 +117,7 @@ class EnvComputing(object):
         if not Path(datafile).is_file():
             raise ValueError("No data file selected.")
         with open(str(datafile), 'r') as fp:
-            self.dfDatafile = pd.read_csv(fp, delimiter='\t')
+            self.dfDatafile = pd.read_csv(fp, delimiter='\t', na_filter=False)
         tocheck = ['sample', 'metabolite', 'derivative', 'area', 'isotopologue']
         if not useformula:
             tocheck.append('resolution')
@@ -135,6 +135,9 @@ class EnvComputing(object):
                 int(item)
             except:
                 raise ValueError("Error in data file at line {}:\nisotopologue={!r}".format(i+2, item))
+        self.dfDatafile[['sample']] = self.dfDatafile[['sample']].astype(str)
+        self.dfDatafile[['metabolite']] = self.dfDatafile[['metabolite']].astype(str)
+        self.dfDatafile[['derivative']] = self.dfDatafile[['derivative']].astype(str)
         self.dfDatafile[['area']] = self.dfDatafile[['area']].astype(np.float64)
         self.dfDatafile[['isotopologue']] = self.dfDatafile[['isotopologue']].astype(int)
         if not useformula:
