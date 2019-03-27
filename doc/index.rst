@@ -5,6 +5,8 @@ Welcome to IsoCor documentation!
 ----------------------------------------
 
 .. image:: _static/isocor_abstract.png
+   :width: 100%
+   :align: center
 
 **IsoCor is a scientific software dedicated to the correction of mass spectrometry (MS) data for naturally
 occuring isotopes**.
