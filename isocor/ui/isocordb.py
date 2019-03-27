@@ -117,7 +117,7 @@ class EnvComputing(object):
         if not Path(datafile).is_file():
             raise ValueError("No data file selected.")
         with open(str(datafile), 'r') as fp:
-            self.dfDatafile = pd.read_csv(fp, delimiter='\t', na_filter=False)
+            self.dfDatafile = pd.read_csv(fp, delimiter='\t', keep_default_na=False)
         tocheck = ['sample', 'metabolite', 'derivative', 'area', 'isotopologue']
         if not useformula:
             tocheck.append('resolution')
