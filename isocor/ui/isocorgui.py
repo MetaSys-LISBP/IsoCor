@@ -46,7 +46,7 @@ class AutoScrollbar(tk.Scrollbar):
             self.tk.call("grid", "remove", self)
         else:
             self.grid()
-        Scrollbar.set(self, lo, hi)
+        tk.Scrollbar.set(self, lo, hi)
     def pack(self, **kw):
         pass
     def place(self, **kw):
