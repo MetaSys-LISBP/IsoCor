@@ -20,7 +20,7 @@ the mean enrichment (i.e. the mean isotopic content in the molecule) in metaboli
 
 It is one of the routine tools that we use at the [MetaSys team](http://www.lisbp.fr/en/research/molecular-physiology-and-metabolism/metasys.html) and [MetaToul platform](http://www.metatoul.fr) in isotopic studies of metabolic systems.
 
-The code is open-source, and available under a GPLv3 license.
+The code is open-source, and available under a GPLv3 license. Additional information can be found in [IsoCor publication](https://doi.org/10.1093/bioinformatics/btz209).
 
 Detailed documentation can be found online at Read the Docs ([https://isocor.readthedocs.io/](https://isocor.readthedocs.io/)).
 Check out the [Tutorials](https://isocor.readthedocs.io/en/latest/tutorials.html) to use the best correction option!
@@ -89,10 +89,8 @@ $ make html
 The PDF documentation can be built locally by replacing `html` by `latexpdf`
 in the command above. You will need a recent latex installation.
 
-## References
-1. Millard P., Létisse F., Sokol S. and Portais J.C. IsoCor: correcting MS data in isotope labeling experiments. Bioinformatics, 2012, [doi: 10.1093/bioinformatics/bts127](https://doi.org/10.1093/bioinformatics/bts127)
-2. Su X., Lu W. and Rabinowitz J.D. Metabolite spectral accuracy on orbitraps. Analytical chemistry, 2017, [doi: 10.1021/acs.analchem.7b00396](https://doi.org/10.1021/acs.analchem.7b00396)
-3. Millard P., Delépine B., Guionnet M., Heuillet M., Bellvert F. and Letisse F. IsoCor: isotope correction for high-resolution MS labeling experiments. Bioinformatics, 2019, [doi: 10.1093/bioinformatics/btz209](https://doi.org/10.1093/bioinformatics/btz209)
+## How to cite
+Millard P., Delépine B., Guionnet M., Heuillet M., Bellvert F. and Letisse F. IsoCor: isotope correction for high-resolution MS labeling experiments. Bioinformatics, 2019, [doi: 10.1093/bioinformatics/btz209](https://doi.org/10.1093/bioinformatics/btz209)
 
 ## Authors
 Baudoin Delépine, Matthieu Guionnet, Pierre Millard
