@@ -333,7 +333,7 @@ class GUIinterface(ttk.Frame):
             self.cleanData()
             self.varInputPath.set(name)
             self.varOutputPath.set(Path(name).parent)
-            with open(name, 'r') as UseFile:
+            with open(name, 'r', encoding='utf-8') as UseFile:
                 self.datatext.configure(state='normal')
                 self.datatext.insert(tk.INSERT, UseFile.read())
                 self.datatext.configure(state='disable')
