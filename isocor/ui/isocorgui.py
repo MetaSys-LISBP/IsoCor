@@ -267,7 +267,7 @@ class GUIinterface(ttk.Frame):
                 else:
                     valuesCorrected = ([np.nan]*len(serie[1]), [np.nan]*len(serie[1]), [np.nan]*len(serie[1]), np.nan)
                     errors['measurements'] = errors['measurements'] + ["{} - {}".format(serie[0], label)]
-                    self.logger.error("{} - {}: (metabolite, derivative) object could not be constructed.".format(serie[0], label))
+                    self.logger.error("{} - {}: (metabolite, derivative) corrector could not be constructed.".format(serie[0], label))
                 for i, line in enumerate(zip(*(serie[1], valuesCorrected[0], valuesCorrected[1], valuesCorrected[2], [valuesCorrected[3]]*len(valuesCorrected[0])))):
                     df = pd.concat((df, pd.DataFrame([line], index=pd.MultiIndex.from_tuples([[serie[0], label[0], label[1], i]], names=[
                         'sample', 'metabolite', 'derivative', 'isotopologue']), columns=['area', 'corrected_area', 'isotopologue_fraction', 'residuum', 'mean_enrichment'])))

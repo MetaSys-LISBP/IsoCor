@@ -60,24 +60,34 @@ class EnvComputing(object):
         if not isotopesfile.is_file():
             raise ValueError(
                 "Isotopes database not found in:\n'{}'.".format(isotopesfile))
-        with open(str(isotopesfile), 'r', encoding='utf-8') as fp:  # str for compatibility with Python3.5
-            self.dfIsotopes = pd.read_csv(fp)
+        try:
+            with open(str(isotopesfile), 'r', encoding='utf-8') as fp:  # str for compatibility with Python3.5
+                self.dfIsotopes = pd.read_csv(fp, na_values=[''])
+        except Exception as err:
+            raise ValueError("An unknown error has occurred opening the isotopes database ('{}').\n\nPlease check this file (details on the expected format can be found in the documentation), correct the issue and rerun IsoCor.\n\nTraceback for debugging:\n{}".format(isotopesfile, err))
         for i in ['element', 'mass', 'abundance']:
             if i not in self.dfIsotopes.columns:
-                raise ValueError("Column '{}' not found in 'Isotopes.dat'.".format(i))
+                raise ValueError("Column '{}' not found in the isotopes database ('{}').".format(i, isotopesfile))
         # check data types to return an explicit error
         if self.dfIsotopes.empty:
-            raise ValueError("'Isotopes.dat' is empty.")
+            raise ValueError("The isotopes database ('{}') is empty.".format(isotopesfile))
+        for i, item in enumerate(self.dfIsotopes['element']):
+            if pd.isna(item):
+                raise ValueError("Error in the isotopes database ('{}') at line {}:\nelement is not provided".format(isotopesfile, i+2))
         for i, item in enumerate(self.dfIsotopes['mass']):
+            if pd.isna(item):
+                raise ValueError("Error in the isotopes database ('{}') at line {}:\nmass is not provided".format(isotopesfile, i+2))
             try:
                 Decimal(item)
             except:
-                raise ValueError("Error in 'Isotopes.dat' at line {}:\nmass={!r}".format(i+2, item))
+                raise ValueError("Error in the isotopes database ('{}') at line {}:\nmass={!r}".format(isotopesfile, i+2, item))
         for i, item in enumerate(self.dfIsotopes['abundance']):
+            if pd.isna(item):
+                raise ValueError("Error in the isotopes database ('{}') at line {}:\nabundance is not provided".format(isotopesfile, i+2, item))
             try:
                 np.float64(item)
             except:
-                raise ValueError("Error in 'Isotopes.dat' at line {}:\nabundance={!r}".format(i+2, item))
+                raise ValueError("Error in the isotopes database ('{}') at line {}:\nabundance={!r}".format(isotopesfile, i+2, item))
         # reload file
         with open(str(isotopesfile), 'r', encoding='utf-8') as fp:
             self.dfIsotopes = pd.read_csv(
@@ -93,11 +103,14 @@ class EnvComputing(object):
         if not derivativesfile.is_file():
             raise ValueError(
                 "Derivatives database not found in:\n'{}'.".format(derivativesfile))
-        with open(str(derivativesfile), 'r', encoding='utf-8') as fp:
-            self.dfDerivatives = pd.read_csv(fp, delimiter='\t')
+        try:
+            with open(str(derivativesfile), 'r', encoding='utf-8') as fp:
+                self.dfDerivatives = pd.read_csv(fp, delimiter='\t')
+        except Exception as err:
+            raise ValueError("An unknown error has occurred opening the derivatives database ('{}').\n\nPlease check this file (details on the expected format can be found in the documentation) and correct the issue.\n\nTraceback for debugging:\n{}".format(derivativesfile, err))
         for i in ['name', 'formula']:
             if i not in self.dfDerivatives.columns:
-                raise ValueError("Column '{}' not found in 'Derivatives.dat'.".format(i))
+                raise ValueError("Column '{}' not found in the derivatives database ('{}').".format(i, derivativesfile))
         self._stripColNames(self.dfDerivatives)
         self._stripCol(self.dfDerivatives, ['name', 'formula'])
 
@@ -105,36 +118,42 @@ class EnvComputing(object):
         if not metabolitesfile.is_file():
             raise ValueError(
                 "Metabolites database not found in:\n'{}'.".format(metabolitesfile))
-        with open(str(metabolitesfile), 'r', encoding='utf-8') as fp:
-            self.dfMetabolites = pd.read_csv(fp, delimiter='\t', converters={'charge': str})
+        try:
+            with open(str(metabolitesfile), 'r', encoding='utf-8') as fp:
+                self.dfMetabolites = pd.read_csv(fp, delimiter='\t', converters={'charge': str})
+        except Exception as err:
+            raise ValueError("An unknown error has occurred opening the metabolites database ('{}').\n\nPlease check this file (details on the expected format can be found in the documentation) and correct the issue.\n\nTraceback for debugging:\n{}".format(metabolitesfile, err))
         for i in ['name', 'formula', 'charge']:
             if i not in self.dfMetabolites.columns:
-                raise ValueError("Column '{}' not found in 'Metabolites.dat'.".format(i))
+                raise ValueError("Column '{}' not found in the metabolites database ('{}').".format(i, metabolitesfile))
         self._stripColNames(self.dfMetabolites)
         self._stripCol(self.dfMetabolites, ['name', 'formula', 'charge'])
 
     def registerDatafile(self, datafile=Path("mydata.tsv"), useformula=True):
         if not Path(datafile).is_file():
-            raise ValueError("No data file selected.")
-        with open(str(datafile), 'r', encoding='utf-8') as fp:
-            self.dfDatafile = pd.read_csv(fp, delimiter='\t', keep_default_na=False)
+            raise ValueError("No measurements file selected.")
+        try:
+            with open(str(datafile), 'r', encoding='utf-8') as fp:
+                self.dfDatafile = pd.read_csv(fp, delimiter='\t', keep_default_na=False)
+        except Exception as err:
+            raise ValueError("An unknown error has occurred opening the measurements file ('{}').\n\nPlease check this file (details on the expected format can be found in the documentation) and correct the issue.\n\nTraceback for debugging:\n{}".format(datafile, err))
         tocheck = ['sample', 'metabolite', 'derivative', 'area', 'isotopologue']
         if not useformula:
             tocheck.append('resolution')
         for i in tocheck:
             if i not in self.dfDatafile.columns:
-                raise ValueError("Column '{}' not found in the data file.".format(i))
+                raise ValueError("Column '{}' not found in the measurements file ('{}').".format(i, datafile))
         # check data types to return an explicit error
         for i, item in enumerate(self.dfDatafile['area']):
             try:
                 np.float64(item)
             except:
-                raise ValueError("Error in data file at line {}:\narea={!r}".format(i+2, item))
+                raise ValueError("Error in measurements file ('{}') at line {}:\narea={!r}".format(datafile, i+2, item))
         for i, item in enumerate(self.dfDatafile['isotopologue']):
             try:
                 int(item)
             except:
-                raise ValueError("Error in data file at line {}:\nisotopologue={!r}".format(i+2, item))
+                raise ValueError("Error in measurements file ('{}') at line {}:\nisotopologue={!r}".format(datafile, i+2, item))
         self.dfDatafile[['sample']] = self.dfDatafile[['sample']].astype(str)
         self.dfDatafile[['metabolite']] = self.dfDatafile[['metabolite']].astype(str)
         self.dfDatafile[['derivative']] = self.dfDatafile[['derivative']].astype(str)
@@ -145,12 +164,12 @@ class EnvComputing(object):
                 try:
                     int(item)
                 except:
-                    raise ValueError("Error in data file at line {}:\nresolution={!r}".format(i+2, item))
+                    raise ValueError("Error in measurements file ('{}') at line {}:\nresolution={!r}".format(datafile, i+2, item))
             self.dfDatafile[['resolution']] = self.dfDatafile[['resolution']].astype(str)
 
         self.dfDatafile['derivative'].fillna('', inplace=True)
         if self.dfDatafile.empty:
-            raise ValueError("Data file is empty.")
+            raise ValueError("Measurements file ('{}') is empty.".format(datafile))
         self._stripColNames(self.dfDatafile)
 
         if useformula:
@@ -173,17 +192,23 @@ class EnvComputing(object):
 
     def getMetaboliteFormula(self, name):
         try:
-            return self.dfMetabolites[self.dfMetabolites['name'] == name]['formula'].values[0]
+            formula = self.dfMetabolites[self.dfMetabolites['name'] == name]['formula'].values[0]
         except:
             raise ValueError(
                 "No formula provided in 'Metabolites.dat' for metabolite '{}'.".format(name))
+        if pd.isna(formula):
+            raise ValueError("No formula provided in 'Metabolites.dat' for metabolite '{}'.".format(name))
+        return formula
 
     def getMetaboliteCharge(self, name):
         try:
-            return int(self.dfMetabolites[self.dfMetabolites['name'] == name]['charge'].values[0])
+            charge = int(self.dfMetabolites[self.dfMetabolites['name'] == name]['charge'].values[0])
         except:
             raise ValueError(
                 "No charge provided in 'Metabolites.dat' for metabolite '{}'.".format(name))
+        if charge == 0:
+            raise ValueError("Charge should not be 0 in 'Metabolites.dat' for metabolite '{}'.".format(name))
+        return charge
 
     def getDerivativeFormula(self, name):
         try:
@@ -191,10 +216,13 @@ class EnvComputing(object):
             if name == '':
                 return None
             else:
-                return self.dfDerivatives[self.dfDerivatives['name'] == name]['formula'].values[0]
+                formula = self.dfDerivatives[self.dfDerivatives['name'] == name]['formula'].values[0]
         except:
             raise ValueError(
                 "No formula provided in 'Derivatives.dat' for derivative '{}'.".format(name))
+        if pd.isna(formula):
+            raise ValueError("No formula provided in 'Derivatives.dat' for derivative '{}'.".format(name))
+        return formula
 
     def returnLabelStr(self, tupleNames):
         if tupleNames[1]:
