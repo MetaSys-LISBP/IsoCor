@@ -374,7 +374,7 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
             raise NotImplementedError("No resolution formula registered for code '{}'. "
                                       "Please provide the formula as resolution_formula"
                                       "parameter.".format(resolution_formula_code))
-        # self.charge has been chacked, not charge
+        # Check correction limit
         self._correction_limit = resolution_formula(float(self.molecular_weight)/self.charge, resolution, mz_of_resolution) * self.charge
         self.threshold_p = None if self.molecular_weight < 500 else 1e-10
         precision_machine = 10**3 * np.finfo(float).eps
