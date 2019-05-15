@@ -5,7 +5,8 @@
 [![Build Status](https://travis-ci.com/MetaSys-LISBP/IsoCor.svg?branch=master)](https://travis-ci.com/MetaSys-LISBP/IsoCor)
 [![Documentation Status](https://readthedocs.org/projects/isocor/badge/?version=latest)](http://isocor.readthedocs.io/?badge=latest)
 
-![](doc/_static/isocor_GUI.png)
+[![IsoCor graphical user interface](https://raw.githubusercontent.com/MetaSys-LISBP/IsoCor/master/doc/_static/isocor_GUI.png)](https://readthedocs.org/projects/isocor/badge/?version=latest)
+
 
 ## What is IsoCor?
 **IsoCor is a scientific software dedicated to the correction of mass spectrometry (MS) data for naturally
