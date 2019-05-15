@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.com/MetaSys-LISBP/IsoCor.svg?branch=master)](https://travis-ci.com/MetaSys-LISBP/IsoCor)
 [![Documentation Status](https://readthedocs.org/projects/isocor/badge/?version=latest)](http://isocor.readthedocs.io/?badge=latest)
 
-[![IsoCor graphical user interface](https://raw.githubusercontent.com/MetaSys-LISBP/IsoCor/master/doc/_static/isocor_GUI.png)](https://readthedocs.org/projects/isocor/badge/?version=latest)
+[![IsoCor graphical user interface](https://raw.githubusercontent.com/MetaSys-LISBP/IsoCor/master/doc/_static/isocor_GUI.png)](https://isocor.readthedocs.io/en/latest/)
 
 
 ## What is IsoCor?
