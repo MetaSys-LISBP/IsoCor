@@ -10,6 +10,8 @@ import isocor as hr
 from pathlib import Path
 import numpy as np
 import webbrowser
+import threading
+
 
 UTF8_TABLE_SUBCRIPS_INT = {'0': '\u2070', '1': '\u00B9', '2': '\u00B2', '3': '\u00B3',
                            '4': '\u2074', '5': '\u2075', '6': '\u2076', '7': '\u2077', '8': '\u2078', '9': '\u2079'}
@@ -103,6 +105,19 @@ class GUIinterface(ttk.Frame):
         self.cleanListTracer()
         self.log_level = 'INFO'
         self.createWidgets()
+        self._thread, self._stop = None, True
+
+    def start_process(self):
+        if self._thread is None:
+            self._stop = False
+            self._thread = threading.Thread(target=self.process)
+            self._thread.start()
+        self.processButon.configure(text="Stop", command=self.stop_process)
+
+    def stop_process(self):
+        if self._thread is not None:
+            self._thread, self._stop = None, True
+        self.processButon.configure(text="Process", command=self.start_process)
 
     def addSubcriptingName(self):
         self.baseenv.dfIsotopes['subscriptName'] = self.baseenv.dfIsotopes['isotope'].apply(
@@ -472,7 +487,7 @@ class GUIinterface(ttk.Frame):
         self.chVerboseLog = ttk.Checkbutton(
             content, text="Verbose logs", variable=self.chVarVerboseLog, command=self.updateLogLevel)
         self.processButon = ttk.Button(
-            content, text=" Process ", command=self.process)
+            content, text=" Process ", command=self.start_process)
         self.chNatAbTracer = ttk.Checkbutton(
             self.TracerOptFrame, text="Correct natural abondance of the tracer element", variable=self.chVarNatAbTracer)
         self.varInputPath = tk.StringVar()
