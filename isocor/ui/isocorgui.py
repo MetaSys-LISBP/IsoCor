@@ -316,6 +316,7 @@ class GUIinterface(ttk.Frame):
         #self.logger.warn('warn message')
         #self.logger.error('error message')
         #self.logger.critical('critical message')
+        self.stop_process()
 
     def cleanLog(self):
         self.logstream.config(state="normal")
