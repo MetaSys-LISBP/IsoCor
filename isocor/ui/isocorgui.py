@@ -583,7 +583,7 @@ class GUIinterface(ttk.Frame):
         self.TracerOptFrame = ttk.LabelFrame(
         optionFrame, text='Tracer correction options')
 
-        tr_lab = ttk.Label(text="Isotopic purity of the tracer")
+        tr_lab = ttk.Label(text="Isotopic purity of the tracer (*)")
         purityLblFrame = ttk.LabelFrame(
             self.TracerOptFrame, labelwidget=tr_lab)
         self.purityManager = PurityTracerManager(
@@ -610,8 +610,8 @@ class GUIinterface(ttk.Frame):
         self.updatePurity(None)
 
         self.chVarHR = tk.IntVar()
-        self.R1 = tk.Radiobutton(optionFrame, text="Low resolution", variable=self.chVarHR, value=False, command=self.enableHR)
-        self.R2 = tk.Radiobutton(optionFrame, text="High resolution", variable=self.chVarHR, value=True, command=self.enableHR)
+        self.R1 = tk.Radiobutton(optionFrame, text="Low resolution (*)", variable=self.chVarHR, value=False, command=self.enableHR)
+        self.R2 = tk.Radiobutton(optionFrame, text="High resolution (*)", variable=self.chVarHR, value=True, command=self.enableHR)
 
         self.highResFrame = ttk.LabelFrame(
             optionFrame, text='High resolution parameters')
@@ -634,11 +634,11 @@ class GUIinterface(ttk.Frame):
         self.chVarNatAbTracer = tk.IntVar()
         self.chVarPurityTracer = tk.IntVar()
         self.chVerboseLog = ttk.Checkbutton(
-            content, text="Verbose logs", variable=self.chVarVerboseLog, command=self.updateLogLevel)
+            content, text="Verbose logs (*)", variable=self.chVarVerboseLog, command=self.updateLogLevel)
         self.processButon = ttk.Button(
             content, text=" Process ", command=self.start_process)
         self.chNatAbTracer = ttk.Checkbutton(
-            self.TracerOptFrame, text="Correct natural abondance of the tracer element", variable=self.chVarNatAbTracer)
+            self.TracerOptFrame, text="Correct natural abondance of the tracer element (*)", variable=self.chVarNatAbTracer)
         self.varInputPath = tk.StringVar()
         self.varOutputPath = tk.StringVar()
         self.varOutputPath.set(self.baseenv.home)
@@ -655,7 +655,7 @@ class GUIinterface(ttk.Frame):
         self.databaseEntry = ttk.Entry(
             dataFrame, textvariable=self.varDatabasePath, state='readonly')
         self.databasePathSubmit = ttk.Button(
-            dataFrame, text=" Databases Path ", command=self.databaseDir)
+            dataFrame, text=" Databases Path (*)", command=self.databaseDir)
         scrolH = 10
         self.datatext = scrolledtext.ScrolledText(
             dataFrame, width=40, height=scrolH, wrap=tk.WORD)
@@ -700,7 +700,7 @@ class GUIinterface(ttk.Frame):
         Tooltip(self.chNatAbTracer, text="Should correct for the presence of isotopes at natural abundance in unlabeled positions of non-uniformally labeled nutrients.")
         Tooltip(self.R1, text="At low-resolution, all isotopologues with the same nominal mass are considered to be measured together.")
         Tooltip(purityLblFrame, text="This values are available on your provider's labeled compound box.\nThe sum of this must be equal to 1")
-        Tooltip(self.chVerboseLog, text="Useful in case of big trouble with the processed result. Join it to the issue on github")
+        Tooltip(self.chVerboseLog, text="Useful in case of trouble with the processed result. Join it to the issue on github")
 
         # create texthandler and formatter to display logs
         self.scroll_handler = TextHandler(self.logstream)
