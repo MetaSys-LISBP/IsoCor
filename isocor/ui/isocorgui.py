@@ -187,30 +187,16 @@ class TextHandler(logging.Handler):
         # This is necessary because we can't modify the Text from other threads
         self.text.after(0, append)
 
-class AutoScrollbar(tk.Scrollbar):
-    # a scrollbar that hides itself if it's not needed.  only
-    # works if you use the grid geometry manager.
-    def set(self, lo, hi):
-        if float(lo) <= 0.0 and float(hi) >= 1.0:
-            # grid_remove is currently missing from Tkinter!
-            self.tk.call("grid", "remove", self)
-        else:
-            self.grid()
-        tk.Scrollbar.set(self, lo, hi)
-    def pack(self, **kw):
-        pass
-    def place(self, **kw):
-        pass
 
 class PurityTracerManager(tk.Canvas):
     def __init__(self, master=None, **kwargs):
         tk.Canvas.__init__(self, master, **kwargs)
-        self._initFrameInWindows()
+      #  self._initFrameInWindows()
         self.tracer_purity = []
 
     def _initFrameInWindows(self):
         self.frame = ttk.Frame(self)
-        self.create_window(0, 0, anchor="nw", window=self.frame)
+        self.create_window((0, 0), anchor="nw", window=self.frame)
 
     def changeEntries(self, df, tracer):
         row = 0
@@ -224,12 +210,13 @@ class PurityTracerManager(tk.Canvas):
             purityentry = tk.StringVar()
             purityentry.set(str(purity[entry.Index]))
             label_entry = ttk.Label(
-                self.frame, text=entry.subscriptName).grid(row=row, column=0)
+                self.frame, text=entry.subscriptName).grid(row=row, column=0, sticky="news")
             purity_entry = ttk.Entry(
-                self.frame, textvariable=purityentry).grid(row=row, column=2)
+                self.frame, textvariable=purityentry).grid(row=row, column=1, sticky="news")
             self.tracer_purity.append(purityentry)
             row += 1
-
+        self.create_window((0, 0), anchor="nw", window=self.frame)
+        self.frame.update_idletasks()
 
 class GUIinterface(ttk.Frame):
     """GUI interface for isocor in tk widget"""
@@ -586,11 +573,10 @@ class GUIinterface(ttk.Frame):
         tr_lab = ttk.Label(text="Isotopic purity of the tracer (*)")
         purityLblFrame = ttk.LabelFrame(
             self.TracerOptFrame, labelwidget=tr_lab)
+        self.scrollPurity = ttk.Scrollbar(purityLblFrame, orient='vertical')
         self.purityManager = PurityTracerManager(
-            purityLblFrame, width=200, height=100, highlightthickness=0)
-        # previous code didn't work, trying to implement this example: http://effbot.org/zone/tkinter-autoscrollbar.htm
-        # does not work yet
-        self.scrollPurity = AutoScrollbar(purityLblFrame)
+            purityLblFrame, width=200, height=80, highlightthickness=0, yscrollcommand=self.scrollPurity.set)
+        self.scrollPurity.config(command=self.purityManager.yview)
         purityLblFrame.update_idletasks()
         self.purityManager.config(scrollregion=self.purityManager.bbox("all"))
 
