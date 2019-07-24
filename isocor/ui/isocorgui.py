@@ -575,7 +575,7 @@ class GUIinterface(ttk.Frame):
             self.TracerOptFrame, labelwidget=tr_lab)
         self.scrollPurity = ttk.Scrollbar(purityLblFrame, orient='vertical')
         self.purityManager = PurityTracerManager(
-            purityLblFrame, width=200, height=80, highlightthickness=0, yscrollcommand=self.scrollPurity.set)
+            purityLblFrame, width=200, height=90, highlightthickness=0, yscrollcommand=self.scrollPurity.set)
         self.scrollPurity.config(command=self.purityManager.yview)
         purityLblFrame.update_idletasks()
         self.purityManager.config(scrollregion=self.purityManager.bbox("all"))
@@ -681,13 +681,13 @@ class GUIinterface(ttk.Frame):
         self.processButon.grid(column=0, row=1, columnspan=2, sticky='NWE')
         self.logstream.grid(column=0, row=2, columnspan=2, sticky='NWE')
         self.chVerboseLog.grid(column=0, row=3, sticky='NW')
-        tk.Label(content, text="Note: infotip available over items with '(*)'").grid(column=0, row=4, columnspan=2, sticky='NE')
+        tk.Label(content, text="Note: infotip available over items with '(*)'").grid(column=1, row=3, sticky='NE')
 
         # create tooltip helpers
         Tooltip(self.chNatAbTracer, text="Correct for the contribution of naturally occurring isotopes at unlabeled positions.")
         Tooltip(self.R1, text="For measurements collected at unitary resolution (e.g. on quadrupole instruments).")
         Tooltip(self.R2, text="For measurements collected at high or ultrahigh resolution (e.g. on Orbitrap or FT-ICR instruments).")
-        Tooltip(tr_lab, text="Correct for the contribution of isotopic impurities at labeled position. The isotopic purity is typically obtained from the manufacturer.\ne.g. for 13C-substates with purity of 99%, use 0.01 for 12C and 0.99 for 13C.")
+        Tooltip(tr_lab, text="Correct for the contribution of naturally occurring isotopes of the tracer element at unlabeled positions. This only concerns the tracer element: other elements are always corrected according to the values in the isotopes database.\n\nThe isotopic purity is typically obtained from the manufacturer.\ne.g. for 13C-substates with purity of 99%, use 0.01 for 12C and 0.99 for 13C.")
         Tooltip(self.chVerboseLog, text="Useful in case of trouble with the processed result. Join it to the issue on github.")
         Tooltip(self.databasePathSubmit, text="Folder containing all database files.")
 
