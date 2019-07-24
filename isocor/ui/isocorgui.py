@@ -480,27 +480,30 @@ class GUIinterface(ttk.Frame):
                                                   ("Data File", "*.tsv"), ("All Files", "*.*")),
                                               title="Choose a file."
                                               )
-            self.cleanLog()
-            self.cleanData()
-            self.varInputPath.set(name)
-            self.varOutputPath.set(Path(name).parent)
-            with open(name, 'r', encoding='utf-8') as UseFile:
-                self.datatext.configure(state='normal')
-                self.datatext.insert(tk.INSERT, UseFile.read())
-                self.datatext.configure(state='disable')
+            if name:
+                self.cleanLog()
+                self.cleanData()
+                self.varInputPath.set(name)
+                self.varOutputPath.set(Path(name).parent)
+                with open(name, 'r', encoding='utf-8') as UseFile:
+                    self.datatext.configure(state='normal')
+                    self.datatext.insert(tk.INSERT, UseFile.read())
+                    self.datatext.configure(state='disable')
         except:
             pass
 
     def outputDir(self):
         "gui output path"
         path = filedialog.askdirectory()
-        self.varOutputPath.set(path)
+        if path:
+            self.varOutputPath.set(path)
 
     def databaseDir(self):
         "gui database path"
         path = filedialog.askdirectory()
-        self.varDatabasePath.set(path)
-        self.update_DBpath()
+        if path:
+            self.varDatabasePath.set(path)
+            self.update_DBpath()
 
     def enableHR(self):
         if self.chVarHR.get():
