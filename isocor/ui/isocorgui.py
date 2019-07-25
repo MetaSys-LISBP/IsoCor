@@ -718,8 +718,7 @@ def openGit():
 
 def checkupdateto(version=hr.__version__):
     try:
-        #response = urllib.request.urlopen("https://github.com/MetaSys-LISBP/IsoCor/raw/master/VERSION")
-        response = urllib.request.urlopen("https://lisbp.fr/VERSION")
+        response = urllib.request.urlopen("https://github.com/MetaSys-LISBP/IsoCor/raw/master/VERSION")
         data = response.read()
         lastversion = data.decode('utf-8').rstrip()
         if version != lastversion:
