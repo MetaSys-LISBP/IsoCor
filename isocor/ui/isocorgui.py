@@ -11,6 +11,7 @@ from pathlib import Path
 import numpy as np
 import webbrowser
 import threading
+import urllib
 
 
 UTF8_TABLE_SUBCRIPS_INT = {'0': '\u2070', '1': '\u00B9', '2': '\u00B2', '3': '\u00B3',
@@ -706,6 +707,7 @@ class GUIinterface(ttk.Frame):
 
         # add the text handler to logger
         self.logger.addHandler(self.scroll_handler)
+        checkupdateto(hr.__version__)
 
 
 def openDoc():
@@ -713,6 +715,18 @@ def openDoc():
 
 def openGit():
     webbrowser.open_new(r"https://github.com/MetaSys-LISBP/IsoCor/")
+
+def checkupdateto(version=hr.__version__):
+    try:
+        #response = urllib.request.urlopen("https://github.com/MetaSys-LISBP/IsoCor/raw/master/VERSION")
+        response = urllib.request.urlopen("https://lisbp.fr/VERSION")
+        data = response.read()
+        lastversion = data.decode('utf-8').rstrip()
+        if version != lastversion:
+            messagebox.showwarning('Version {} Available'.format(lastversion), 'You can update Isocor with :\n"pip install --upgrade isocor"\nCheck the documentation for more information.')
+        return 1
+    except :
+        return 0
 
 def start_gui():
     root = tk.Tk()
