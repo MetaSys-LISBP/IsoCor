@@ -1,13 +1,19 @@
 import setuptools
+import re
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-# Do not forget to update doc/conf.py version
+# Version is maintained in the __init__.py file
+with open("isocor/__init__.py") as f:
+    try:
+        VERSION = re.findall(r"^__version__ = ['\"]([^'\"]*)['\"]", f.read(), re.M)[0]
+    except IndexError:
+        raise RuntimeError('Unable to determine version.')
 
 setuptools.setup(
     name="IsoCor",
-    version="2.1.3",
+    version=VERSION,
     author="Pierre Millard, Baudoin Delépine, Matthieu Guionnet",
     author_email="millard@insa-toulouse.fr",
     description="IsoCor: Isotope Correction for mass spectrometry labeling experiments",
