@@ -9,6 +9,7 @@ import pandas as pd
 import isocor as hr
 from pathlib import Path
 import numpy as np
+import re
 import webbrowser
 import threading
 import urllib
@@ -707,7 +708,6 @@ class GUIinterface(ttk.Frame):
 
         # add the text handler to logger
         self.logger.addHandler(self.scroll_handler)
-        checkupdateto(hr.__version__)
 
 
 def openDoc():
@@ -717,15 +717,17 @@ def openGit():
     webbrowser.open_new(r"https://github.com/MetaSys-LISBP/IsoCor/")
 
 def checkupdateto(version=hr.__version__):
+    """Compare local and distant IsoCor version."""
     try:
-        response = urllib.request.urlopen("https://github.com/MetaSys-LISBP/IsoCor/raw/master/VERSION")
+        # Get the distant __init__.py and read its version as it done in setup.py
+        response = urllib.request.urlopen("https://github.com/MetaSys-LISBP/IsoCor/raw/master/isocor/__init__.py", timeout=1)
         data = response.read()
-        lastversion = data.decode('utf-8').rstrip()
+        txt = data.decode('utf-8').rstrip()
+        lastversion = re.findall(r"^__version__ = ['\"]([^'\"]*)['\"]", txt, re.M)[0]
         if version != lastversion:
-            messagebox.showwarning('Version {} Available'.format(lastversion), 'You can update Isocor with :\n"pip install --upgrade isocor"\nCheck the documentation for more information.')
-        return 1
+            messagebox.showwarning('Version {} available'.format(lastversion), 'You can update IsoCor with:\n"pip install --upgrade isocor"\nCheck the documentation for more information.')
     except :
-        return 0
+        pass  # silently ignore everything that just happened
 
 def start_gui():
     root = tk.Tk()
@@ -741,4 +743,5 @@ def start_gui():
     helpmenu.add_command(label = "Documentation", command=openDoc)
     app = GUIinterface(master=root)
     app.master.title("IsoCor {}".format(hr.__version__))
+    checkupdateto(hr.__version__)
     app.mainloop()
