@@ -278,9 +278,11 @@ class GUIinterface(ttk.Frame):
         try:
             tracer_purity = [float(i.get()) for i in self.purityManager.tracer_purity]
             if any(i < 0 for i in tracer_purity) or any(i > 1 for i in tracer_purity) or sum(tracer_purity) != 1:
+                self.stop_process()
                 messagebox.showerror("Error", "Purity values should be within the range [0, 1], and their sum should be 1.")
                 return
         except:
+            self.stop_process()
             messagebox.showerror("Error", "Purity values should be within the range [0, 1], and their sum should be 1.")
             return
         if self.chVarHR.get():
@@ -288,17 +290,21 @@ class GUIinterface(ttk.Frame):
             try:
                 resolution = float(self.varMass.get())
                 if resolution <= 0:
+                    self.stop_process()
                     messagebox.showerror("Error", "Resolution should be a positive number.")
                     return
             except:
+                self.stop_process()
                 messagebox.showerror("Error", "Resolution should be a positive number.")
                 return
             try:
                 mz_of_resolution = float(self.varMZ.get())
                 if mz_of_resolution <= 0:
+                    self.stop_process()
                     messagebox.showerror("Error", "mz at which resolution is measured should be a positive number.")
                     return
             except:
+                self.stop_process()
                 messagebox.showerror("Error", "mz at which resolution is measured should be a positive number.")
                 return
 
@@ -306,12 +312,14 @@ class GUIinterface(ttk.Frame):
             derivativesfile=Path(self.varDatabasePath.get(), "Derivatives.dat")
             self.baseenv.registerDerivativesDB(derivativesfile)
         except Exception as err:
+            self.stop_process()
             messagebox.showerror("Error", err)
             return
         try:
             metabolitesfile=Path(self.varDatabasePath.get(), "Metabolites.dat")
             self.baseenv.registerMetabolitesDB(metabolitesfile)
         except Exception as err:
+            self.stop_process()
             messagebox.showerror("Error", err)
             return
         if self.formulaEntered.get() == 'datafile':
@@ -324,6 +332,7 @@ class GUIinterface(ttk.Frame):
             self.baseenv.registerDatafile(input_file, useformula)
             fin_base = str(Path(input_file).stem)
         except Exception as err:
+            self.stop_process()
             messagebox.showerror("Error", err)
             return
 
@@ -720,7 +729,7 @@ def checkupdateto(version=hr.__version__):
     """Compare local and distant IsoCor version."""
     try:
         # Get the distant __init__.py and read its version as it done in setup.py
-        response = urllib.request.urlopen("https://github.com/MetaSys-LISBP/IsoCor/raw/master/isocor/__init__.py", timeout=1)
+        response = urllib.request.urlopen("https://github.com/MetaSys-LISBP/IsoCor/raw/master/isocor/__init__.py")
         data = response.read()
         txt = data.decode('utf-8').rstrip()
         lastversion = re.findall(r"^__version__ = ['\"]([^'\"]*)['\"]", txt, re.M)[0]
