@@ -729,7 +729,7 @@ def checkupdateto(version=hr.__version__):
     """Compare local and distant IsoCor version."""
     try:
         # Get the distant __init__.py and read its version as it done in setup.py
-        response = urllib.request.urlopen("https://github.com/MetaSys-LISBP/IsoCor/raw/master/isocor/__init__.py")
+        response = urllib.request.urlopen("https://github.com/MetaSys-LISBP/IsoCor/raw/master/isocor/__init__.py", timeout=1)
         data = response.read()
         txt = data.decode('utf-8').rstrip()
         lastversion = re.findall(r"^__version__ = ['\"]([^'\"]*)['\"]", txt, re.M)[0]
