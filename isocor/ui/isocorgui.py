@@ -725,15 +725,15 @@ def openDoc():
 def openGit():
     webbrowser.open_new(r"https://github.com/MetaSys-LISBP/IsoCor/")
 
-def checkupdateto(version=hr.__version__):
+def checkupdateto():
     """Compare local and distant IsoCor version."""
     try:
         # Get the distant __init__.py and read its version as it done in setup.py
-        response = urllib.request.urlopen("https://github.com/MetaSys-LISBP/IsoCor/raw/master/isocor/__init__.py", timeout=1)
+        response = urllib.request.urlopen("https://github.com/MetaSys-LISBP/IsoCor/raw/master/isocor/__init__.py")
         data = response.read()
         txt = data.decode('utf-8').rstrip()
         lastversion = re.findall(r"^__version__ = ['\"]([^'\"]*)['\"]", txt, re.M)[0]
-        if version != lastversion:
+        if lastversion != hr.__version__:
             messagebox.showwarning('Version {} available'.format(lastversion), 'You can update IsoCor with:\n"pip install --upgrade isocor"\nCheck the documentation for more information.')
     except :
         pass  # silently ignore everything that just happened
@@ -741,6 +741,7 @@ def checkupdateto(version=hr.__version__):
 def start_gui():
     root = tk.Tk()
     root.resizable(width = False, height = False)
+	# create menu
     menubar = tk.Menu(root)
     root.config(menu = menubar)
     filemenu = tk.Menu(menubar, tearoff=0)
@@ -750,7 +751,10 @@ def start_gui():
     menubar.add_cascade(label="Help", menu=helpmenu)
     helpmenu.add_command(label = "IsoCor project", command=openGit)
     helpmenu.add_command(label = "Documentation", command=openDoc)
+	# start GUI
     app = GUIinterface(master=root)
     app.master.title("IsoCor {}".format(hr.__version__))
-    checkupdateto(hr.__version__)
+	# check version in a specific thread
+    threadUpd = threading.Thread(target=checkupdateto)
+    threadUpd.start()
     app.mainloop()
