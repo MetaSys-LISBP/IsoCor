@@ -741,7 +741,7 @@ def checkupdateto():
 def start_gui():
     root = tk.Tk()
     root.resizable(width = False, height = False)
-	# create menu
+    # create menu
     menubar = tk.Menu(root)
     root.config(menu = menubar)
     filemenu = tk.Menu(menubar, tearoff=0)
@@ -751,10 +751,10 @@ def start_gui():
     menubar.add_cascade(label="Help", menu=helpmenu)
     helpmenu.add_command(label = "IsoCor project", command=openGit)
     helpmenu.add_command(label = "Documentation", command=openDoc)
-	# start GUI
+    # start GUI
     app = GUIinterface(master=root)
     app.master.title("IsoCor {}".format(hr.__version__))
-	# check version in a specific thread
+    # check version in a specific thread
     threadUpd = threading.Thread(target=checkupdateto)
     threadUpd.start()
     app.mainloop()
