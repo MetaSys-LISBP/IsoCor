@@ -689,11 +689,11 @@ class GUIinterface(ttk.Frame):
         tk.Label(content, text="Note: infotip available over items with '(*)'").grid(column=1, row=3, sticky='NE')
 
         # create tooltip helpers
-        Tooltip(self.chNatAbTracer, text="Correct for the contribution of naturally occurring isotopes at unlabeled positions.")
+        Tooltip(self.chNatAbTracer, text="Correct for the contribution of naturally occurring isotopes of the tracer element at unlabeled positions. This only concerns the tracer element: natural abundance of other elements is always corrected.")
         Tooltip(self.R1, text="For measurements collected at unitary resolution (e.g. on quadrupole instruments).")
         Tooltip(self.R2, text="For measurements collected at high or ultrahigh resolution (e.g. on Orbitrap or FT-ICR instruments).")
-        Tooltip(tr_lab, text="Correct for the contribution of naturally occurring isotopes of the tracer element at unlabeled positions. This only concerns the tracer element: other elements are always corrected according to the values in the isotopes database.\n\nThe isotopic purity is typically obtained from the manufacturer.\ne.g. for 13C-substates with purity of 99%, use 0.01 for 12C and 0.99 for 13C.")
-        Tooltip(self.chVerboseLog, text="Useful in case of trouble with the processed result. Join it to the issue on github.")
+        Tooltip(tr_lab, text="Correct for the contribution of isotopic impurities of the tracer at labeled positions. The isotopic purity is typically obtained from the manufacturer.\ne.g. for 13C-substates with purity of 99%, use 0.01 for 12C and 0.99 for 13C.")
+        Tooltip(self.chVerboseLog, text="Useful in case of trouble. Join it to the issue on github.")
         Tooltip(self.databasePathSubmit, text="Folder containing all database files.")
 
         # create texthandler and formatter to display logs
