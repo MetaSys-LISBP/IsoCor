@@ -9,10 +9,162 @@ import pandas as pd
 import isocor as hr
 from pathlib import Path
 import numpy as np
+import re
 import webbrowser
+import threading
+import urllib
+
 
 UTF8_TABLE_SUBCRIPS_INT = {'0': '\u2070', '1': '\u00B9', '2': '\u00B2', '3': '\u00B3',
                            '4': '\u2074', '5': '\u2075', '6': '\u2076', '7': '\u2077', '8': '\u2078', '9': '\u2079'}
+
+
+class Tooltip:
+    '''
+    It creates a tooltip for a given widget as the mouse goes on it.
+
+    see:
+
+    http://stackoverflow.com/questions/3221956/
+           what-is-the-simplest-way-to-make-tooltips-
+           in-tkinter/36221216#36221216
+
+    http://www.daniweb.com/programming/software-development/
+           code/484591/a-tooltip-class-for-tkinter
+
+    - Originally written by vegaseat on 2014.09.09.
+
+    - Modified to include a delay time by Victor Zaccardo on 2016.03.25.
+
+    - Modified
+        - to correct extreme right and extreme bottom behavior,
+        - to stay inside the screen whenever the tooltip might go out on
+          the top but still the screen is higher than the tooltip,
+        - to use the more flexible mouse positioning,
+        - to add customizable background color, padding, waittime and
+          wraplength on creation
+      by Alberto Vassena on 2016.11.05.
+    '''
+
+    def __init__(self, widget,
+                 *,
+                 bg='#FFFFEA',
+                 pad=(5, 3, 5, 3),
+                 text='widget info',
+                 waittime=400,
+                 wraplength=250):
+
+        self.waittime = waittime  # in miliseconds, originally 500
+        self.wraplength = wraplength  # in pixels, originally 180
+        self.widget = widget
+        self.text = text
+        self.widget.bind("<Enter>", self.onEnter)
+        self.widget.bind("<Leave>", self.onLeave)
+        self.widget.bind("<ButtonPress>", self.onLeave)
+        self.bg = bg
+        self.pad = pad
+        self.id = None
+        self.tw = None
+
+    def onEnter(self, event=None):
+        self.schedule()
+
+    def onLeave(self, event=None):
+        self.unschedule()
+        self.hide()
+
+    def schedule(self):
+        self.unschedule()
+        self.id = self.widget.after(self.waittime, self.show)
+
+    def unschedule(self):
+        id_ = self.id
+        self.id = None
+        if id_:
+            self.widget.after_cancel(id_)
+
+    def show(self):
+        def tip_pos_calculator(widget, label,
+                               *,
+                               tip_delta=(10, 5), pad=(5, 3, 5, 3)):
+
+            w = widget
+
+            s_width, s_height = w.winfo_screenwidth(), w.winfo_screenheight()
+
+            width, height = (pad[0] + label.winfo_reqwidth() + pad[2],
+                             pad[1] + label.winfo_reqheight() + pad[3])
+
+            mouse_x, mouse_y = w.winfo_pointerxy()
+
+            x1, y1 = mouse_x + tip_delta[0], mouse_y + tip_delta[1]
+            x2, y2 = x1 + width, y1 + height
+
+            x_delta = x2 - s_width
+            if x_delta < 0:
+                x_delta = 0
+            y_delta = y2 - s_height
+            if y_delta < 0:
+                y_delta = 0
+
+            offscreen = (x_delta, y_delta) != (0, 0)
+
+            if offscreen:
+
+                if x_delta:
+                    x1 = mouse_x - tip_delta[0] - width
+
+                if y_delta:
+                    y1 = mouse_y - tip_delta[1] - height
+
+            offscreen_again = y1 < 0  # out on the top
+
+            if offscreen_again:
+                # No further checks will be done.
+
+                # TIP:
+                # A further mod might automagically augment the
+                # wraplength when the tooltip is too high to be
+                # kept inside the screen.
+                y1 = 0
+
+            return x1, y1
+
+        bg = self.bg
+        pad = self.pad
+        widget = self.widget
+
+        # creates a toplevel window
+        self.tw = tk.Toplevel(widget)
+
+        # Leaves only the label and removes the app window
+        self.tw.wm_overrideredirect(True)
+
+        win = tk.Frame(self.tw,
+                       background=bg,
+                       borderwidth=0)
+        label = tk.Label(win,
+                         text=self.text,
+                         justify=tk.LEFT,
+                         background=bg,
+                         relief=tk.SOLID,
+                         borderwidth=0,
+                         wraplength=self.wraplength)
+
+        label.grid(padx=(pad[0], pad[2]),
+                   pady=(pad[1], pad[3]),
+                   sticky=tk.NSEW)
+        win.grid()
+
+        x, y = tip_pos_calculator(widget, label)
+
+        self.tw.wm_geometry("+%d+%d" % (x, y))
+
+    def hide(self):
+        tw = self.tw
+        if tw:
+            tw.destroy()
+        self.tw = None
 
 
 class TextHandler(logging.Handler):
@@ -37,30 +189,16 @@ class TextHandler(logging.Handler):
         # This is necessary because we can't modify the Text from other threads
         self.text.after(0, append)
 
-class AutoScrollbar(tk.Scrollbar):
-    # a scrollbar that hides itself if it's not needed.  only
-    # works if you use the grid geometry manager.
-    def set(self, lo, hi):
-        if float(lo) <= 0.0 and float(hi) >= 1.0:
-            # grid_remove is currently missing from Tkinter!
-            self.tk.call("grid", "remove", self)
-        else:
-            self.grid()
-        tk.Scrollbar.set(self, lo, hi)
-    def pack(self, **kw):
-        pass
-    def place(self, **kw):
-        pass
 
 class PurityTracerManager(tk.Canvas):
     def __init__(self, master=None, **kwargs):
         tk.Canvas.__init__(self, master, **kwargs)
-        self._initFrameInWindows()
+      #  self._initFrameInWindows()
         self.tracer_purity = []
 
     def _initFrameInWindows(self):
         self.frame = ttk.Frame(self)
-        self.create_window(0, 0, anchor="nw", window=self.frame)
+        self.create_window((0, 0), anchor="nw", window=self.frame)
 
     def changeEntries(self, df, tracer):
         row = 0
@@ -74,12 +212,13 @@ class PurityTracerManager(tk.Canvas):
             purityentry = tk.StringVar()
             purityentry.set(str(purity[entry.Index]))
             label_entry = ttk.Label(
-                self.frame, text=entry.subscriptName).grid(row=row, column=0)
+                self.frame, text=entry.subscriptName).grid(row=row, column=0, sticky="news")
             purity_entry = ttk.Entry(
-                self.frame, textvariable=purityentry).grid(row=row, column=2)
+                self.frame, textvariable=purityentry).grid(row=row, column=1, sticky="news")
             self.tracer_purity.append(purityentry)
             row += 1
-
+        self.create_window((0, 0), anchor="nw", window=self.frame)
+        self.frame.update_idletasks()
 
 class GUIinterface(ttk.Frame):
     """GUI interface for isocor in tk widget"""
@@ -103,6 +242,19 @@ class GUIinterface(ttk.Frame):
         self.cleanListTracer()
         self.log_level = 'INFO'
         self.createWidgets()
+        self._thread, self._stop = None, True
+
+    def start_process(self):
+        if self._thread is None:
+            self._stop = False
+            self._thread = threading.Thread(target=self.process)
+            self._thread.start()
+        self.processButon.configure(text="Stop", command=self.stop_process)
+
+    def stop_process(self):
+        if self._thread is not None:
+            self._thread, self._stop = None, True
+        self.processButon.configure(text="Process", command=self.start_process)
 
     def addSubcriptingName(self):
         self.baseenv.dfIsotopes['subscriptName'] = self.baseenv.dfIsotopes['isotope'].apply(
@@ -126,9 +278,11 @@ class GUIinterface(ttk.Frame):
         try:
             tracer_purity = [float(i.get()) for i in self.purityManager.tracer_purity]
             if any(i < 0 for i in tracer_purity) or any(i > 1 for i in tracer_purity) or sum(tracer_purity) != 1:
+                self.stop_process()
                 messagebox.showerror("Error", "Purity values should be within the range [0, 1], and their sum should be 1.")
                 return
         except:
+            self.stop_process()
             messagebox.showerror("Error", "Purity values should be within the range [0, 1], and their sum should be 1.")
             return
         if self.chVarHR.get():
@@ -136,17 +290,21 @@ class GUIinterface(ttk.Frame):
             try:
                 resolution = float(self.varMass.get())
                 if resolution <= 0:
+                    self.stop_process()
                     messagebox.showerror("Error", "Resolution should be a positive number.")
                     return
             except:
+                self.stop_process()
                 messagebox.showerror("Error", "Resolution should be a positive number.")
                 return
             try:
                 mz_of_resolution = float(self.varMZ.get())
                 if mz_of_resolution <= 0:
+                    self.stop_process()
                     messagebox.showerror("Error", "mz at which resolution is measured should be a positive number.")
                     return
             except:
+                self.stop_process()
                 messagebox.showerror("Error", "mz at which resolution is measured should be a positive number.")
                 return
 
@@ -154,12 +312,14 @@ class GUIinterface(ttk.Frame):
             derivativesfile=Path(self.varDatabasePath.get(), "Derivatives.dat")
             self.baseenv.registerDerivativesDB(derivativesfile)
         except Exception as err:
+            self.stop_process()
             messagebox.showerror("Error", err)
             return
         try:
             metabolitesfile=Path(self.varDatabasePath.get(), "Metabolites.dat")
             self.baseenv.registerMetabolitesDB(metabolitesfile)
         except Exception as err:
+            self.stop_process()
             messagebox.showerror("Error", err)
             return
         if self.formulaEntered.get() == 'datafile':
@@ -172,6 +332,7 @@ class GUIinterface(ttk.Frame):
             self.baseenv.registerDatafile(input_file, useformula)
             fin_base = str(Path(input_file).stem)
         except Exception as err:
+            self.stop_process()
             messagebox.showerror("Error", err)
             return
 
@@ -301,6 +462,7 @@ class GUIinterface(ttk.Frame):
         #self.logger.warn('warn message')
         #self.logger.error('error message')
         #self.logger.critical('critical message')
+        self.stop_process()
 
     def cleanLog(self):
         self.logstream.config(state="normal")
@@ -329,27 +491,30 @@ class GUIinterface(ttk.Frame):
                                                   ("Data File", "*.tsv"), ("All Files", "*.*")),
                                               title="Choose a file."
                                               )
-            self.cleanLog()
-            self.cleanData()
-            self.varInputPath.set(name)
-            self.varOutputPath.set(Path(name).parent)
-            with open(name, 'r', encoding='utf-8') as UseFile:
-                self.datatext.configure(state='normal')
-                self.datatext.insert(tk.INSERT, UseFile.read())
-                self.datatext.configure(state='disable')
+            if name:
+                self.cleanLog()
+                self.cleanData()
+                self.varInputPath.set(name)
+                self.varOutputPath.set(Path(name).parent)
+                with open(name, 'r', encoding='utf-8') as UseFile:
+                    self.datatext.configure(state='normal')
+                    self.datatext.insert(tk.INSERT, UseFile.read())
+                    self.datatext.configure(state='disable')
         except:
             pass
 
     def outputDir(self):
         "gui output path"
         path = filedialog.askdirectory()
-        self.varOutputPath.set(path)
+        if path:
+            self.varOutputPath.set(path)
 
     def databaseDir(self):
         "gui database path"
         path = filedialog.askdirectory()
-        self.varDatabasePath.set(path)
-        self.update_DBpath()
+        if path:
+            self.varDatabasePath.set(path)
+            self.update_DBpath()
 
     def enableHR(self):
         if self.chVarHR.get():
@@ -419,14 +584,13 @@ class GUIinterface(ttk.Frame):
         self.TracerOptFrame = ttk.LabelFrame(
         optionFrame, text='Tracer correction options')
 
-        tr_lab = ttk.Label(text="Isotopic purity of the tracer")
+        tr_lab = ttk.Label(text="Isotopic purity of the tracer (*)")
         purityLblFrame = ttk.LabelFrame(
             self.TracerOptFrame, labelwidget=tr_lab)
+        self.scrollPurity = ttk.Scrollbar(purityLblFrame, orient='vertical')
         self.purityManager = PurityTracerManager(
-            purityLblFrame, width=200, height=100, highlightthickness=0)
-        # previous code didn't work, trying to implement this example: http://effbot.org/zone/tkinter-autoscrollbar.htm
-        # does not work yet
-        self.scrollPurity = AutoScrollbar(purityLblFrame)
+            purityLblFrame, width=200, height=90, highlightthickness=0, yscrollcommand=self.scrollPurity.set)
+        self.scrollPurity.config(command=self.purityManager.yview)
         purityLblFrame.update_idletasks()
         self.purityManager.config(scrollregion=self.purityManager.bbox("all"))
 
@@ -446,8 +610,8 @@ class GUIinterface(ttk.Frame):
         self.updatePurity(None)
 
         self.chVarHR = tk.IntVar()
-        self.R1 = tk.Radiobutton(optionFrame, text="Low resolution", variable=self.chVarHR, value=False, command=self.enableHR)
-        self.R2 = tk.Radiobutton(optionFrame, text="High resolution", variable=self.chVarHR, value=True, command=self.enableHR)
+        self.R1 = tk.Radiobutton(optionFrame, text="Low resolution (*)", variable=self.chVarHR, value=False, command=self.enableHR)
+        self.R2 = tk.Radiobutton(optionFrame, text="High resolution (*)", variable=self.chVarHR, value=True, command=self.enableHR)
 
         self.highResFrame = ttk.LabelFrame(
             optionFrame, text='High resolution parameters')
@@ -470,11 +634,11 @@ class GUIinterface(ttk.Frame):
         self.chVarNatAbTracer = tk.IntVar()
         self.chVarPurityTracer = tk.IntVar()
         self.chVerboseLog = ttk.Checkbutton(
-            content, text="Verbose logs", variable=self.chVarVerboseLog, command=self.updateLogLevel)
+            content, text="Verbose logs (*)", variable=self.chVarVerboseLog, command=self.updateLogLevel)
         self.processButon = ttk.Button(
-            content, text=" Process ", command=self.process)
+            content, text=" Process ", command=self.start_process)
         self.chNatAbTracer = ttk.Checkbutton(
-            self.TracerOptFrame, text="Correct natural abondance of the tracer element", variable=self.chVarNatAbTracer)
+            self.TracerOptFrame, text="Correct natural abondance of the tracer element (*)", variable=self.chVarNatAbTracer)
         self.varInputPath = tk.StringVar()
         self.varOutputPath = tk.StringVar()
         self.varOutputPath.set(self.baseenv.home)
@@ -491,7 +655,7 @@ class GUIinterface(ttk.Frame):
         self.databaseEntry = ttk.Entry(
             dataFrame, textvariable=self.varDatabasePath, state='readonly')
         self.databasePathSubmit = ttk.Button(
-            dataFrame, text=" Databases Path ", command=self.databaseDir)
+            dataFrame, text=" Databases Path (*)", command=self.databaseDir)
         scrolH = 10
         self.datatext = scrolledtext.ScrolledText(
             dataFrame, width=40, height=scrolH, wrap=tk.WORD)
@@ -531,6 +695,15 @@ class GUIinterface(ttk.Frame):
         self.processButon.grid(column=0, row=1, columnspan=2, sticky='NWE')
         self.logstream.grid(column=0, row=2, columnspan=2, sticky='NWE')
         self.chVerboseLog.grid(column=0, row=3, sticky='NW')
+        tk.Label(content, text="Note: infotip available over items with '(*)'").grid(column=1, row=3, sticky='NE')
+
+        # create tooltip helpers
+        Tooltip(self.chNatAbTracer, text="Correct for the contribution of naturally occurring isotopes of the tracer element at unlabeled positions. This only concerns the tracer element: natural abundance of other elements is always corrected.")
+        Tooltip(self.R1, text="For measurements collected at unitary resolution (e.g. on quadrupole instruments).")
+        Tooltip(self.R2, text="For measurements collected at high or ultrahigh resolution (e.g. on Orbitrap or FT-ICR instruments).")
+        Tooltip(tr_lab, text="Correct for the contribution of isotopic impurities of the tracer at labeled positions. The isotopic purity is typically obtained from the manufacturer.\ne.g. for \u00B9\u00B3C-substates with purity of 99%, use 0.01 for \u00B9\u00B2C and 0.99 for \u00B9\u00B3C.")
+        Tooltip(self.chVerboseLog, text="Useful in case of trouble. Join it to the issue on github.")
+        Tooltip(self.databasePathSubmit, text="Folder containing all database files.")
 
         # create texthandler and formatter to display logs
         self.scroll_handler = TextHandler(self.logstream)
@@ -552,9 +725,23 @@ def openDoc():
 def openGit():
     webbrowser.open_new(r"https://github.com/MetaSys-LISBP/IsoCor/")
 
+def checkupdateto():
+    """Compare local and distant IsoCor version."""
+    try:
+        # Get the distant __init__.py and read its version as it done in setup.py
+        response = urllib.request.urlopen("https://github.com/MetaSys-LISBP/IsoCor/raw/master/isocor/__init__.py")
+        data = response.read()
+        txt = data.decode('utf-8').rstrip()
+        lastversion = re.findall(r"^__version__ = ['\"]([^'\"]*)['\"]", txt, re.M)[0]
+        if lastversion != hr.__version__:
+            messagebox.showwarning('Version {} available'.format(lastversion), 'You can update IsoCor with:\n"pip install --upgrade isocor"\nCheck the documentation for more information.')
+    except :
+        pass  # silently ignore everything that just happened
+
 def start_gui():
     root = tk.Tk()
     root.resizable(width = False, height = False)
+    # create menu
     menubar = tk.Menu(root)
     root.config(menu = menubar)
     filemenu = tk.Menu(menubar, tearoff=0)
@@ -564,6 +751,10 @@ def start_gui():
     menubar.add_cascade(label="Help", menu=helpmenu)
     helpmenu.add_command(label = "IsoCor project", command=openGit)
     helpmenu.add_command(label = "Documentation", command=openDoc)
+    # start GUI
     app = GUIinterface(master=root)
     app.master.title("IsoCor {}".format(hr.__version__))
+    # check version in a specific thread
+    threadUpd = threading.Thread(target=checkupdateto)
+    threadUpd.start()
     app.mainloop()
