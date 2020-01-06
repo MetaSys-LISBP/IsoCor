@@ -289,7 +289,7 @@ class LowResMetaboliteCorrector(LabelledChemical, InterfaceMSCorrector):
             column = [column[j] for j in mask]
             correction_matrix[:, i] = column
         logger.debug("Done computing correction matrix (convolution) for %s: %s",
-                     self.label, correction_matrix)
+                     self.label, correction_matrix.tolist())
         return correction_matrix
 
     def compute_correction_matrix(self):
@@ -633,7 +633,7 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
             # Fill the corresponding column of the correction matrix
             correction_matrix[:, n_traced_atoms] = column
         logger.debug("Done computing correction matrix (isotopic-cluster method)"
-                     " for %s: %s", self.label, correction_matrix)
+                     " for %s: %s", self.label, correction_matrix.tolist())
         return correction_matrix
 
     def compute_correction_matrix(self):
