@@ -5,7 +5,7 @@ for conveniance.
 """
 
 # Version number MUST be maintained here (x.y.z format)
-__version__ = '2.1.4'
+__version__ = '2.1.5'
 
 from isocor.mscorrectors import MetaboliteCorrectorFactory
 from isocor.mscorrectors import LowResMetaboliteCorrector, HighResMetaboliteCorrector
