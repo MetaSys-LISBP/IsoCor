@@ -165,7 +165,7 @@ def process(args):
         for serie in series:
             if metabo:
                 try:
-                    isotopic_inchi = metabo.generate_isotopic_inchi()
+                    isotopic_inchi = metabo.isotopic_inchi
                     valuesCorrected = metabo.correct(serie[1])
                     logger.info("{} - {}: processed".format(serie[0], label))
                 except Exception as err:

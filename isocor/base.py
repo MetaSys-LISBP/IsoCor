@@ -80,6 +80,7 @@ class LabelledChemical(object):
         self._correct_NA_tracer = correct_NA_tracer
         self._formula = None
         self._inchi = inchi if inchi is not None else ""
+        self._isotopic_inchi = None
         self._derivative_formula = None
         self._correction_formula = None
         self._mzshift_tracer = None
@@ -125,6 +126,37 @@ class LabelledChemical(object):
         if self._formula is None:
             self._formula = self._parse_strformula(self._str_formula)
         return self._formula
+
+    @property
+    def isotopic_inchi(self):
+        """Generate isotopic inchis of the corrected fractions, or just the isotopic layer if no
+        InChI has been provided.
+
+        Standard proposed by the InChI Isotopologue and Isotopomer Development Team:
+
+        Simple Definition: /a(Ee#<+|->#...)
+        Complete Definition:
+            /a(<element><isotope_count><isotope_designation>[,<atom_number>])
+            <element> - one or two letter Element code (Ee).
+            <isotope_count> - number of atoms with the designated isotope (#).
+            <isotope_designation> - isotope designation indicated by a sign (+ or -) and number
+                indicating the unit mass difference from the rounded average atomic mass of the
+                element. For example, the average atomic mass of Sn (118.710) is rounded to 119.
+                We specify two 118 Sn atoms as “/a(Sn2-1)”.
+        Example: 
+            13C2 isotopologue of alpha-D-glucopyranose:
+            InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1 /a(C2+1)
+
+        Returns:
+            list: isotopic inchis
+        """
+        if self._isotopic_inchi is None:
+            tracer_info = self.data_isotopes[self._tracer_el]
+            average_iso_mass = round(sum([D(tracer_info["abundance"][i]) * tracer_info["mass"][i] for i in range(len(tracer_info["abundance"]))]))
+            tracer_mass = self.data_isotopes[self._tracer_el]["mass"][self._idx_tracer]
+            isotope_designation = round(tracer_mass-average_iso_mass)
+            self._isotopic_inchi = [self._inchi + "/a(" + self._tracer_el + str(i) + '{0:+d}'.format(isotope_designation) + ")" for i in range(self.formula[self._tracer_el] + 1)]
+        return self._isotopic_inchi
 
     @property
     def derivative_formula(self):
@@ -361,31 +393,6 @@ class InterfaceMSCorrector(object):
                   isotopologue (corrected area normalized to 1).
                 - residuum
                 - mean enrichment
-        """
-        raise NotImplementedError(
-            "This method must be overloaded in a child class.")
-
-    def generate_isotopic_inchi(self):
-        """Generate isotopic inchis of the corrected fractions, or just the isotopic layer if no
-        InChI has been provided.
-
-        Standard proposed by the InChI Isotopologue and Isotopomer Development Team:
-
-        Simple Definition: /a(Ee#<+|->#...)
-        Complete Definition:
-            /a(<element><isotope_count><isotope_designation>[,<atom_number>])
-            <element> - one or two letter Element code (Ee).
-            <isotope_count> - number of atoms with the designated isotope (#).
-            <isotope_designation> - isotope designation indicated by a sign (+ or -) and number
-                indicating the unit mass difference from the rounded average atomic mass of the
-                element. For example, the average atomic mass of Sn (118.710) is rounded to 119.
-                We specify two 118 Sn atoms as “/a(Sn2-1)”.
-        Example: 
-            13C2 isotopologue of alpha-D-glucopyranose:
-            InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1 /a(C2+1)
-
-        Returns:
-            list: isotopic inchis
         """
         raise NotImplementedError(
             "This method must be overloaded in a child class.")
