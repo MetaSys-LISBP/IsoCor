@@ -31,7 +31,12 @@ class LabelledChemical(object):
 
     Args:
         formula (str): elemental formula of the metabolite moiety (e.g. "C3H7O6P")
+        inchi (str): InChI of the metabolite (e.g. "InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/
+            h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1" for alpha- D -glucopyranose).
+            Note that the InChI might represents the metabolite moiety (e.g. a fragment
+            ion) or the metabolite, hence its formula may differ from :py:attr:`~formula`.
         tracer (str): the isotopic tracer (e.g. "13C")
+        charge (int): charge of the detected ion
         label (str): metabolite abbreviation (e.g. "G3P")
         data_isotopes (dict): isotopic data with mass and abundance
             as in :py:attr:`~LabelledChemical.DEFAULT_ISODATA`.
@@ -64,7 +69,7 @@ class LabelledChemical(object):
                               "mass": [D('27.976926535'), D('28.976494665'), D('29.9737701')]}}
 
     def __init__(self, formula, tracer, derivative_formula, tracer_purity,
-                 correct_NA_tracer, data_isotopes, charge=None, label=None):
+                 correct_NA_tracer, data_isotopes, charge=None, label=None, inchi=None):
         """Initialize a new LabelledChemical with its associated data."""
         # Load data_isotope first as it is critical for the other attributes
         self._data_isotopes = self.DEFAULT_ISODATA if data_isotopes is None else data_isotopes
@@ -74,6 +79,7 @@ class LabelledChemical(object):
         self._tracer_purity = tracer_purity
         self._correct_NA_tracer = correct_NA_tracer
         self._formula = None
+        self._inchi = inchi if inchi is not None else ""
         self._derivative_formula = None
         self._correction_formula = None
         self._mzshift_tracer = None
@@ -132,6 +138,11 @@ class LabelledChemical(object):
     def charge(self):
         """int: absolute value of the charge of the metabolite."""
         return self._charge
+
+    @property
+    def inchi(self):
+        """str: inchi of the metabolite."""
+        return self._inchi
 
     @property
     def tracer_purity(self):
@@ -350,6 +361,31 @@ class InterfaceMSCorrector(object):
                   isotopologue (corrected area normalized to 1).
                 - residuum
                 - mean enrichment
+        """
+        raise NotImplementedError(
+            "This method must be overloaded in a child class.")
+
+    def generate_isotopic_inchi(self):
+        """Generate isotopic inchis of the corrected fractions, or just the isotopic layer if no
+        InChI has been provided.
+
+        Standard proposed by the InChI Isotopologue and Isotopomer Development Team:
+
+        Simple Definition: /a(Ee#<+|->#...)
+        Complete Definition:
+            /a(<element><isotope_count><isotope_designation>[,<atom_number>])
+            <element> - one or two letter Element code (Ee).
+            <isotope_count> - number of atoms with the designated isotope (#).
+            <isotope_designation> - isotope designation indicated by a sign (+ or -) and number
+                indicating the unit mass difference from the rounded average atomic mass of the
+                element. For example, the average atomic mass of Sn (118.710) is rounded to 119.
+                We specify two 118 Sn atoms as “/a(Sn2-1)”.
+        Example: 
+            13C2 isotopologue of alpha-D-glucopyranose:
+            InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1 /a(C2+1)
+
+        Returns:
+            list: isotopic inchis
         """
         raise NotImplementedError(
             "This method must be overloaded in a child class.")

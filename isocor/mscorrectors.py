@@ -23,6 +23,10 @@ class MetaboliteCorrectorFactory(object):
 
     Args:
         formula (str): elemental formula of the metabolite moiety (e.g. "C3H7O6P")
+        inchi (str): InChI of the metabolite (e.g. "InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/
+            h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1" for alpha- D -glucopyranose).
+            Note that the InChI might represents the metabolite moiety (e.g. a fragment
+            ion) or the metabolite, hence its formula may differ from :py:attr:`~formula`.
         tracer (str): the isotopic tracer (e.g. "13C")
         label (str): metabolite abbreviation (e.g. "G3P")
         data_isotopes (dict): isotopic data with mass and abundance
@@ -56,6 +60,7 @@ class MetaboliteCorrectorFactory(object):
         corrector = None
         # Gather common parameters and set default values
         label = kwargs.pop("label", None)
+        inchi = kwargs.pop("inchi", None)
         data_isotopes = kwargs.pop("data_isotopes", None)
         derivative_formula = kwargs.pop("derivative_formula", None)
         tracer_purity = kwargs.pop("tracer_purity", None)
@@ -73,7 +78,8 @@ class MetaboliteCorrectorFactory(object):
                                                   data_isotopes=data_isotopes,
                                                   derivative_formula=derivative_formula,
                                                   tracer_purity=tracer_purity,
-                                                  correct_NA_tracer=correct_NA_tracer)
+                                                  correct_NA_tracer=correct_NA_tracer,
+                                                  inchi=inchi)
         elif resolution and mz_of_resolution and charge:
             logger.debug("MetaboliteCorrectorFactory chose to use a"
                          " HighResMetaboliteCorrector for %s.", formula)
@@ -85,7 +91,8 @@ class MetaboliteCorrectorFactory(object):
                                                        tracer_purity=tracer_purity,
                                                        correct_NA_tracer=correct_NA_tracer,
                                                        resolution_formula_code=resolution_formula_code,
-                                                       charge=charge)
+                                                       charge=charge,
+                                                      inchi=inchi)
             except InterfaceMSCorrector.ImproperUsageError as reason:
                 logger.warning("Improper usage of HighResMetaboliteCorrector "
                                "by MetaboliteCorrectorFactory."
@@ -95,7 +102,8 @@ class MetaboliteCorrectorFactory(object):
                                                       data_isotopes=data_isotopes,
                                                       derivative_formula=derivative_formula,
                                                       tracer_purity=tracer_purity,
-                                                      correct_NA_tracer=correct_NA_tracer)
+                                                      correct_NA_tracer=correct_NA_tracer,
+                                                      inchi=inchi)
         else:
             message = "MetaboliteCorrectorFactory was unable to select a" \
                       " correction strategy. Please check your inputs."
@@ -183,6 +191,38 @@ class LowResMetaboliteCorrector(LabelledChemical, InterfaceMSCorrector):
         logger.debug(
             "Finished correction. Residuum (normalized to 1): %s", residuum)
         return corrected_area, iso_fraction, residuum, enrichment
+
+    def generate_isotopic_inchi(self):
+        """Generate isotopic inchis of the corrected fractions, or just the isotopic layer if no
+        InChI has been provided.
+
+        Standard proposed by the InChI Isotopologue and Isotopomer Development Team:
+
+        Simple Definition: /a(Ee#<+|->#...)
+        Complete Definition:
+            /a(<element><isotope_count><isotope_designation>[,<atom_number>])
+            <element> - one or two letter Element code (Ee).
+            <isotope_count> - number of atoms with the designated isotope (#).
+            <isotope_designation> - isotope designation indicated by a sign (+ or -) and number
+                indicating the unit mass difference from the rounded average atomic mass of the
+                element. For example, the average atomic mass of Sn (118.710) is rounded to 119.
+                We specify two 118 Sn atoms as “/a(Sn2-1)”.
+        Example: 
+            13C2 isotopologue of alpha-D-glucopyranose:
+            InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1 /a(C2+1)
+
+        Returns:
+            list: isotopic inchis
+        """
+        tracer_info = self.data_isotopes[self._tracer_el]
+        average_iso_mass = round(sum([D(tracer_info["abundance"][i]) * tracer_info["mass"][i] for i in range(len(tracer_info["abundance"]))]))
+        logger.debug("Rounded average atomic mass of tracer element ({}): {}".format(self._tracer_el, average_iso_mass))
+        tracer_mass = self.data_isotopes[self._tracer_el]["mass"][self._idx_tracer]
+        isotope_designation = round(tracer_mass-average_iso_mass)
+        logger.debug("Unit mass difference from the rounded average atomic mass of tracer element ({}): {}".format(self._tracer_el, isotope_designation))
+        isotopic_inchi = [self._inchi + "/a(" + self._tracer_el + str(i) + '{0:+d}'.format(isotope_designation) + ")" for i in range(self.formula[self._tracer_el] + 1)]
+        logger.debug("Isotopic InChIs: {}".format(isotopic_inchi))
+        return isotopic_inchi
 
     @staticmethod
     def _get_cost_function(mid, v_mes, mat_cor):
