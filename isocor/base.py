@@ -154,8 +154,20 @@ class LabelledChemical(object):
             tracer_info = self.data_isotopes[self._tracer_el]
             average_iso_mass = round(sum([D(tracer_info["abundance"][i]) * tracer_info["mass"][i] for i in range(len(tracer_info["abundance"]))]))
             tracer_mass = self.data_isotopes[self._tracer_el]["mass"][self._idx_tracer]
-            isotope_designation = round(tracer_mass-average_iso_mass)
-            self._isotopic_inchi = [self._inchi + "/a(" + self._tracer_el + str(i) + '{0:+d}'.format(isotope_designation) + ")" for i in range(self.formula[self._tracer_el] + 1)]
+            tracer_isotope_designation = round(tracer_mass-average_iso_mass)
+            # non labeled atoms of the tracer element are at natural abundance
+            self._isotopic_inchi = [self._inchi + "/a(" + self._tracer_el + str(i) + '{0:+d}'.format(tracer_isotope_designation) + ")" for i in range(self.formula[self._tracer_el] + 1)]
+            if self._correct_NA_tracer:
+                # if the data are also corrected for natural abundance of the tracer element, we must complete the layer to be explicit
+                for i in range(len(self.data_isotopes[self._tracer_el]["mass"])):
+                    if i != self._idx_tracer:
+                        isotope_designation = round(self.data_isotopes[self._tracer_el]["mass"][i]-average_iso_mass)
+                        if i == 0:
+                            for j in range(len(self._isotopic_inchi)):
+                                self._isotopic_inchi[j] = self._isotopic_inchi[j] + ',({}{}{:+d})'.format(self._tracer_el, self.formula[self._tracer_el] - j, isotope_designation)
+                        else:
+                            for j in range(len(self._isotopic_inchi)):
+                                self._isotopic_inchi[j] = self._isotopic_inchi[j] + ',({}0{:+d})'.format(self._tracer_el, isotope_designation)
         return self._isotopic_inchi
 
     @property

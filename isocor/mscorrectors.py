@@ -125,6 +125,10 @@ class LowResMetaboliteCorrector(LabelledChemical, InterfaceMSCorrector):
 
     Args:
         formula (str): elemental formula of the metabolite moiety (e.g. "C3H7O6P")
+        inchi (str): InChI of the metabolite (e.g. "InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/
+            h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1" for alpha- D -glucopyranose).
+            Note that the InChI might represents the metabolite moiety (e.g. a fragment
+            ion) or the metabolite, hence its formula may differ from :py:attr:`~formula`.
         tracer (str): the isotopic tracer (e.g. "13C")
         label (str): metabolite abbreviation (e.g. "G3P")
         data_isotopes (dict): isotopic data with mass and abundance
@@ -328,6 +332,10 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
         formula (str): elemental formula of the metabolite moiety (e.g. "C3H7O6P")
         tracer (str): the isotopic tracer (e.g. "13C")
         label (str): metabolite abbreviation (e.g. "G3P")
+        inchi (str): InChI of the metabolite (e.g. "InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/
+            h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1" for alpha- D -glucopyranose).
+            Note that the InChI might represents the metabolite moiety (e.g. a fragment
+            ion) or the metabolite, hence its formula may differ from :py:attr:`~formula`.
         data_isotopes (dict): isotopic data with mass and abundance
             as in :py:attr:`~LabelledChemical.DEFAULT_ISODATA`
         derivative_formula (str): elemental formula of the derivative moiety
