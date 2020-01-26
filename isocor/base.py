@@ -145,7 +145,7 @@ class LabelledChemical(object):
                 We specify two 118 Sn atoms as “/a(Sn2-1)”.
         Example: 
             13C2 isotopologue of alpha-D-glucopyranose:
-            InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1 /a(C2+1)
+            InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1 /a(C2+1),(C4+0)
 
         Returns:
             list: isotopic inchis
@@ -153,21 +153,19 @@ class LabelledChemical(object):
         if self._isotopic_inchi is None:
             tracer_info = self.data_isotopes[self._tracer_el]
             average_iso_mass = round(sum([D(tracer_info["abundance"][i]) * tracer_info["mass"][i] for i in range(len(tracer_info["abundance"]))]))
-            tracer_mass = self.data_isotopes[self._tracer_el]["mass"][self._idx_tracer]
-            tracer_isotope_designation = round(tracer_mass-average_iso_mass)
-            # non labeled atoms of the tracer element are at natural abundance
-            self._isotopic_inchi = [self._inchi + "/a(" + self._tracer_el + str(i) + '{0:+d}'.format(tracer_isotope_designation) + ")" for i in range(self.formula[self._tracer_el] + 1)]
-            if self._correct_NA_tracer:
-                # if the data are also corrected for natural abundance of the tracer element, we must complete the layer to be explicit
-                for i in range(len(self.data_isotopes[self._tracer_el]["mass"])):
-                    if i != self._idx_tracer:
-                        isotope_designation = round(self.data_isotopes[self._tracer_el]["mass"][i]-average_iso_mass)
-                        if i == 0:
-                            for j in range(len(self._isotopic_inchi)):
-                                self._isotopic_inchi[j] = self._isotopic_inchi[j] + ',({}{}{:+d})'.format(self._tracer_el, self.formula[self._tracer_el] - j, isotope_designation)
-                        else:
-                            for j in range(len(self._isotopic_inchi)):
-                                self._isotopic_inchi[j] = self._isotopic_inchi[j] + ',({}0{:+d})'.format(self._tracer_el, isotope_designation)
+            tracer_mass = tracer_info["mass"][self._idx_tracer]
+            tracer_isotope_designation = round(tracer_mass - average_iso_mass)
+            isotope_designation_0 = round(tracer_info["mass"][0] - average_iso_mass)
+            # generate isotopic inchis
+            self._isotopic_inchi = []
+            for j in range(self.formula[self._tracer_el] + 1):
+                if j == 0:
+                    tmp = '{}/a({}{}{:+d})'.format(self._inchi, self._tracer_el, self.formula[self._tracer_el], isotope_designation_0)
+                elif j == self.formula[self._tracer_el]:
+                    tmp = '{}/a({}{}{:+d})'.format(self._inchi, self._tracer_el, self.formula[self._tracer_el], tracer_isotope_designation)
+                else:
+                    tmp = '{}/a({}{}{:+d}),({}{}{:+d})'.format(self._inchi, self._tracer_el, j, tracer_isotope_designation, self._tracer_el, self.formula[self._tracer_el] - j, isotope_designation_0)
+                self._isotopic_inchi.append(tmp)
         return self._isotopic_inchi
 
     @property
