@@ -175,7 +175,7 @@ by the `InChI Isotopologue and Isotopomer Development Team <https://github.com/M
          - <isotope_designation> - isotope designation indicated by a sign (+ or -) and number
            indicating the unit mass difference from the rounded average atomic mass of the
            element. For example, the average atomic mass of Sn (118.710) is rounded to 119.
-           We specify two 118 Sn atoms as “/a(Sn2-1)”.
+           We specify two :sup:`118`\ Sn atoms as “/a(Sn2-1)”.
    * Examples:
          - :sup:`13`\ C\ :sub:`2`\ -isotopologue of alpha-D-glucopyranose:
 
@@ -184,6 +184,9 @@ by the `InChI Isotopologue and Isotopomer Development Team <https://github.com/M
          - :sup:`16`\ O\ :sub:`1`\ :sup:`18`\ O\ :sub:`3`\ -isotopologue of fumarate:
 
            "InChI=1S/C4H4O4/c5-3(6)1-2-4(7)8/h1-2H,(H,5,6)(H,7,8)/p-2/b2-1+/a(O3+2),(O1+0)"
+
+.. warning:: This is an experimental feature: isotopic inchis may be subject to change
+             according to the standard specifications.
 
 ..  _failed_gui:
 
