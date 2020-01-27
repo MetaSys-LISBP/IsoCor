@@ -35,7 +35,7 @@ and can be downloaded as a `PDF file <https://readthedocs.org/projects/isocor/do
 * can be applied to singly- and multiply-charged ions
 * can be used with any tracer element (having two or more isotopes)
 * account for the contribution of derivatization steps (if any),
-* generate isotopic InChIs of the tracer isotopologues (see the `InchI Isotopologue and Isotopomer Proposal <https://figshare.com/articles/InchI_Isotopologue_and_Isotopomer_Proposal/7150964>`_ for details),
+* generate InChIs of isotopically-resolved (tracer) isotopologues (see the `InchI Isotopologue and Isotopomer Proposal <https://figshare.com/articles/InchI_Isotopologue_and_Isotopomer_Proposal/7150964>`_ for details),
 * open-source, free and easy to install everywhere where Python 3 and pip run,
 * biologist-friendly.
 
