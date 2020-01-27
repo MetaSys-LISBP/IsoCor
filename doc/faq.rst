@@ -153,6 +153,8 @@ IsoCor calculates the mean enrichment (:math:`ME`) using the formula
 where :math:`M_{i}` is the proportion of isotopologues with :math:`i` :sup:`13`\ C atoms for a
 metabolite containing :math:`n` carbon atoms.
 
+..  _isotopic_inchi:
+
 What is the isotopic InChI?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The IUPAC International Chemical Identifier (InChI) is a textual identifier for chemical substances,
