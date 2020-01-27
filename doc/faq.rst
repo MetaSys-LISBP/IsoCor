@@ -186,7 +186,7 @@ by the `InChI Isotopologue and Isotopomer Development Team <https://github.com/M
            "InChI=1S/C4H4O4/c5-3(6)1-2-4(7)8/h1-2H,(H,5,6)(H,7,8)/p-2/b2-1+/a(O3+2),(O1+0)"
 
 .. warning:: This is an experimental feature: isotopic inchis may be subject to change
-             according to the evolution of the specifications.
+             according to the evolution of the IUPAC specifications.
 
 ..  _failed_gui:
 
