@@ -31,7 +31,12 @@ class LabelledChemical(object):
 
     Args:
         formula (str): elemental formula of the metabolite moiety (e.g. "C3H7O6P")
+        inchi (str): InChI of the metabolite (e.g. "InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/
+            h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1" for alpha- D -glucopyranose).
+            Note that the InChI might represents the metabolite moiety (e.g. a fragment
+            ion) or the metabolite, hence its formula may differ from :py:attr:`~formula`.
         tracer (str): the isotopic tracer (e.g. "13C")
+        charge (int): charge of the detected ion
         label (str): metabolite abbreviation (e.g. "G3P")
         data_isotopes (dict): isotopic data with mass and abundance
             as in :py:attr:`~LabelledChemical.DEFAULT_ISODATA`.
@@ -64,7 +69,7 @@ class LabelledChemical(object):
                               "mass": [D('27.976926535'), D('28.976494665'), D('29.9737701')]}}
 
     def __init__(self, formula, tracer, derivative_formula, tracer_purity,
-                 correct_NA_tracer, data_isotopes, charge=None, label=None):
+                 correct_NA_tracer, data_isotopes, charge=None, label=None, inchi=None):
         """Initialize a new LabelledChemical with its associated data."""
         # Load data_isotope first as it is critical for the other attributes
         self._data_isotopes = self.DEFAULT_ISODATA if data_isotopes is None else data_isotopes
@@ -74,6 +79,8 @@ class LabelledChemical(object):
         self._tracer_purity = tracer_purity
         self._correct_NA_tracer = correct_NA_tracer
         self._formula = None
+        self._inchi = inchi if inchi is not None else ""
+        self._isotopic_inchi = None
         self._derivative_formula = None
         self._correction_formula = None
         self._mzshift_tracer = None
@@ -121,6 +128,47 @@ class LabelledChemical(object):
         return self._formula
 
     @property
+    def isotopic_inchi(self):
+        """Generate isotopic inchis of the corrected fractions, or just the isotopic layer if no
+        InChI has been provided.
+
+        Standard proposed by the InChI Isotopologue and Isotopomer Development Team:
+
+        Simple Definition: /a(Ee#<+|->#...)
+        Complete Definition:
+            /a(<element><isotope_count><isotope_designation>[,<atom_number>])
+            <element> - one or two letter Element code (Ee).
+            <isotope_count> - number of atoms with the designated isotope (#).
+            <isotope_designation> - isotope designation indicated by a sign (+ or -) and number
+                indicating the unit mass difference from the rounded average atomic mass of the
+                element. For example, the average atomic mass of Sn (118.710) is rounded to 119.
+                We specify two 118 Sn atoms as “/a(Sn2-1)”.
+        Example: 
+            13C2 isotopologue of alpha-D-glucopyranose:
+            InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1 /a(C2+1),(C4+0)
+
+        Returns:
+            list: isotopic inchis
+        """
+        if self._isotopic_inchi is None:
+            tracer_info = self.data_isotopes[self._tracer_el]
+            average_iso_mass = round(sum([D(tracer_info["abundance"][i]) * tracer_info["mass"][i] for i in range(len(tracer_info["abundance"]))]))
+            tracer_mass = tracer_info["mass"][self._idx_tracer]
+            tracer_isotope_designation = round(tracer_mass - average_iso_mass)
+            isotope_designation_0 = round(tracer_info["mass"][0] - average_iso_mass)
+            # generate isotopic inchis
+            self._isotopic_inchi = []
+            for j in range(self.formula[self._tracer_el] + 1):
+                if j == 0:
+                    tmp = '{}/a({}{}{:+d})'.format(self._inchi, self._tracer_el, self.formula[self._tracer_el], isotope_designation_0)
+                elif j == self.formula[self._tracer_el]:
+                    tmp = '{}/a({}{}{:+d})'.format(self._inchi, self._tracer_el, self.formula[self._tracer_el], tracer_isotope_designation)
+                else:
+                    tmp = '{}/a({}{}{:+d}),({}{}{:+d})'.format(self._inchi, self._tracer_el, j, tracer_isotope_designation, self._tracer_el, self.formula[self._tracer_el] - j, isotope_designation_0)
+                self._isotopic_inchi.append(tmp)
+        return self._isotopic_inchi
+
+    @property
     def derivative_formula(self):
         """Counter: elemental formula of the derivative moiety."""
         if self._derivative_formula is None:
@@ -132,6 +180,11 @@ class LabelledChemical(object):
     def charge(self):
         """int: absolute value of the charge of the metabolite."""
         return self._charge
+
+    @property
+    def inchi(self):
+        """str: inchi of the metabolite."""
+        return self._inchi
 
     @property
     def tracer_purity(self):

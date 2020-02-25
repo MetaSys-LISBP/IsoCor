@@ -391,13 +391,13 @@ class GUIinterface(ttk.Frame):
                             data_isotopes=data_isotopes, mz_of_resolution=mz_of_resolution,
                             derivative_formula=self.baseenv.getDerivativeFormula(label[1]), tracer_purity=tracer_purity,
                             correct_NA_tracer=correct_NA_tracer, resolution_formula_code=resolution_formula_code,
-                            charge=self.baseenv.getMetaboliteCharge(label[0]))
+                            charge=self.baseenv.getMetaboliteCharge(label[0]), inchi=self.baseenv.getMetaboliteInChI(label[0]))
                 else:
                     dictMetabolites[label] = hr.MetaboliteCorrectorFactory(
                             formula=self.baseenv.getMetaboliteFormula(label[0]), tracer=tracer, label=label[0],
                             data_isotopes=data_isotopes,
                             derivative_formula=self.baseenv.getDerivativeFormula(label[1]), tracer_purity=tracer_purity,
-                            correct_NA_tracer=correct_NA_tracer)
+                            correct_NA_tracer=correct_NA_tracer, inchi=self.baseenv.getMetaboliteInChI(label[0]))
                 self.logger.info("{} successfully constructed.".format(label))
             except Exception as err:
                 dictMetabolites[label] = None
@@ -419,19 +419,23 @@ class GUIinterface(ttk.Frame):
             for serie in series:
                 if metabo:
                     try:
+                         isotopic_inchi = metabo.isotopic_inchi
                          valuesCorrected = metabo.correct(serie[1])
                          self.logger.info("{} - {}: processed".format(serie[0], label))
                     except Exception as err:
+                         isotopic_inchi = ['']*len(serie[1])
                          valuesCorrected = ([np.nan]*len(serie[1]), [np.nan]*len(serie[1]), [np.nan]*len(serie[1]), np.nan)
                          self.logger.error("{} - {}: {}".format(serie[0], label, err))
                          errors['measurements'] = errors['measurements'] + ["{} - {}".format(serie[0], label)]
                 else:
+                    isotopic_inchi = ['']*len(serie[1])
                     valuesCorrected = ([np.nan]*len(serie[1]), [np.nan]*len(serie[1]), [np.nan]*len(serie[1]), np.nan)
                     errors['measurements'] = errors['measurements'] + ["{} - {}".format(serie[0], label)]
                     self.logger.error("{} - {}: (metabolite, derivative) corrector could not be constructed.".format(serie[0], label))
+                
                 for i, line in enumerate(zip(*(serie[1], valuesCorrected[0], valuesCorrected[1], valuesCorrected[2], [valuesCorrected[3]]*len(valuesCorrected[0])))):
-                    df = pd.concat((df, pd.DataFrame([line], index=pd.MultiIndex.from_tuples([[serie[0], label[0], label[1], i]], names=[
-                        'sample', 'metabolite', 'derivative', 'isotopologue']), columns=['area', 'corrected_area', 'isotopologue_fraction', 'residuum', 'mean_enrichment'])))
+                    df = pd.concat((df, pd.DataFrame([line], index=pd.MultiIndex.from_tuples([[serie[0], label[0], label[1], i, isotopic_inchi[i]]], names=[
+                        'sample', 'metabolite', 'derivative', 'isotopologue', 'isotopic_inchi']), columns=['area', 'corrected_area', 'isotopologue_fraction', 'residuum', 'mean_enrichment'])))
 
         # save results
         out_file = Path(self.varOutputPath.get()).joinpath(fin_base + '_res.tsv')

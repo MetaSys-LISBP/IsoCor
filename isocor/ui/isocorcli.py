@@ -165,15 +165,18 @@ def process(args):
         for serie in series:
             if metabo:
                 try:
+                    isotopic_inchi = metabo.isotopic_inchi
                     valuesCorrected = metabo.correct(serie[1])
                     logger.info("{} - {}: processed".format(serie[0], label))
                 except Exception as err:
+                    isotopic_inchi = ['']*len(serie[1])
                     valuesCorrected = ([pd.np.nan]*len(serie[1]), [pd.np.nan]
                                        * len(serie[1]), [pd.np.nan]*len(serie[1]), pd.np.nan)
                     logger.error("{} - {}: {}".format(serie[0], label, err))
                     errors['measurements'] = errors['measurements'] + \
                         ["{} - {}".format(serie[0], label)]
             else:
+                isotopic_inchi = ['']*len(serie[1])
                 valuesCorrected = ([pd.np.nan]*len(serie[1]), [pd.np.nan]
                                    * len(serie[1]), [pd.np.nan]*len(serie[1]), pd.np.nan)
                 errors['measurements'] = errors['measurements'] + \
@@ -181,8 +184,8 @@ def process(args):
                 logger.error(
                     "{} - {}: (metabolite, derivative) corrector could not be constructed.".format(serie[0], label))
             for i, line in enumerate(zip(*(serie[1], valuesCorrected[0], valuesCorrected[1], valuesCorrected[2], [valuesCorrected[3]]*len(valuesCorrected[0])))):
-                df = pd.concat((df, pd.DataFrame([line], index=pd.MultiIndex.from_tuples([[serie[0], label[0], label[1], i]], names=[
-                    'sample', 'metabolite', 'derivative', 'isotopologue']), columns=['area', 'corrected_area', 'isotopologue_fraction', 'residuum', 'mean_enrichment'])))
+                df = pd.concat((df, pd.DataFrame([line], index=pd.MultiIndex.from_tuples([[serie[0], label[0], label[1], i, isotopic_inchi[i]]], names=[
+                    'sample', 'metabolite', 'derivative', 'isotopologue', 'isotopic_inchi']), columns=['area', 'corrected_area', 'isotopologue_fraction', 'residuum', 'mean_enrichment'])))
 
     # summary results for logs
     logger.info('------------------------------------------------')

@@ -110,6 +110,8 @@ It is located in user main directory at `<youruserdirectory>/isocordb/Isotopes.d
           declare the missing isotope(s), with the exact mass set at the missing integer(s), and an abundance of 0 (as done in the example file for sulfur).
 
 
+..  _`Metabolites database`:
+
 *Metabolites database (Metabolites.dat)*
 --------------------------------------------------------------------------------
 
@@ -121,6 +123,7 @@ It is a TSV file with the following columns:
 :formula: Elemental formula of the metabolite moiety of the molecular entity that
           gives rise to the measured :ref:`isotopic cluster <isotopic cluster>`; e.g. "C\ :sub:`3`\ H\ :sub:`4`\ O\ :sub:`3`\ ". See also :ref:`Formulas`.
 :charge: Charge state of the detected ion; e.g. "-1" for singly-charge ions or "-2" for doubly-charge ions.
+:inchi: InChI (may refer to the metabolite, the detected ion, or any other chemical substance); e.g. "InChI=1S/C4H4O4/c5-3(6)1-2-4(7)8/h1-2H,(H,5,6)(H,7,8)/p-2/b2-1+" for fumarate. This field is optional.
 
 :download:`Example file <../isocor/data/Metabolites.dat>`.
 
@@ -199,7 +202,8 @@ The result file is a TSV file with the following columns:
 :sample: Name of the sample, as it was provided in the :ref:`Measurements file`.
 :metabolite: Name of the metabolite, as it was provided in the :ref:`Measurements file`.
 :derivative: Name of the derivative, as it was provided in the :ref:`Measurements file`.
-:isotopologue: The index of the peak measured, as an integer; e.g. '0' for the M0 peak that does not have any mass shift,  as it was provided in the :ref:`Measurements file`.
+:isotopologue: The index of the peak measured, as an integer; e.g. '0' for the M\ :sub:`0`\  peak that does not have any mass shift, as it was provided in the :ref:`Measurements file`.
+:isotopic_inchi: Isotopic InChI of the corresponding tracer isotopologue (or just the isotopic layer if no InChI has been provided in the :ref:`Metabolites database` file), as detailed :ref:`here <isotopic_inchi>`; e.g. with isotopic layer '/a(C1+1),(C3+0)' for the M\ :sub:`1`\  :sup:`13`\ C-isotopologue of fumarate.
 :area: The measured peak intensity; e.g. '42.5', as it was provided in the :ref:`Measurements file`.
 :corrected_area: The corrected area.
 :isotopologue_fraction: The abundance of each :ref:`isotopologue <Isotopologues>` (corrected area normalized to 1).

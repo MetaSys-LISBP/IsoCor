@@ -153,6 +153,41 @@ IsoCor calculates the mean enrichment (:math:`ME`) using the formula
 where :math:`M_{i}` is the proportion of isotopologues with :math:`i` :sup:`13`\ C atoms for a
 metabolite containing :math:`n` carbon atoms.
 
+..  _isotopic_inchi:
+
+What is the isotopic InChI?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The IUPAC International Chemical Identifier (InChI) is a textual identifier for chemical substances,
+designed to provide a standard way to encode molecular information and to facilitate the search
+for such information in databases and on the web.
+
+The identifiers describe chemical substances in terms of layers of information. IsoCor generates an isotopic
+layer that specifies the isotopologue of the tracer element, following the extended representation proposed
+by the `InChI Isotopologue and Isotopomer Development Team <https://github.com/MSI-Metabolomics-Standards-Initiative/inchi-isotopologue-extension>`_:
+
+   * Simple definition: /a(Ee#<+|->#...)
+   * Complete definition:
+
+     /a(<element><isotope_count><isotope_designation>[,<atom_number>])
+
+         - <element> - one or two letter Element code (Ee).
+         - <isotope_count> - number of atoms with the designated isotope (#).
+         - <isotope_designation> - isotope designation indicated by a sign (+ or -) and number
+           indicating the unit mass difference from the rounded average atomic mass of the
+           element. For example, the average atomic mass of Sn (118.710) is rounded to 119.
+           We specify two :sup:`118`\ Sn atoms as “/a(Sn2-1)”.
+   * Examples:
+         - :sup:`13`\ C\ :sub:`2`\ -isotopologue of alpha-D-glucopyranose:
+
+           "InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1/a(C2+1),(C4+0)"
+
+         - :sup:`16`\ O\ :sub:`1`\ :sup:`18`\ O\ :sub:`3`\ -isotopologue of fumarate:
+
+           "InChI=1S/C4H4O4/c5-3(6)1-2-4(7)8/h1-2H,(H,5,6)(H,7,8)/p-2/b2-1+/a(O3+2),(O1+0)"
+
+.. warning:: This is an experimental feature: isotopic inchis may be subject to change
+             according to the evolution of the IUPAC specifications.
+
 ..  _failed_gui:
 
 I cannot start IsoCor graphical user interface, can you help me?

@@ -23,6 +23,10 @@ class MetaboliteCorrectorFactory(object):
 
     Args:
         formula (str): elemental formula of the metabolite moiety (e.g. "C3H7O6P")
+        inchi (str): InChI of the metabolite (e.g. "InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/
+            h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1" for alpha- D -glucopyranose).
+            Note that the InChI might represents the metabolite moiety (e.g. a fragment
+            ion) or the metabolite, hence its formula may differ from :py:attr:`~formula`.
         tracer (str): the isotopic tracer (e.g. "13C")
         label (str): metabolite abbreviation (e.g. "G3P")
         data_isotopes (dict): isotopic data with mass and abundance
@@ -56,6 +60,7 @@ class MetaboliteCorrectorFactory(object):
         corrector = None
         # Gather common parameters and set default values
         label = kwargs.pop("label", None)
+        inchi = kwargs.pop("inchi", None)
         data_isotopes = kwargs.pop("data_isotopes", None)
         derivative_formula = kwargs.pop("derivative_formula", None)
         tracer_purity = kwargs.pop("tracer_purity", None)
@@ -73,7 +78,8 @@ class MetaboliteCorrectorFactory(object):
                                                   data_isotopes=data_isotopes,
                                                   derivative_formula=derivative_formula,
                                                   tracer_purity=tracer_purity,
-                                                  correct_NA_tracer=correct_NA_tracer)
+                                                  correct_NA_tracer=correct_NA_tracer,
+                                                  inchi=inchi)
         elif resolution and mz_of_resolution and charge:
             logger.debug("MetaboliteCorrectorFactory chose to use a"
                          " HighResMetaboliteCorrector for %s.", formula)
@@ -85,7 +91,8 @@ class MetaboliteCorrectorFactory(object):
                                                        tracer_purity=tracer_purity,
                                                        correct_NA_tracer=correct_NA_tracer,
                                                        resolution_formula_code=resolution_formula_code,
-                                                       charge=charge)
+                                                       charge=charge,
+                                                      inchi=inchi)
             except InterfaceMSCorrector.ImproperUsageError as reason:
                 logger.warning("Improper usage of HighResMetaboliteCorrector "
                                "by MetaboliteCorrectorFactory."
@@ -95,7 +102,8 @@ class MetaboliteCorrectorFactory(object):
                                                       data_isotopes=data_isotopes,
                                                       derivative_formula=derivative_formula,
                                                       tracer_purity=tracer_purity,
-                                                      correct_NA_tracer=correct_NA_tracer)
+                                                      correct_NA_tracer=correct_NA_tracer,
+                                                      inchi=inchi)
         else:
             message = "MetaboliteCorrectorFactory was unable to select a" \
                       " correction strategy. Please check your inputs."
@@ -117,6 +125,10 @@ class LowResMetaboliteCorrector(LabelledChemical, InterfaceMSCorrector):
 
     Args:
         formula (str): elemental formula of the metabolite moiety (e.g. "C3H7O6P")
+        inchi (str): InChI of the metabolite (e.g. "InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/
+            h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1" for alpha- D -glucopyranose).
+            Note that the InChI might represents the metabolite moiety (e.g. a fragment
+            ion) or the metabolite, hence its formula may differ from :py:attr:`~formula`.
         tracer (str): the isotopic tracer (e.g. "13C")
         label (str): metabolite abbreviation (e.g. "G3P")
         data_isotopes (dict): isotopic data with mass and abundance
@@ -289,7 +301,7 @@ class LowResMetaboliteCorrector(LabelledChemical, InterfaceMSCorrector):
             column = [column[j] for j in mask]
             correction_matrix[:, i] = column
         logger.debug("Done computing correction matrix (convolution) for %s: %s",
-                     self.label, correction_matrix)
+                     self.label, correction_matrix.tolist())
         return correction_matrix
 
     def compute_correction_matrix(self):
@@ -320,6 +332,10 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
         formula (str): elemental formula of the metabolite moiety (e.g. "C3H7O6P")
         tracer (str): the isotopic tracer (e.g. "13C")
         label (str): metabolite abbreviation (e.g. "G3P")
+        inchi (str): InChI of the metabolite (e.g. "InChI=1/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/
+            h2-11H,1H2/t2-,3-,4+,5-,6+/m1/s1" for alpha- D -glucopyranose).
+            Note that the InChI might represents the metabolite moiety (e.g. a fragment
+            ion) or the metabolite, hence its formula may differ from :py:attr:`~formula`.
         data_isotopes (dict): isotopic data with mass and abundance
             as in :py:attr:`~LabelledChemical.DEFAULT_ISODATA`
         derivative_formula (str): elemental formula of the derivative moiety
@@ -633,7 +649,7 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
             # Fill the corresponding column of the correction matrix
             correction_matrix[:, n_traced_atoms] = column
         logger.debug("Done computing correction matrix (isotopic-cluster method)"
-                     " for %s: %s", self.label, correction_matrix)
+                     " for %s: %s", self.label, correction_matrix.tolist())
         return correction_matrix
 
     def compute_correction_matrix(self):
