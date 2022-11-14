@@ -599,7 +599,7 @@ class GUIinterface(ttk.Frame):
         self.purityManager.config(scrollregion=self.purityManager.bbox("all"))
 
         tracer_list = list(self.cleanDfIsotopes['subscriptName'])
-        self.isotopictracerEntered = tk.StringVar('')
+        self.isotopictracerEntered = tk.StringVar()
         self.isotopictracerlbl = ttk.Label(
             optionFrame, text="Isotopic tracer")
         self.isotopictracerCBB = ttk.Combobox(
