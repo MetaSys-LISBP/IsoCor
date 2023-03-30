@@ -8,7 +8,7 @@ on:
       - dev
       - master
     tags:
-      - v2.*
+      - test*
 
 jobs:
   test:
