@@ -3,6 +3,12 @@ name: Launch tests
 on:
   pull_request:
     types: [opened, synchronize]
+  push:
+    branches:
+      - dev
+      - master
+    tags:
+      - v2.*
 
 jobs:
   test:
