@@ -14,13 +14,12 @@ import webbrowser
 import threading
 import urllib
 
-
 UTF8_TABLE_SUBCRIPS_INT = {'0': '\u2070', '1': '\u00B9', '2': '\u00B2', '3': '\u00B3',
                            '4': '\u2074', '5': '\u2075', '6': '\u2076', '7': '\u2077', '8': '\u2078', '9': '\u2079'}
 
 
 class Tooltip:
-    '''
+    """
     It creates a tooltip for a given widget as the mouse goes on it.
 
     see:
@@ -44,7 +43,7 @@ class Tooltip:
         - to add customizable background color, padding, waittime and
           wraplength on creation
       by Alberto Vassena on 2016.11.05.
-    '''
+    """
 
     def __init__(self, widget,
                  *,
@@ -58,18 +57,18 @@ class Tooltip:
         self.wraplength = wraplength  # in pixels, originally 180
         self.widget = widget
         self.text = text
-        self.widget.bind("<Enter>", self.onEnter)
-        self.widget.bind("<Leave>", self.onLeave)
-        self.widget.bind("<ButtonPress>", self.onLeave)
+        self.widget.bind("<Enter>", self.on_enter)
+        self.widget.bind("<Leave>", self.on_leave)
+        self.widget.bind("<ButtonPress>", self.on_leave)
         self.bg = bg
         self.pad = pad
         self.id = None
         self.tw = None
 
-    def onEnter(self, event=None):
+    def on_enter(self, event=None):
         self.schedule()
 
-    def onLeave(self, event=None):
+    def on_leave(self, event=None):
         self.unschedule()
         self.hide()
 
@@ -193,7 +192,7 @@ class TextHandler(logging.Handler):
 class PurityTracerManager(tk.Canvas):
     def __init__(self, master=None, **kwargs):
         tk.Canvas.__init__(self, master, **kwargs)
-      #  self._initFrameInWindows()
+        #  self._initFrameInWindows()
         self.tracer_purity = []
 
     def _initFrameInWindows(self):
@@ -220,6 +219,7 @@ class PurityTracerManager(tk.Canvas):
         self.create_window((0, 0), anchor="nw", window=self.frame)
         self.frame.update_idletasks()
 
+
 class GUIinterface(ttk.Frame):
     """GUI interface for isocor in tk widget"""
 
@@ -231,7 +231,7 @@ class GUIinterface(ttk.Frame):
         # otherwise copy them from the example folder
         self.baseenv.initializeDB()
         # isotope database should be loaded at init and not changed afterwards
-        isotopesfile=Path(self.baseenv.db_path, "Isotopes.dat")
+        isotopesfile = Path(self.baseenv.db_path, "Isotopes.dat")
         try:
             self.baseenv.registerIsopotes(isotopesfile)
         except Exception as err:
@@ -279,7 +279,8 @@ class GUIinterface(ttk.Frame):
             tracer_purity = [float(i.get()) for i in self.purityManager.tracer_purity]
             if any(i < 0 for i in tracer_purity) or any(i > 1 for i in tracer_purity) or sum(tracer_purity) != 1:
                 self.stop_process()
-                messagebox.showerror("Error", "Purity values should be within the range [0, 1], and their sum should be 1.")
+                messagebox.showerror("Error",
+                                     "Purity values should be within the range [0, 1], and their sum should be 1.")
                 return
         except:
             self.stop_process()
@@ -309,14 +310,14 @@ class GUIinterface(ttk.Frame):
                 return
 
         try:
-            derivativesfile=Path(self.varDatabasePath.get(), "Derivatives.dat")
+            derivativesfile = Path(self.varDatabasePath.get(), "Derivatives.dat")
             self.baseenv.registerDerivativesDB(derivativesfile)
         except Exception as err:
             self.stop_process()
             messagebox.showerror("Error", err)
             return
         try:
-            metabolitesfile=Path(self.varDatabasePath.get(), "Metabolites.dat")
+            metabolitesfile = Path(self.varDatabasePath.get(), "Metabolites.dat")
             self.baseenv.registerMetabolitesDB(metabolitesfile)
         except Exception as err:
             self.stop_process()
@@ -371,7 +372,7 @@ class GUIinterface(ttk.Frame):
         self.logger.info("   IsoCor version: {}".format(hr.__version__))
 
         # initialize error dict
-        errors = {'labels':[], 'measurements':[]}
+        errors = {'labels': [], 'measurements': []}
 
         # construct correctors for all (metabolite, derivative)
         labels = self.baseenv.getLabelsList(useformula)
@@ -387,17 +388,19 @@ class GUIinterface(ttk.Frame):
                         resolution = label[2]
                         resolution_formula_code = 'constant'
                     dictMetabolites[label] = hr.MetaboliteCorrectorFactory(
-                            formula=self.baseenv.getMetaboliteFormula(label[0]), tracer=tracer, resolution=resolution, label=label[0],
-                            data_isotopes=data_isotopes, mz_of_resolution=mz_of_resolution,
-                            derivative_formula=self.baseenv.getDerivativeFormula(label[1]), tracer_purity=tracer_purity,
-                            correct_NA_tracer=correct_NA_tracer, resolution_formula_code=resolution_formula_code,
-                            charge=self.baseenv.getMetaboliteCharge(label[0]), inchi=self.baseenv.getMetaboliteInChI(label[0]))
+                        formula=self.baseenv.getMetaboliteFormula(label[0]), tracer=tracer, resolution=resolution,
+                        label=label[0],
+                        data_isotopes=data_isotopes, mz_of_resolution=mz_of_resolution,
+                        derivative_formula=self.baseenv.getDerivativeFormula(label[1]), tracer_purity=tracer_purity,
+                        correct_NA_tracer=correct_NA_tracer, resolution_formula_code=resolution_formula_code,
+                        charge=self.baseenv.getMetaboliteCharge(label[0]),
+                        inchi=self.baseenv.getMetaboliteInChI(label[0]))
                 else:
                     dictMetabolites[label] = hr.MetaboliteCorrectorFactory(
-                            formula=self.baseenv.getMetaboliteFormula(label[0]), tracer=tracer, label=label[0],
-                            data_isotopes=data_isotopes,
-                            derivative_formula=self.baseenv.getDerivativeFormula(label[1]), tracer_purity=tracer_purity,
-                            correct_NA_tracer=correct_NA_tracer, inchi=self.baseenv.getMetaboliteInChI(label[0]))
+                        formula=self.baseenv.getMetaboliteFormula(label[0]), tracer=tracer, label=label[0],
+                        data_isotopes=data_isotopes,
+                        derivative_formula=self.baseenv.getDerivativeFormula(label[1]), tracer_purity=tracer_purity,
+                        correct_NA_tracer=correct_NA_tracer, inchi=self.baseenv.getMetaboliteInChI(label[0]))
                 self.logger.info("{} successfully constructed.".format(label))
             except Exception as err:
                 dictMetabolites[label] = None
@@ -415,27 +418,36 @@ class GUIinterface(ttk.Frame):
             series, series_err = self.baseenv.getDataSerie(label, useformula)
             for s_err in series_err:
                 errors['measurements'] = errors['measurements'] + ["{} - {}".format(s_err, label)]
-                self.logger.error("{} - {}: Measurement vector is incomplete, some isotopologues are not provided.".format(s_err, label))
+                self.logger.error(
+                    "{} - {}: Measurement vector is incomplete, some isotopologues are not provided.".format(s_err,
+                                                                                                             label))
             for serie in series:
                 if metabo:
                     try:
-                         isotopic_inchi = metabo.isotopic_inchi
-                         valuesCorrected = metabo.correct(serie[1])
-                         self.logger.info("{} - {}: processed".format(serie[0], label))
+                        isotopic_inchi = metabo.isotopic_inchi
+                        valuesCorrected = metabo.correct(serie[1])
+                        self.logger.info("{} - {}: processed".format(serie[0], label))
                     except Exception as err:
-                         isotopic_inchi = ['']*len(serie[1])
-                         valuesCorrected = ([np.nan]*len(serie[1]), [np.nan]*len(serie[1]), [np.nan]*len(serie[1]), np.nan)
-                         self.logger.error("{} - {}: {}".format(serie[0], label, err))
-                         errors['measurements'] = errors['measurements'] + ["{} - {}".format(serie[0], label)]
+                        isotopic_inchi = [''] * len(serie[1])
+                        valuesCorrected = (
+                        [np.nan] * len(serie[1]), [np.nan] * len(serie[1]), [np.nan] * len(serie[1]), np.nan)
+                        self.logger.error("{} - {}: {}".format(serie[0], label, err))
+                        errors['measurements'] = errors['measurements'] + ["{} - {}".format(serie[0], label)]
                 else:
-                    isotopic_inchi = ['']*len(serie[1])
-                    valuesCorrected = ([np.nan]*len(serie[1]), [np.nan]*len(serie[1]), [np.nan]*len(serie[1]), np.nan)
+                    isotopic_inchi = [''] * len(serie[1])
+                    valuesCorrected = (
+                    [np.nan] * len(serie[1]), [np.nan] * len(serie[1]), [np.nan] * len(serie[1]), np.nan)
                     errors['measurements'] = errors['measurements'] + ["{} - {}".format(serie[0], label)]
-                    self.logger.error("{} - {}: (metabolite, derivative) corrector could not be constructed.".format(serie[0], label))
-                
-                for i, line in enumerate(zip(*(serie[1], valuesCorrected[0], valuesCorrected[1], valuesCorrected[2], [valuesCorrected[3]]*len(valuesCorrected[0])))):
-                    df = pd.concat((df, pd.DataFrame([line], index=pd.MultiIndex.from_tuples([[serie[0], label[0], label[1], i, isotopic_inchi[i]]], names=[
-                        'sample', 'metabolite', 'derivative', 'isotopologue', 'isotopic_inchi']), columns=['area', 'corrected_area', 'isotopologue_fraction', 'residuum', 'mean_enrichment'])))
+                    self.logger.error(
+                        "{} - {}: (metabolite, derivative) corrector could not be constructed.".format(serie[0], label))
+
+                for i, line in enumerate(zip(*(serie[1], valuesCorrected[0], valuesCorrected[1], valuesCorrected[2],
+                                               [valuesCorrected[3]] * len(valuesCorrected[0])))):
+                    df = pd.concat((df, pd.DataFrame([line], index=pd.MultiIndex.from_tuples(
+                        [[serie[0], label[0], label[1], i, isotopic_inchi[i]]], names=[
+                            'sample', 'metabolite', 'derivative', 'isotopologue', 'isotopic_inchi']),
+                                                     columns=['area', 'corrected_area', 'isotopologue_fraction',
+                                                              'residuum', 'mean_enrichment'])))
 
         # save results
         out_file = Path(self.varOutputPath.get()).joinpath(fin_base + '_res.tsv')
@@ -453,7 +465,8 @@ class GUIinterface(ttk.Frame):
         nb_errors = len(errors['labels']) + len(errors['measurements'])
         self.logger.info("   errors: {}".format(nb_errors))
         if nb_errors:
-            self.logger.info("      {} errors during construction of (metabolite, derivative) correctors".format(len(errors['labels'])))
+            self.logger.info("      {} errors during construction of (metabolite, derivative) correctors".format(
+                len(errors['labels'])))
             self.logger.info("      {} errors during correction of measurements".format(len(errors['measurements'])))
             self.logger.info("      detailed information on errors are provided above.")
 
@@ -461,11 +474,11 @@ class GUIinterface(ttk.Frame):
         self.logger.removeHandler(file_handler)
         file_handler.close()
         # log levels:
-        #self.logger.debug('debug message')
-        #self.logger.info('info message')
-        #self.logger.warn('warn message')
-        #self.logger.error('error message')
-        #self.logger.critical('critical message')
+        # self.logger.debug('debug message')
+        # self.logger.info('info message')
+        # self.logger.warn('warn message')
+        # self.logger.error('error message')
+        # self.logger.critical('critical message')
         self.stop_process()
 
     def cleanLog(self):
@@ -480,7 +493,7 @@ class GUIinterface(ttk.Frame):
 
     def cleanListTracer(self):
         self.cleanDfIsotopes = self.baseenv.dfIsotopes[(self.baseenv.dfIsotopes.abundance > 0) & (
-            self.baseenv.dfIsotopes.abundance < 1.)]
+                self.baseenv.dfIsotopes.abundance < 1.)]
         dfMaxAbundance = self.cleanDfIsotopes.groupby(
             "element", as_index=False)["abundance"].max()
         self.cleanDfIsotopes = self.cleanDfIsotopes[~(self.cleanDfIsotopes['abundance'].isin(
@@ -586,7 +599,7 @@ class GUIinterface(ttk.Frame):
         optionFrame = ttk.Frame(content, padding=(3, 3, 12, 12))
 
         self.TracerOptFrame = ttk.LabelFrame(
-        optionFrame, text='Tracer correction options')
+            optionFrame, text='Tracer correction options')
 
         tr_lab = ttk.Label(text="Isotopic purity of the tracer (*)")
         purityLblFrame = ttk.LabelFrame(
@@ -614,12 +627,14 @@ class GUIinterface(ttk.Frame):
         self.updatePurity(None)
 
         self.chVarHR = tk.IntVar()
-        self.R1 = tk.Radiobutton(optionFrame, text="Low resolution (*)", variable=self.chVarHR, value=False, command=self.enableHR)
-        self.R2 = tk.Radiobutton(optionFrame, text="High resolution (*)", variable=self.chVarHR, value=True, command=self.enableHR)
+        self.R1 = tk.Radiobutton(optionFrame, text="Low resolution (*)", variable=self.chVarHR, value=False,
+                                 command=self.enableHR)
+        self.R2 = tk.Radiobutton(optionFrame, text="High resolution (*)", variable=self.chVarHR, value=True,
+                                 command=self.enableHR)
 
         self.highResFrame = ttk.LabelFrame(
             optionFrame, text='High resolution parameters')
-        self.formulalbl = ttk.Label(self.highResFrame, text="Resolution formula",)
+        self.formulalbl = ttk.Label(self.highResFrame, text="Resolution formula", )
         self.formulaEntered = ttk.Combobox(
             self.highResFrame, values=self.baseenv.formulas_code, state="readonly")
         self.formulaEntered.bind("<<ComboboxSelected>>", self.enableAtmz)
@@ -642,7 +657,8 @@ class GUIinterface(ttk.Frame):
         self.processButon = ttk.Button(
             content, text=" Process ", command=self.start_process)
         self.chNatAbTracer = ttk.Checkbutton(
-            self.TracerOptFrame, text="Correct natural abondance of the tracer element (*)", variable=self.chVarNatAbTracer)
+            self.TracerOptFrame, text="Correct natural abondance of the tracer element (*)",
+            variable=self.chVarNatAbTracer)
         self.varInputPath = tk.StringVar()
         self.varOutputPath = tk.StringVar()
         self.varOutputPath.set(self.baseenv.home)
@@ -702,10 +718,13 @@ class GUIinterface(ttk.Frame):
         tk.Label(content, text="Note: infotip available over items with '(*)'").grid(column=1, row=3, sticky='NE')
 
         # create tooltip helpers
-        Tooltip(self.chNatAbTracer, text="Correct for the contribution of naturally occurring isotopes of the tracer element at unlabeled positions. This only concerns the tracer element: natural abundance of other elements is always corrected.")
+        Tooltip(self.chNatAbTracer,
+                text="Correct for the contribution of naturally occurring isotopes of the tracer element at unlabeled positions. This only concerns the tracer element: natural abundance of other elements is always corrected.")
         Tooltip(self.R1, text="For measurements collected at unitary resolution (e.g. on quadrupole instruments).")
-        Tooltip(self.R2, text="For measurements collected at high or ultrahigh resolution (e.g. on Orbitrap or FT-ICR instruments).")
-        Tooltip(tr_lab, text="Correct for the contribution of isotopic impurities of the tracer at labeled positions. The isotopic purity is typically obtained from the manufacturer.\ne.g. for \u00B9\u00B3C-substates with purity of 99%, use 0.01 for \u00B9\u00B2C and 0.99 for \u00B9\u00B3C.")
+        Tooltip(self.R2,
+                text="For measurements collected at high or ultrahigh resolution (e.g. on Orbitrap or FT-ICR instruments).")
+        Tooltip(tr_lab,
+                text="Correct for the contribution of isotopic impurities of the tracer at labeled positions. The isotopic purity is typically obtained from the manufacturer.\ne.g. for \u00B9\u00B3C-substates with purity of 99%, use 0.01 for \u00B9\u00B2C and 0.99 for \u00B9\u00B3C.")
         Tooltip(self.chVerboseLog, text="Useful in case of trouble. Join it to the issue on github.")
         Tooltip(self.databasePathSubmit, text="Folder containing all database files.")
 
@@ -726,8 +745,10 @@ class GUIinterface(ttk.Frame):
 def openDoc():
     webbrowser.open_new(r"https://isocor.readthedocs.io/en/latest/")
 
+
 def openGit():
     webbrowser.open_new(r"https://github.com/MetaSys-LISBP/IsoCor/")
+
 
 def checkupdateto():
     """Compare local and distant IsoCor version."""
@@ -738,23 +759,25 @@ def checkupdateto():
         txt = data.decode('utf-8').rstrip()
         lastversion = re.findall(r"^__version__ = ['\"]([^'\"]*)['\"]", txt, re.M)[0]
         if lastversion != hr.__version__:
-            messagebox.showwarning('Version {} available'.format(lastversion), 'You can update IsoCor with:\n"pip install --upgrade isocor"\nCheck the documentation for more information.')
-    except :
+            messagebox.showwarning('Version {} available'.format(lastversion),
+                                   'You can update IsoCor with:\n"pip install --upgrade isocor"\nCheck the documentation for more information.')
+    except:
         pass  # silently ignore everything that just happened
+
 
 def start_gui():
     root = tk.Tk()
-    root.resizable(width = False, height = False)
+    root.resizable(width=False, height=False)
     # create menu
     menubar = tk.Menu(root)
-    root.config(menu = menubar)
+    root.config(menu=menubar)
     filemenu = tk.Menu(menubar, tearoff=0)
     menubar.add_cascade(label="File", menu=filemenu)
     filemenu.add_command(label="Exit", command=root.quit)
     helpmenu = tk.Menu(menubar, tearoff=0)
     menubar.add_cascade(label="Help", menu=helpmenu)
-    helpmenu.add_command(label = "IsoCor project", command=openGit)
-    helpmenu.add_command(label = "Documentation", command=openDoc)
+    helpmenu.add_command(label="IsoCor project", command=openGit)
+    helpmenu.add_command(label="Documentation", command=openDoc)
     # start GUI
     app = GUIinterface(master=root)
     app.master.title("IsoCor {}".format(hr.__version__))
