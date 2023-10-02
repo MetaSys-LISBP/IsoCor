@@ -12,8 +12,6 @@
 # serve to show the default.
 
 import datetime
-import os
-import sys
 
 import isocor  # NB: the *installed* version that is used in the notebooks
 
