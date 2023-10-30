@@ -9,3 +9,4 @@ sphinx-argparse
 sphinxcontrib-napoleon
 sphinx-rtd-theme
 autodoc
+setuptools
