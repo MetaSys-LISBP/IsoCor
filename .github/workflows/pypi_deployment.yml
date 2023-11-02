@@ -7,7 +7,7 @@ on:
       - v*
 
 jobs:
-  build-n-publish:
+  build:
     name: Build and publish Python 🐍 distributions 📦 to PyPI
     runs-on: ubuntu-latest
     steps:
@@ -29,7 +29,15 @@ jobs:
           --sdist
           --wheel
           --outdir dist/
-      - name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+  pypi-publish:
+      name: Publish distribution 📦 to PyPI
+      runs-on: ubuntu-latest
+      environment:
+        name: pypi
+        url: https://https://pypi.org/project/IsoCor/
+      permissions:
+        id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
+      steps:
+        # retrieve your distributions here
+        - name: Publish package distributions to PyPI
+          uses: pypa/gh-action-pypi-publish@release/v1
