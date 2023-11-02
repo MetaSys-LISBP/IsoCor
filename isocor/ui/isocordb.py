@@ -3,7 +3,6 @@ from pathlib import Path
 from os.path import expanduser
 import isocor as hr
 from decimal import Decimal
-from distutils.dir_util import copy_tree
 import shutil
 import numpy as np
 import pkg_resources
@@ -28,7 +27,7 @@ class EnvComputing(object):
                 if not Path(self.default_db, i).is_file():
                     shutil.copy(Path(self.example_db, i), self.default_db)
         else:
-            copy_tree(str(self.example_db), str(self.default_db))
+            shutil.copytree(str(self.example_db), str(self.default_db))
 
     def initializeEnv(self):
         self.home = self.home
