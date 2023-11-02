@@ -39,7 +39,7 @@ Check out the [Tutorials](https://isocor.readthedocs.io/en/latest/tutorials.html
 * biologist-friendly.
 
 ## Quick-start
-IsoCor requires Python 3.6 or higher and run on all platforms.
+IsoCor requires Python 3.7 or higher and run on all platforms.
 Please check [the documentation](https://isocor.readthedocs.io/en/latest/quickstart.html) for complete
 installation and usage instructions.
 
