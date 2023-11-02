@@ -7,9 +7,14 @@ on:
       - v*
 
 jobs:
-  build:
+  build-n-publish:
     name: Build and publish Python 🐍 distributions 📦 to PyPI
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://https://pypi.org/project/IsoCor/
+    permissions:
+      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
     steps:
       - uses: actions/checkout@master
       - name: Set up Python 3.9
@@ -29,15 +34,5 @@ jobs:
           --sdist
           --wheel
           --outdir dist/
-  pypi-publish:
-      name: Publish distribution 📦 to PyPI
-      runs-on: ubuntu-latest
-      environment:
-        name: pypi
-        url: https://https://pypi.org/project/IsoCor/
-      permissions:
-        id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
-      steps:
-        # retrieve your distributions here
-        - name: Publish package distributions to PyPI
-          uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
