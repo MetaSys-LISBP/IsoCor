@@ -2,6 +2,7 @@ import argparse
 import isocor as hr
 import isocor.ui.isocordb
 import pandas as pd
+import numpy as np
 import io
 import logging
 from pathlib import Path
@@ -148,7 +149,6 @@ def process(args):
             dictMetabolites[label] = None
             errors['labels'] = errors['labels'] + [label]
             logger.error("cannot construct {}: {}".format(label, err))
-            sys.exit(2)
 
     logger.info('------------------------------------------------')
     logger.info('Correcting raw MS data...')
@@ -170,15 +170,15 @@ def process(args):
                     logger.info("{} - {}: processed".format(serie[0], label))
                 except Exception as err:
                     isotopic_inchi = ['']*len(serie[1])
-                    valuesCorrected = ([pd.np.nan]*len(serie[1]), [pd.np.nan]
-                                       * len(serie[1]), [pd.np.nan]*len(serie[1]), pd.np.nan)
+                    valuesCorrected = ([np.nan]*len(serie[1]), [np.nan]
+                                       * len(serie[1]), [np.nan]*len(serie[1]), np.nan)
                     logger.error("{} - {}: {}".format(serie[0], label, err))
                     errors['measurements'] = errors['measurements'] + \
                         ["{} - {}".format(serie[0], label)]
             else:
                 isotopic_inchi = ['']*len(serie[1])
-                valuesCorrected = ([pd.np.nan]*len(serie[1]), [pd.np.nan]
-                                   * len(serie[1]), [pd.np.nan]*len(serie[1]), pd.np.nan)
+                valuesCorrected = ([np.nan]*len(serie[1]), [np.nan]
+                                   * len(serie[1]), [np.nan]*len(serie[1]), np.nan)
                 errors['measurements'] = errors['measurements'] + \
                     ["{} - {}".format(serie[0], label)]
                 logger.error(
