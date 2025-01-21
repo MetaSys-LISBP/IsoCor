@@ -31,7 +31,9 @@ jobs:
           pip install tox tox-gh-actions
       - name: Test with tox
         run: tox
-  test_macos:
+# We test macos differently because of new architecture of Apple Silicon processors.
+# Details here: https://github.com/actions/setup-python/issues/948
+  test_macos_latest:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
