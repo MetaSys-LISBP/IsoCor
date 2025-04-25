@@ -240,13 +240,13 @@ class LowResMetaboliteCorrector(LabelledChemical, InterfaceMSCorrector):
             enrichment = math.fsum(
                 p*i for i, p in enumerate(isotopologue_fraction))/self.formula[self._tracer_el]
         else:
-            isotopologue_fraction = [np.NaN for p in corrected_area]
-            enrichment = np.NaN
+            isotopologue_fraction = [np.nan for p in corrected_area]
+            enrichment = np.nan
         sum_m = math.fsum(measurement)
         if sum_m != 0:
             residuum = [v/sum_m for v in resi]
         else:
-            residuum = [np.NaN for v in resi]
+            residuum = [np.nan for v in resi]
         return corrected_area, isotopologue_fraction, residuum, enrichment
 
     def get_mass_distribution_vector(self):
@@ -671,3 +671,4 @@ class HighResMetaboliteCorrector(LowResMetaboliteCorrector):
         else:
             correction_matrix = self._correctionmatrix_combination()
         return correction_matrix
+
