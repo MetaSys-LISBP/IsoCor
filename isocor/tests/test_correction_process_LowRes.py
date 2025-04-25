@@ -14,6 +14,12 @@ import isocor as hrcor
 # (here pXY represents natural abundance of isotope X of element Y)
 @pytest.mark.parametrize("data", [{"formula": "C2H2",
                                    "tracer": "13C",
+                                   "v_expected": "[np.nan, np.nan, np.nan]",
+                                   "v_measured": "[0, 0, 0]",
+                                   "correct_NA_tracer": False,
+                                   "tracer_purity": [0.0, 1.0]},
+                                  {"formula": "C2H2",
+                                   "tracer": "13C",
                                    "v_expected": "[1., 0., 0.]",
                                    "v_measured": "[p1H * p1H, p1H * p2H * 2, p2H * p2H]",
                                    "correct_NA_tracer": False,
